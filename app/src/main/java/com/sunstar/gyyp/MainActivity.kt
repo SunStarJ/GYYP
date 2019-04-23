@@ -21,7 +21,7 @@ import com.sunstar.gyyp.databinding.AdapterMainBannerLayoutBinding
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.info
-
+//test
 class MainActivity : BaseActivity() {
 
     var bindingData: ActivityMainBinding? = null
