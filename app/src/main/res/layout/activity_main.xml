@@ -57,6 +57,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:src="@mipmap/geren"
+                android:id="@+id/mine_center"
                 style="@style/BasePadding"
                 android:layout_height="match_parent" />
         </LinearLayout>

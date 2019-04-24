@@ -36,6 +36,11 @@ abstract class SSBaseDataBindingAdapter<T1, T2 : ViewDataBinding>(var mContext: 
     override fun onBindViewHolder(p0: SSBaseViewHolder, p1: Int) {
         info { dataList!!.size }
         bindView.onBindViewHolder(p0.getBinding() as T2, p1)
+        initBandingComplete(p0.getBinding() as T2)
+    }
+
+    open fun initBandingComplete(viewDataBinding: ViewDataBinding){
+
     }
 
     interface BindView<T2> {

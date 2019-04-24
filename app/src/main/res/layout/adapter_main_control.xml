@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="data"
+            type="com.sunstar.gyyp.vm.MainControlVm"/>
+    </data>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/main_control_rec"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</layout>

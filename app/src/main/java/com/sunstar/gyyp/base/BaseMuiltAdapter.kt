@@ -41,6 +41,11 @@ open class BaseMuiltAdapter<T2:ViewDataBinding,T1 : BaseMuiltAdapter.MuiltAdapte
         dataList?.let {
             it[position].bindView.onBindViewHolder(holder.getBinding() as T2,position)
         }
+        initBandingComplete(holder.getBinding() as T2,dataList!![position] as T1)
+    }
+
+    open fun initBandingComplete(t2: T2, t1: T1) {
+
     }
 
 
@@ -55,6 +60,7 @@ open class BaseMuiltAdapter<T2:ViewDataBinding,T1 : BaseMuiltAdapter.MuiltAdapte
             bindView = initBindingView()
         }
         abstract fun initBindingView():BindView<T2>
+
     }
 
     interface BindView<T2> {

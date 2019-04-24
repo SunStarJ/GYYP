@@ -13,13 +13,16 @@ abstract class BaseActivity : SSActivity(), BaseView, AnkoLogger {
     private var dialog: ProgressDialog? = null
     var sofia: Bar? = null
     override fun showLoading(msg: String) {
-        if (dialog == null) dialog = indeterminateProgressDialog(message = "", title = "")
+        if (dialog == null) dialog = indeterminateProgressDialog(message = msg, title = "")
     }
 
     override fun viewInitComplete() {
+        getTitleText().textColor = mContext.resources.getColor(R.color.color_text_black)
         info { "activityName:$localClassName" }
+
         sofia = Sofia.with(mContext as Activity)
-                .statusBarBackground(mContext.resources.getColor(R.color.colorAccent))
+                .statusBarBackground(mContext.resources.getColor(R.color.colorWhite))
+                .statusBarDarkFont()
         appViewInitComplete()
     }
 
