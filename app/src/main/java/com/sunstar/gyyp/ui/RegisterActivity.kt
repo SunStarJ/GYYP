@@ -12,8 +12,14 @@ import com.sunstar.gyyp.base.BaseActivity
 import com.sunstar.gyyp.databinding.ActivityRegisterBinding
 import com.sunstar.gyyp.view.RegisterView
 import com.sunstar.gyyp.vm.UserVm
+import org.jetbrains.anko.toast
 
 class RegisterActivity : BaseActivity() ,RegisterView{
+    override fun registerComplete() {
+        toast("注册成功")
+        finish()
+    }
+
     var binding : ActivityRegisterBinding?=null
     var vm : UserVm<RegisterView>?=null
     override fun appViewInitComplete() {
