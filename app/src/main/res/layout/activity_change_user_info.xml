@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.sunstar.gyyp.vm.UserVm" />
+    </data>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:paddingTop="10dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="头像"
+                    android:textColor="@color/color_text_black"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:onClick="@{()->data.showSelectImagePop()}"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    app:avater="@{data.user.headpic}" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:text="电话号"
+                    android:textColor="@color/color_text_black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="15dp"
+                    android:textSize="14sp"
+                    android:paddingRight="15dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:textColor="@color/color_text_black"
+                    android:text="@{data.user.u_annex}" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:padding="10dp"
+                    android:background="@color/colorWhite"
+                    android:text="@{@string/nickName}"
+                    android:textSize="16sp"
+                    android:textColor="@color/color_text_black"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@={data.nickName}"
+                    android:textSize="14sp"
+                    android:paddingRight="15dp"
+                    android:background="@color/colorWhite"
+                    android:gravity="right|center_vertical"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:padding="10dp"
+                    android:background="@color/colorWhite"
+                    android:text="@{@string/realName}"
+                    android:textSize="16sp"
+                    android:textColor="@color/color_text_black"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@={data.realName}"
+                    android:textSize="14sp"
+                    android:paddingRight="15dp"
+                    android:background="@color/colorWhite"
+                    android:gravity="right|center_vertical"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:text="性别"
+                    android:textColor="@color/color_text_black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@mipmap/down"
+                    android:paddingLeft="15dp"
+                    android:textSize="14sp"
+                    android:paddingRight="15dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:drawablePadding="5dp"
+                    android:textColor="@color/color_text_black"
+                    android:text="@{data.user.gender == 0?@string/man:@string/woman}" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:text="生日"
+                    android:textColor="@color/color_text_black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@mipmap/down"
+                    android:paddingLeft="15dp"
+                    android:textSize="14sp"
+                    android:paddingRight="15dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:drawablePadding="5dp"
+                    android:textColor="@color/color_text_black"
+                    android:text="@{data.user.birth}" />
+            </LinearLayout>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="30dp"
+                android:background="@color/color_red"
+                android:onClick="@{()->data.saveData()}"
+                android:text="保存"
+                android:textColor="@color/colorWhite"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+</layout>

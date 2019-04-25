@@ -35,4 +35,8 @@ class RegisterActivity : BaseActivity() ,RegisterView{
         return binding!!.root
     }
 
+    override fun back() {
+        finish()
+    }
+
 }

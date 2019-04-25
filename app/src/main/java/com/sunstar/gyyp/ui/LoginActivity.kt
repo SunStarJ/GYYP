@@ -20,8 +20,9 @@ import org.jetbrains.anko.startActivity
 class LoginActivity : BaseActivity(),LoginView {
     override fun loginSuccess() {
         var intent = Intent(mContext,MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK and Intent.FLAG_ACTIVITY_NEW_TASK
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
+        finish()
     }
 
     override fun loginError(msg:String) {
@@ -41,7 +42,7 @@ class LoginActivity : BaseActivity(),LoginView {
 
     private fun initListener() {
         find_password.onClick {
-
+            startActivity<FindPasswordActivity>()
         }
         register_password.onClick {
             startActivity<RegisterActivity>()

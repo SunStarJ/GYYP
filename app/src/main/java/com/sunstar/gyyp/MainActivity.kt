@@ -16,18 +16,16 @@ import com.sunstar.gyyp.base.BaseCallBack
 import com.sunstar.gyyp.base.BaseMuiltAdapter
 import com.sunstar.gyyp.data.ControlData
 import com.sunstar.gyyp.data.PublicStaticData
-import com.sunstar.gyyp.vm.BannerVM
 import com.sunstar.gyyp.data.RootBean
-import com.sunstar.gyyp.data.SecondData
 import com.sunstar.gyyp.databinding.ActivityMainBinding
 import com.sunstar.gyyp.ui.LoginActivity
-import com.sunstar.gyyp.vm.MainControlVm
-import com.sunstar.gyyp.vm.MainListVM
-import com.sunstar.gyyp.vm.MainTextSwitcherVM
+import com.sunstar.gyyp.ui.UserCenterActivity
+import com.sunstar.gyyp.vm.*
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.info
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.sdk27.coroutines.onScrollChange
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
@@ -56,8 +54,13 @@ class MainActivity : BaseActivity() {
             override fun success(it: Response<RootBean>) {
                 list[0] = BannerVM<ViewDataBinding>().initBanner(it.body().banner!!)
                 list[1] = MainTextSwitcherVM<ViewDataBinding>().initAdList(it.body().articles!!)
-                for (data in it.body().preference!!) {
-                    list.add(MainListVM(data))
+                list.add(MainImageAdapterVM(it.body().pic1))
+                list.add(MainPreferenceVM(it.body().preference!!))
+                list.add(MainHotmarketVM(it.body().hotmarket!!))
+                list.add(MainImageAdapterVM(it.body().pic2))
+                list.add(MainPreferenceVM(it.body().hotproducts!!))
+                for(data in it.body().recommends!!){
+                    list.add(MainRecomendVm(data))
                 }
                 hiddenLoading()
             }
@@ -94,28 +97,21 @@ class MainActivity : BaseActivity() {
     var colorId: Int = R.color.alpha_20_black
 
     private fun initListener() {
-        data_view.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                var layoutManeger = recyclerView!!.layoutManager
-                if (layoutManeger is LinearLayoutManager) {
-                    layoutManeger as LinearLayoutManager
-                    var position = layoutManeger.findFirstVisibleItemPosition()
-                    if (position == 1) {
-                        colorId = R.color.colorAccent
-                        search_layout.backgroundColor = mContext.resources.getColor(colorId)
-                        info { "深色" }
-                    } else if (position == 0) {
-                        info { "浅色" }
-                        colorId = R.color.alpha_20_black
-                        search_layout.backgroundColor = mContext.resources.getColor(colorId)
-                    }
-                }
+        scroll_view.onScrollChange { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            info { scrollY }
+            if(scrollY>300&&colorId == R.color.alpha_20_black){
+                colorId = R.color.colorAccent
+                search_layout.backgroundColor = mContext.resources.getColor(colorId)
+            }else if (scrollY<300&&colorId == R.color.colorAccent){
+                colorId = R.color.alpha_20_black
+                search_layout.backgroundColor = mContext.resources.getColor(colorId)
             }
-        })
+        }
         mine_center.onClick {
             if(PublicStaticData.tooken == ""){
                 startActivity<LoginActivity>()
+            }else{
+                startActivity<UserCenterActivity>()
             }
         }
     }

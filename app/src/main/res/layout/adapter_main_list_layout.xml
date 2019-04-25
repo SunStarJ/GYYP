@@ -5,7 +5,7 @@
     <data>
         <variable
             name="data"
-            type="com.sunstar.gyyp.vm.MainListVM"/>
+            type="com.sunstar.gyyp.vm.MainRecomendVm"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -20,34 +20,60 @@
             app:layout_constraintDimensionRatio="H,16:9"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:imageUrl="@{data.preferenceData.pic}"
+            app:imageUrl="@{data.data.pic}"
             app:layout_constraintTop_toTopOf="parent" />
         <LinearLayout
             app:layout_constraintTop_toBottomOf="@+id/image"
-            android:layout_width="match_parent"
             android:id="@+id/layout"
-            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="5dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textSize="16sp"
-                android:textColor="@color/color_text_black"
-                android:text="@{data.preferenceData.title}"
-                android:singleLine="true"/>
-            <TextView
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/color_text_black"
+                    android:text="@{data.data.title}"
+                    android:singleLine="true"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="10dp"
+                    android:textColor="@color/color_red"
+                    android:text="@{@string/rmb+data.data.showPrice}"
+                    />
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="5dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingBottom="10dp"
-                android:textColor="@color/color_red"
-                android:text="@{@string/rmb+data.preferenceData.priceShow}"
-                />
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    app:imageUrl="@{data.data.countrypic}"
+                    android:layout_height="0dp"
+                    android:paddingRight="5dp"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:text="@{data.data.countryname}"
+                    android:paddingTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:textColor="@color/color_text_light"
+                    />
+            </LinearLayout>
+
         </LinearLayout>
         <View
             app:layout_constraintTop_toBottomOf="@+id/layout"

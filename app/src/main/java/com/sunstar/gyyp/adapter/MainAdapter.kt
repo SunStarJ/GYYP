@@ -9,9 +9,6 @@ import com.sunstar.gyyp.R
 import com.sunstar.gyyp.WebActivity
 import com.sunstar.gyyp.base.BaseMuiltAdapter
 import com.sunstar.gyyp.base.GlideImageLoader
-import com.sunstar.gyyp.vm.BannerVM
-import com.sunstar.gyyp.databinding.AdapterMainBannerLayoutBinding
-import com.sunstar.gyyp.databinding.AdapterMainTextswitcherLayoutBinding
 import com.youth.banner.Banner
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -26,10 +23,8 @@ import android.widget.TextSwitcher
 import android.view.animation.AnimationUtils
 import android.view.animation.Animation
 import com.sunstar.gyyp.base.SSBaseDataBindingAdapter
-import com.sunstar.gyyp.databinding.AdapterMainControlBinding
-import com.sunstar.gyyp.databinding.AdapterMainControlInnerAdapterBinding
-import com.sunstar.gyyp.vm.MainControlVm
-import com.sunstar.gyyp.vm.MainTextSwitcherVM
+import com.sunstar.gyyp.databinding.*
+import com.sunstar.gyyp.vm.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -39,11 +34,11 @@ import java.util.concurrent.TimeUnit
 
 class MainAdapter<T0 : ViewDataBinding>(var context: Context) : BaseMuiltAdapter<T0, BaseMuiltAdapter.MuiltAdapterBaseData<T0>>(context), AnkoLogger {
     @SuppressLint("CheckResult")
-    override fun initBandingComplete(t2: T0, t1: MuiltAdapterBaseData<T0>) {
-        super.initBandingComplete(t2, t1)
-        t2.let {
-            if (it is AdapterMainBannerLayoutBinding) {
-                var banner = it.root.find<Banner>(R.id.banner)
+    override fun initBandingComplete(holder: BaseHolder,t2: T0, t1: MuiltAdapterBaseData<T0>) {
+        super.initBandingComplete(holder,t2, t1)
+        t2.run {
+            if (this is AdapterMainBannerLayoutBinding) {
+                var banner = root.find<Banner>(R.id.banner)
                 banner.setImageLoader(GlideImageLoader())
                 banner.setImages((t1 as BannerVM).banners)
                 banner.setOnBannerListener {
@@ -53,9 +48,9 @@ class MainAdapter<T0 : ViewDataBinding>(var context: Context) : BaseMuiltAdapter
                 }
                 banner.start()
             }
-            createTextSwitcher(it, t1, t2)
-            if(it is AdapterMainControlBinding){
-                var controlView = it.root.find<RecyclerView>(R.id.main_control_rec)
+            createTextSwitcher(this, t1, t2)
+            if(this is AdapterMainControlBinding){
+                var controlView = root.find<RecyclerView>(R.id.main_control_rec)
                 controlView.adapter = MainControlAdapter(mContext).initDataList((t1 as MainControlVm).controlList)
                         .initBindView(object:SSBaseDataBindingAdapter.BindView<AdapterMainControlInnerAdapterBinding>{
                     override fun onBindViewHolder(b: AdapterMainControlInnerAdapterBinding, position: Int) {
@@ -66,6 +61,26 @@ class MainAdapter<T0 : ViewDataBinding>(var context: Context) : BaseMuiltAdapter
                     }
                 })
                 controlView.layoutManager = GridLayoutManager(mContext,4)
+            }
+            if(this is AdapterMainPreferenceLayoutBinding){
+                var view = root.find<RecyclerView>(R.id.main_preference_recycle_view)
+                view.adapter = MainPreferenceAdapter(mContext).initDataList((t1 as MainPreferenceVM).preferenceDatas).initBindView(object :SSBaseDataBindingAdapter.BindView<AdapterPerferenceInnerAdapterBinding>{
+                    override fun onBindViewHolder(b: AdapterPerferenceInnerAdapterBinding, position: Int) {
+                        b.data = t1.preferenceDatas[position]
+                        b.root.onClick { mContext.toast(position.toString()) }
+                    }
+                })
+                view.layoutManager = GridLayoutManager(mContext,t1.preferenceDatas.size)
+            }
+            if(this is AdapterMainHotMarketBinding){
+                var view = root.find<RecyclerView>(R.id.market_view)
+                view.adapter = MainHotmarketItemAdapter(mContext).initDataList((t1 as MainHotmarketVM).hotMarketList).initBindView(object :SSBaseDataBindingAdapter.BindView<AdapterMainHotmarktInnerBinding>{
+                    override fun onBindViewHolder(b: AdapterMainHotmarktInnerBinding, position: Int) {
+                        b.data = t1.hotMarketList[position]
+                        b.root.onClick { mContext.toast(position.toString()) }
+                    }
+                })
+                view.layoutManager = GridLayoutManager(mContext,2)
             }
         }
     }

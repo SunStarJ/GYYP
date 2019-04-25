@@ -4,4 +4,5 @@ interface BaseView {
     fun showLoading(msg:String)
     fun hiddenLoading()
     fun showMsg(msg:String)
+    fun back(){}
 }

@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorWhite"
-                android:hint="请输手机号"
+                android:hint="请输入手机号"
                 android:textSize="14sp"
                 android:maxLength="11"/>
         </LinearLayout>
@@ -54,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorWhite"
-                android:hint="请输密码"
+                android:hint="请输入密码"
                 android:password="true"
                 android:inputType="textPassword"
                 android:text="@={data.password}"

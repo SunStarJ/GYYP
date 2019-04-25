@@ -8,6 +8,7 @@
     <color name="color_text_light">#666</color>
     <color name="color_red">#D72822</color>
     <color name="color_divider">#F5F5F5</color>
+    <color name="color_transparent">#0000</color>
 
     <color name="alpha_05_white">#0DFFFFFF</color>
     <color name="alpha_10_white">#1AFFFFFF</color>

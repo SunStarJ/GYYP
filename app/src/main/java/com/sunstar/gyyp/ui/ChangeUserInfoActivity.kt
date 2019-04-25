@@ -1,0 +1,93 @@
+package com.sunstar.gyyp.ui
+
+import android.databinding.DataBindingUtil
+import android.graphics.Color
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.support.design.widget.BottomSheetDialog
+import android.view.LayoutInflater
+import android.view.View
+import com.bumptech.glide.Glide
+import com.sunstar.activityplugin.vm.HeadVm
+import com.sunstar.gyyp.R
+import com.sunstar.gyyp.base.BaseActivity
+import com.sunstar.gyyp.base.BaseView
+import com.sunstar.gyyp.databinding.ActivityChangeUserInfoBinding
+import com.sunstar.gyyp.view.ChangeUserInfoView
+import com.sunstar.gyyp.vm.UserVm
+import com.yuyh.library.imgsel.ISNav
+import kotlinx.android.synthetic.main.adapter_main_list_layout.view.*
+import org.jetbrains.anko.find
+import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.toast
+import com.yuyh.library.imgsel.config.ISCameraConfig
+import com.yuyh.library.imgsel.config.ISListConfig
+
+
+class ChangeUserInfoActivity : BaseActivity(), ChangeUserInfoView {
+    var bottomSheet: BottomSheetDialog? = null
+    var bottomSheetView: View? = null
+    private val PHOTO_CODE = 0X0000012
+    override fun showPicSelectPop() {
+        bottomSheet = bottomSheet ?: let {
+            var dialog = BottomSheetDialog(mContext)
+            bottomSheetView = View.inflate(mContext, R.layout.pop_img_select_layout, null)
+            initPopView()
+            dialog.setContentView(bottomSheetView)
+            dialog
+        }
+        bottomSheet?.show()
+    }
+
+    private fun initPopView() {
+        bottomSheetView?.run {
+            find<View>(R.id.check).onClick {
+                if (userM?.headerImg == "") {
+                    toast("当前用户无头像，请选择上传")
+                } else {
+
+                }
+            }
+            find<View>(R.id.photo).onClick {
+                val config = ISCameraConfig.Builder()
+                        .needCrop(true) // 裁剪
+                        .cropSize(1, 1, 200, 200)
+                        .build()
+                ISNav.getInstance().toCameraActivity(mContext, config, PHOTO_CODE)
+            }
+            find<View>(R.id.box).onClick {
+                var config = ISListConfig.Builder()
+                        // 是否多选, 默认true
+                        .multiSelect(false)
+                        .cropSize(1, 1, 200, 200)
+                        .titleBgColor(Color.parseColor("#FFFFFF"))
+                        .titleColor(Color.parseColor("#333333")).build()
+                ISNav.getInstance().toListActivity(mContext, config, PHOTO_CODE)
+            }
+            find<View>(R.id.dismiss).onClick {
+                bottomSheet?.hide()
+            }
+        }
+    }
+
+    var binding: ActivityChangeUserInfoBinding? = null
+    var userM: UserVm<ChangeUserInfoView>? = null
+    override fun appViewInitComplete() {
+        userM?.run {
+            getUserData()
+        }
+    }
+
+    override fun back() {
+        finish()
+    }
+
+    override fun initHeadModel(): HeadVm = HeadVm("会员资料修改", true, R.mipmap.back)
+
+    override fun initView(): View {
+        binding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.activity_change_user_info, null, false)
+        userM = UserVm(this)
+        binding!!.data = userM
+        return binding!!.root
+    }
+}

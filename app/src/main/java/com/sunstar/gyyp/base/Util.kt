@@ -1,6 +1,9 @@
 package com.sunstar.gyyp.base
 
+import android.content.Context
+import android.os.Environment
 import android.text.TextUtils
+import java.io.File
 
 object Util {
     fun isMobileNO(mobileNums: String): Boolean {
@@ -18,4 +21,26 @@ object Util {
         else
             mobileNums.matches(telRegex.toRegex())
     }
+
+    /**
+     * xutil 中提取的生成文件地址方法
+     */
+    fun getDiskCacheDir(context: Context, dirName: String): String {
+        var cachePath: String? = null
+        if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {
+            val externalCacheDir = context.externalCacheDir
+            if (externalCacheDir != null) {
+                cachePath = externalCacheDir.path
+            }
+        }
+        if (cachePath == null) {
+            val cacheDir = context.cacheDir
+            if (cacheDir != null && cacheDir.exists()) {
+                cachePath = cacheDir.path
+            }
+        }
+
+        return cachePath + File.separator + dirName
+    }
+
 }
