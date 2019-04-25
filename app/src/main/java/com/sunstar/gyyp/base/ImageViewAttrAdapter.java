@@ -38,7 +38,7 @@ public class ImageViewAttrAdapter {
     @BindingAdapter({"app:avater"})
     public static void loadAvaterImage(ImageView imageView, String url) {
         Glide.with(imageView.getContext())
-                .load(Url.INSTANCE.getBaseUrl()+url)
+                .load((url==null || url.isEmpty()) ? "" :url.contains("storage") ? url : Url.INSTANCE.getBaseUrl() + url)
                 .apply(bitmapTransform(new CropCircleTransformation()))
                 .error(R.mipmap.head_image)
                 .into(imageView);

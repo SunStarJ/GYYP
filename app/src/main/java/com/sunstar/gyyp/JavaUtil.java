@@ -4,6 +4,9 @@ import android.databinding.ObservableList;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+
 public class JavaUtil {
     public static ObservableList.OnListChangedCallback getListChangedCallback(final RecyclerView.Adapter adapter) {
         return new ObservableList.OnListChangedCallback() {
@@ -37,5 +40,24 @@ public class JavaUtil {
                 adapter.notifyItemRangeRemoved(i, i1);
             }
         };
+    }
+    /**
+     * 这个是把文件变成二进制流
+     *
+     * @param imagepath
+     * @return
+     * @throws Exception
+     */
+    public static byte[] readStream(String imagepath) throws Exception {
+        FileInputStream fs = new FileInputStream(imagepath);
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int len = 0;
+        while (-1 != (len = fs.read(buffer))) {
+            outStream.write(buffer, 0, len);
+        }
+        outStream.close();
+        fs.close();
+        return outStream.toByteArray();
     }
 }

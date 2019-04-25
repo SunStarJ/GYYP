@@ -3,7 +3,9 @@ package com.sunstar.gyyp.base
 import android.content.Context
 import android.os.Environment
 import android.text.TextUtils
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileInputStream
 
 object Util {
     fun isMobileNO(mobileNums: String): Boolean {
@@ -42,5 +44,6 @@ object Util {
 
         return cachePath + File.separator + dirName
     }
+
 
 }

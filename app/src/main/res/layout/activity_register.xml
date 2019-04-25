@@ -155,8 +155,6 @@
                     android:layout_height="wrap_content"
                     android:background="@color/colorWhite"
                     android:hint="短信验证码"
-                    android:password="true"
-                    android:inputType="textPassword"
                     android:text="@={data.checkCode}"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"

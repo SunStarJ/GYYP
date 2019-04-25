@@ -8,6 +8,8 @@ object Url {
     val getsmscode = "$BASE_URL/api/user/getsmscode"
     val getmyinfo = "$BASE_URL/api/user/getmyinfo"
     val editmyinfo = "$BASE_URL/api/user/editmyinfo"
-    val uploadpic = "$BASE_URL/api/file/uploadpic"
+    val uploadpic = "${BASE_URL}api/file/uploadpic"
+    val changeloginpwd = "${BASE_URL}api/user/changeloginpwd"
+    val changepaypwd = "${BASE_URL}api/user/changepaypwd"
     val baseUrl:String get() =  BASE_URL
 }

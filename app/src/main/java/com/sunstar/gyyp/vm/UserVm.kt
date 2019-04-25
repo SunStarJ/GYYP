@@ -20,10 +20,12 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import java.security.Permission
+import com.yanzhenjie.permission.runtime.Permission
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 import java.util.concurrent.TimeUnit
 
-class UserVm<T : BaseView> : BaseObservable {
+open class UserVm<T : BaseView> : BaseObservable ,AnkoLogger{
 
     var userM = UserModel()
     var user: RootBean? = null
@@ -128,6 +130,11 @@ class UserVm<T : BaseView> : BaseObservable {
 
     //获取验证码
     fun getPhoneCheckCode() {
+        var phoneNum = this.phoneNum
+        getCodeByString(phoneNum)
+    }
+
+    open fun getCodeByString(phoneNum: String) {
         if (showDownUtil == null) {
             if (!Util.isMobileNO(phoneNum)) {
                 mView!!.showMsg("请检查手机号")
@@ -139,7 +146,7 @@ class UserVm<T : BaseView> : BaseObservable {
                 }
 
                 override fun error(msg: String) {
-
+                    mView?.showMsg(msg)
                 }
             })
             showDownUtil = Observable.interval(1, TimeUnit.SECONDS).take(60).map {
@@ -256,7 +263,7 @@ class UserVm<T : BaseView> : BaseObservable {
     fun showSelectImagePop(){
         AndPermission.with(ProjectApplication.instance.applicationContext)
                 .runtime()
-                .permission(com.yanzhenjie.permission.runtime.Permission.Group.STORAGE)
+                .permission(Permission.Group.STORAGE,Permission.Group.CAMERA)
                 .onGranted {
                     (mView as ChangeUserInfoView).showPicSelectPop()
                 }.start()
@@ -277,5 +284,11 @@ class UserVm<T : BaseView> : BaseObservable {
             it.recycle()
         }
         bitMap = null
+    }
+
+    fun changePhoto(imgPath:String) {
+        info { imgPath }
+        headerImg = imgPath
+        notifyChange()
     }
 }

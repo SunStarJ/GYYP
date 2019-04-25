@@ -13,5 +13,10 @@ class PublicStaticData {
                 }
                 return Token
             }
+        fun logout(){
+            Token = ""
+            var string by Preference<String>("token", "")
+            string = ""
+        }
     }
 }

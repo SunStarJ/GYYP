@@ -41,7 +41,7 @@
                     android:onClick="@{()->data.showSelectImagePop()}"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    app:avater="@{data.user.headpic}" />
+                    app:avater="@{data.headerImg}" />
             </LinearLayout>
 
             <View
@@ -165,6 +165,10 @@
                     android:textColor="@color/color_text_black"
                     android:text="@{data.user.gender == 0?@string/man:@string/woman}" />
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_divider" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

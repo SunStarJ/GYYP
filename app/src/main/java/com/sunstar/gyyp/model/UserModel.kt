@@ -1,9 +1,11 @@
 package com.sunstar.gyyp.model
 
+import android.annotation.SuppressLint
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.callback.StringCallback
 import com.lzy.okgo.model.Response
 import com.lzy.okgo.request.PostRequest
+import com.sunstar.gyyp.JavaUtil
 import com.sunstar.gyyp.ProjectApplication
 import com.sunstar.gyyp.Url
 import com.sunstar.gyyp.base.BaseCallBack
@@ -11,11 +13,18 @@ import com.sunstar.gyyp.base.DataListener
 import com.sunstar.gyyp.base.Preference
 import com.sunstar.gyyp.base.Util
 import com.sunstar.gyyp.data.RootBean
+import io.reactivex.Observable
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import okhttp3.MediaType
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.error
 import top.zibin.luban.Luban
 import top.zibin.luban.OnCompressListener
 import java.io.File
 
-class UserModel {
+class UserModel :AnkoLogger{
     var userToken :String by Preference("token","")
     fun onDestory() {
         OkGo.getInstance().cancelTag(this)
@@ -106,54 +115,59 @@ class UserModel {
             upLoadImage(imagePath,request,netDataListener)
         }else{
             request.params("headpic",Url.baseUrl+imagePath)
+            request.execute(object :BaseCallBack(){
+                override fun dataError(data: RootBean) {
+
+                }
+
+                override fun success(it: Response<RootBean>) {
+
+                }
+
+                override fun dataNull() {
+
+                }
+            })
         }
-        request.execute(object :BaseCallBack(){
-            override fun dataError(data: RootBean) {
 
-            }
-
-            override fun success(it: Response<RootBean>) {
-
-            }
-
-            override fun dataNull() {
-
-            }
-        })
     }
-
+    @SuppressLint("CheckResult")
     private fun upLoadImage(s: String, request: PostRequest<RootBean>?,netDataListener: DataListener.NetDataListener<Boolean>) {
         Luban.with(ProjectApplication.instance.applicationContext)
                 .load(s)
                 .ignoreBy(100)
-                .setTargetDir(Util.getDiskCacheDir(ProjectApplication.instance.applicationContext,"cache_image"))
+                .setTargetDir(Util.getDiskCacheDir(ProjectApplication.instance.applicationContext,""))
                 .setCompressListener(object :OnCompressListener{
                     override fun onSuccess(file: File?) {
-                        OkGo.post<RootBean>(Url.uploadpic)
-                                .upFile(file)
-                                .execute(object:BaseCallBack(){
-                                    override fun dataError(data: RootBean) {
+                        Observable.just(1).map { file?.absolutePath }
+                                .map { JavaUtil.readStream(it) }.subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread()).subscribe {
+                                    OkGo.post<RootBean>(Url.uploadpic)
+                                            .upBytes(it)
+                                            .execute(object:BaseCallBack(){
+                                                override fun dataError(data: RootBean) {
+                                                    netDataListener.error(data.msg)
+                                                }
 
-                                    }
+                                                override fun success(it: Response<RootBean>) {
+                                        
+                                                }
 
-                                    override fun success(it: Response<RootBean>) {
+                                                override fun dataNull() {
 
-                                    }
-
-                                    override fun dataNull() {
-
-                                    }
-                                })
+                                                }
+                                            })
+                                }
                     }
 
                     override fun onError(e: Throwable?) {
-
+                        error { e.toString() }
                     }
 
                     override fun onStart() {
 
                     }
-                })
+                }).launch()
     }
 
 }

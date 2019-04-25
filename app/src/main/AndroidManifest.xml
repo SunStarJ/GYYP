@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.sunstar.gyyp">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
 
     <application
         android:name=".ProjectApplication"
@@ -10,9 +22,14 @@
         android:networkSecurityConfig="@xml/net_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
+        <activity android:name=".ui.ChangeBuyPasswordActivity"></activity>
+        <activity android:name=".ui.ChangeLoginPasswordActivity" />
+        <activity android:name=".ui.PhotoCheckActivity" />
+
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name=".base.AppProvider"
             android:authorities="${applicationId}.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -21,7 +38,7 @@
                 android:resource="@xml/path" />
         </provider>
 
-        <activity android:name=".ui.ChangeUserInfoActivity"></activity>
+        <activity android:name=".ui.ChangeUserInfoActivity" />
         <activity android:name=".ui.UserCenterActivity" />
         <activity android:name=".ui.FindPasswordActivity" />
         <activity android:name=".ui.RegisterActivity" />
