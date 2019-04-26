@@ -57,8 +57,6 @@ class ChangeUserInfoActivity : BaseActivity(), ChangeUserInfoView {
             }
             find<View>(R.id.photo).onClick {
                 val config = ISCameraConfig.Builder()
-                        .needCrop(true) // 裁剪
-                        .cropSize(1, 1, 200, 200)
                         .build()
                 ISNav.getInstance().toCameraActivity(mContext, config, PHOTO_CAMERA_CODE)
                 bottomSheet?.hide()
@@ -67,8 +65,6 @@ class ChangeUserInfoActivity : BaseActivity(), ChangeUserInfoView {
                 var config = ISListConfig.Builder()
                         // 是否多选, 默认true
                         .multiSelect(false)
-                        .cropSize(1, 1, 200, 200)
-                        .needCrop(true)
                         .titleBgColor(Color.parseColor("#FFFFFF"))
                         .titleColor(Color.parseColor("#333333")).build()
                 ISNav.getInstance().toListActivity(mContext, config, PHOTO_CODE)
@@ -112,4 +108,10 @@ class ChangeUserInfoActivity : BaseActivity(), ChangeUserInfoView {
         binding!!.data = userM
         return binding!!.root
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        userM?.onDestory()
+    }
+
 }

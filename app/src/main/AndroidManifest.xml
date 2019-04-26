@@ -24,7 +24,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
-        <activity android:name=".ui.ChangeBuyPasswordActivity"></activity>
+        <activity android:name=".ui.AddLocationActivity"></activity>
+        <activity android:name=".ui.LocationListActivity" />
+        <activity android:name=".ui.VipCenterActivity" />
+        <activity android:name=".ui.ChangeBuyPasswordActivity" />
         <activity android:name=".ui.ChangeLoginPasswordActivity" />
         <activity android:name=".ui.PhotoCheckActivity" />
 
@@ -38,6 +41,13 @@
                 android:resource="@xml/path" />
         </provider>
 
+        <activity
+            android:name="cn.finalteam.rxgalleryfinal.ui.activity.MediaActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".ui.ChangeUserInfoActivity" />
         <activity android:name=".ui.UserCenterActivity" />
         <activity android:name=".ui.FindPasswordActivity" />

@@ -10,6 +10,7 @@ import com.sunstar.gyyp.base.BaseView
 import com.sunstar.gyyp.base.DataListener
 import com.sunstar.gyyp.base.Util
 import com.sunstar.gyyp.data.RootBean
+import com.sunstar.gyyp.data.UserChangeData
 import com.sunstar.gyyp.model.UserModel
 import com.sunstar.gyyp.view.ChangeUserInfoView
 import com.sunstar.gyyp.view.FindPasswordView
@@ -21,6 +22,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import com.yanzhenjie.permission.runtime.Permission
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import java.util.concurrent.TimeUnit
@@ -45,6 +49,24 @@ open class UserVm<T : BaseView> : BaseObservable ,AnkoLogger{
     var gender:Int = 0
     var birthDay:String = ""
     var headerImg:String=""
+
+    init {
+        EventBus.getDefault().register(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(changeData: UserChangeData){
+        user?.run{
+            nickname = changeData.nickname
+        }
+        nickName = changeData.nickname
+        notifyChange()
+    }
+
+    fun onDestory(){
+        EventBus.getDefault().unregister(this)
+    }
+
     fun initUser(){
         user?.run {
             nickName = nickname
@@ -131,16 +153,16 @@ open class UserVm<T : BaseView> : BaseObservable ,AnkoLogger{
     //获取验证码
     fun getPhoneCheckCode() {
         var phoneNum = this.phoneNum
-        getCodeByString(phoneNum)
+        getCodeByString(phoneNum,1)
     }
 
-    open fun getCodeByString(phoneNum: String) {
+    open fun getCodeByString(phoneNum: String,type: Int) {
         if (showDownUtil == null) {
             if (!Util.isMobileNO(phoneNum)) {
                 mView!!.showMsg("请检查手机号")
                 return
             }
-            userM.getPhoneCode(phoneNum, object : DataListener.NetDataListener<Boolean> {
+            userM.getPhoneCode(phoneNum,type, object : DataListener.NetDataListener<Boolean> {
                 override fun success(data: Boolean) {
 
                 }
@@ -247,6 +269,7 @@ open class UserVm<T : BaseView> : BaseObservable ,AnkoLogger{
                 mView?.run {
                     hiddenLoading()
                     showMsg("修改成功")
+                    EventBus.getDefault().post(UserChangeData(nickName))
                     back()
                 }
             }

@@ -24,14 +24,14 @@ import top.zibin.luban.Luban
 import top.zibin.luban.OnCompressListener
 import java.io.File
 
-class UserModel :AnkoLogger{
-    var userToken :String by Preference("token","")
+class UserModel : AnkoLogger {
+    var userToken: String by Preference("token", "")
     fun onDestory() {
         OkGo.getInstance().cancelTag(this)
     }
 
-    fun getUserInfo(netDataListener: DataListener.NetDataListener<RootBean>){
-        OkGo.post<RootBean>(Url.getmyinfo).execute(object:BaseCallBack(){
+    fun getUserInfo(netDataListener: DataListener.NetDataListener<RootBean>) {
+        OkGo.post<RootBean>(Url.getmyinfo).execute(object : BaseCallBack() {
             override fun dataError(data: RootBean) {
                 netDataListener.error(data.msg)
             }
@@ -86,9 +86,11 @@ class UserModel :AnkoLogger{
                 })
     }
 
-    fun getPhoneCode(userName: String, netDataListener: DataListener.NetDataListener<Boolean>) {
-        OkGo.post<RootBean>(Url.getsmscode).params("phonenum",userName)
-                .execute(object:BaseCallBack(){
+    fun getPhoneCode(userName: String, type: Int, netDataListener: DataListener.NetDataListener<Boolean>) {
+        OkGo.post<RootBean>(Url.getsmscode)
+                .params("phonenum", userName)
+                .params("type", type)
+                .execute(object : BaseCallBack() {
                     override fun dataError(data: RootBean) {
                         netDataListener.error(data.msg)
                     }
@@ -101,27 +103,27 @@ class UserModel :AnkoLogger{
                 })
     }
 
-    fun findPassword( userName: String, password: String, checkCode: String, netDataListener: DataListener.NetDataListener<Boolean>){
+    fun findPassword(userName: String, password: String, checkCode: String, netDataListener: DataListener.NetDataListener<Boolean>) {
         TODO("找回密码逻辑暂无")
     }
 
-    fun saveUserData(nickname:String,realname:String,gender:Int,birth:String,imagePath:String,netDataListener: DataListener.NetDataListener<Boolean>){
-        var request =OkGo.post<RootBean>(Url.editmyinfo)
-                .params("nickname",nickname)
-                .params("realname",realname)
-                .params("gender",gender)
-                .params("birth",birth)
-        if(imagePath.contains("storage")){
-            upLoadImage(imagePath,request,netDataListener)
-        }else{
-            request.params("headpic",Url.baseUrl+imagePath)
-            request.execute(object :BaseCallBack(){
+    fun saveUserData(nickname: String, realname: String, gender: Int, birth: String, imagePath: String, netDataListener: DataListener.NetDataListener<Boolean>) {
+        var request = OkGo.post<RootBean>(Url.editmyinfo)
+                .params("nickname", nickname)
+                .params("realname", realname)
+                .params("gender", gender)
+                .params("birth", birth)
+        if (imagePath.contains("storage")) {
+            upLoadImage(imagePath, request, netDataListener)
+        } else {
+            if (imagePath != "") request.params("headpic", Url.baseUrl + imagePath)
+            request.execute(object : BaseCallBack() {
                 override fun dataError(data: RootBean) {
-
+                    netDataListener.error(data.msg)
                 }
 
                 override fun success(it: Response<RootBean>) {
-
+                    netDataListener.success(true)
                 }
 
                 override fun dataNull() {
@@ -131,26 +133,30 @@ class UserModel :AnkoLogger{
         }
 
     }
+
     @SuppressLint("CheckResult")
-    private fun upLoadImage(s: String, request: PostRequest<RootBean>?,netDataListener: DataListener.NetDataListener<Boolean>) {
+    private fun upLoadImage(s: String, request: PostRequest<RootBean>?, netDataListener: DataListener.NetDataListener<Boolean>) {
         Luban.with(ProjectApplication.instance.applicationContext)
                 .load(s)
                 .ignoreBy(100)
-                .setTargetDir(Util.getDiskCacheDir(ProjectApplication.instance.applicationContext,""))
-                .setCompressListener(object :OnCompressListener{
+                .setTargetDir(Util.getDiskCacheDir(ProjectApplication.instance.applicationContext, ""))
+                .setCompressListener(object : OnCompressListener {
                     override fun onSuccess(file: File?) {
-                        Observable.just(1).map { file?.absolutePath }
+                        Observable.just(1).map {
+                            file?.absolutePath
+                        }
                                 .map { JavaUtil.readStream(it) }.subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread()).subscribe {
                                     OkGo.post<RootBean>(Url.uploadpic)
-                                            .upBytes(it)
-                                            .execute(object:BaseCallBack(){
+                                            .upFile(file)
+                                            .isMultipart(false)
+                                            .execute(object : BaseCallBack() {
                                                 override fun dataError(data: RootBean) {
                                                     netDataListener.error(data.msg)
                                                 }
 
                                                 override fun success(it: Response<RootBean>) {
-                                        
+
                                                 }
 
                                                 override fun dataNull() {

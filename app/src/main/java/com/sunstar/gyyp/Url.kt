@@ -11,5 +11,6 @@ object Url {
     val uploadpic = "${BASE_URL}api/file/uploadpic"
     val changeloginpwd = "${BASE_URL}api/user/changeloginpwd"
     val changepaypwd = "${BASE_URL}api/user/changepaypwd"
+    val getdeliveryaddress = "${BASE_URL}api/user/getdeliveryaddress"
     val baseUrl:String get() =  BASE_URL
 }

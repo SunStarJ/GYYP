@@ -24,7 +24,6 @@ import com.sunstar.gyyp.model.UserModel
 import com.sunstar.gyyp.view.UserCenterView
 import com.sunstar.gyyp.vm.UserVm
 import kotlinx.android.synthetic.main.activity_user_center.*
-import kotlinx.android.synthetic.main.textswitcher_text_layout.view.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
@@ -47,12 +46,11 @@ class UserCenterActivity : BaseActivity(), UserCenterView {
                         0 -> {
                             startActivity<ChangeUserInfoActivity>()
                         }
-                        1 -> {
-                            startActivity<ChangeLoginPasswordActivity>()
-                        }
-                        2 -> {
-                            startActivity<ChangeBuyPasswordActivity>("userPhone" to userM?.user?.u_annex)
-                        }
+                        1 -> startActivity<ChangeLoginPasswordActivity>()
+
+                        2 -> startActivity<ChangeBuyPasswordActivity>("userPhone" to userM?.user?.u_annex)
+
+                        3 -> startActivity<LocationListActivity>()
                         4 -> {
                             dialog ?: let {
                                 logoutView = View.inflate(mContext, R.layout.pop_log_out, null)
@@ -71,24 +69,6 @@ class UserCenterActivity : BaseActivity(), UserCenterView {
                                 dialog!!.getWindow().setBackgroundDrawableResource(android.R.color.transparent)
                             }
                             dialog?.show()
-
-//                            CustomDialog.show(mContext,R.layout.pop_log_out,object:CustomDialog.BindView{
-//                                override fun onBind(dialog: CustomDialog?, rootView: View?) {
-//                                    rootView?.run {
-//                                        find<View>(R.id.log_out).onClick {
-//                                            dialog?.doDismiss()
-//                                            PublicStaticData.logout()
-//                                            var intent = Intent(mContext,MainActivity::class.java)
-//                                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-//                                            startActivity(intent)
-//                                            finish()
-//                                        }
-//                                        find<View>(R.id.cancel).onClick {
-//                                            dialog?.doDismiss()
-//                                        }
-//                                    }
-//                                }
-//                            }).showDialog()
                         }
                     }
                 }
@@ -106,5 +86,10 @@ class UserCenterActivity : BaseActivity(), UserCenterView {
         userM = UserVm(this)
         dataBinding!!.userData = userM
         return dataBinding!!.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        userM?.onDestory()
     }
 }

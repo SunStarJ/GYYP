@@ -20,6 +20,7 @@ import com.sunstar.gyyp.data.RootBean
 import com.sunstar.gyyp.databinding.ActivityMainBinding
 import com.sunstar.gyyp.ui.LoginActivity
 import com.sunstar.gyyp.ui.UserCenterActivity
+import com.sunstar.gyyp.ui.VipCenterActivity
 import com.sunstar.gyyp.vm.*
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.backgroundColor
@@ -111,7 +112,7 @@ class MainActivity : BaseActivity() {
             if(PublicStaticData.tooken == ""){
                 startActivity<LoginActivity>()
             }else{
-                startActivity<UserCenterActivity>()
+                startActivity<VipCenterActivity>()
             }
         }
     }

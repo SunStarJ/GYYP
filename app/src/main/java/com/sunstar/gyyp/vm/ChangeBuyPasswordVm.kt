@@ -67,6 +67,6 @@ class ChangeBuyPasswordVm(var phonenum:String,mv:ChangeBuyPasswordView):UserVm<C
 
     }
     fun getNetCode(){
-        getCodeByString(phonenum)
+        getCodeByString(phonenum,3)
     }
 }

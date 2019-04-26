@@ -40,6 +40,13 @@ class LoginActivity : BaseActivity(),LoginView {
         initListener()
     }
 
+    override fun onResume() {
+        super.onResume()
+        userVm?.let {
+            it.createRegistCodeBitmap()
+        }
+    }
+
     private fun initListener() {
         find_password.onClick {
             startActivity<FindPasswordActivity>()

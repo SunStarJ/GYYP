@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="data"
+            type="com.sunstar.gyyp.vm.LocationVm" />
+    </data>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f5f5f5"
+        android:orientation="vertical"
+        tools:context=".ui.AddLocationActivity">
+        <include layout="@layout/edit_layout"
+            app:editName="@{@string/receive_name}"
+            app:value="@={data.receiverName}"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_divider"/>
+        <include layout="@layout/phone_edit_layout"
+            app:editName="@{@string/receive_phone}"
+            app:value="@={data.receiverPhone}"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="@color/colorWhite"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="收货地址"
+                android:textSize="16sp"
+                android:textColor="@color/color_text_black"
+                android:padding="10dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:id="@+id/city_click"
+                android:gravity="right|center_vertical"
+                android:drawablePadding="5dp"
+                android:hint="请选择省市县"
+                android:textSize="14sp"
+                android:textColor="@color/color_text_black"
+                android:drawableRight="@mipmap/right"
+                android:text="@{data.cityShow}"
+                android:padding="10dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_divider"/>
+        <include layout="@layout/edit_layout"
+            app:editName="@{@string/info_address}"
+            app:value="@={data.addressdetail}"/>
+    </LinearLayout>
+</layout>

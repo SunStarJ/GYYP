@@ -38,5 +38,8 @@ class RegisterActivity : BaseActivity() ,RegisterView{
     override fun back() {
         finish()
     }
-
+    override fun onDestroy() {
+        super.onDestroy()
+        vm?.onDestory()
+    }
 }

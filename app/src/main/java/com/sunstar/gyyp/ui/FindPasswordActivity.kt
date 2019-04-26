@@ -34,4 +34,9 @@ class FindPasswordActivity : BaseActivity(),FindPasswordView {
     override fun back() {
         finish()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        vm?.onDestory()
+    }
 }
