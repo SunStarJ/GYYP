@@ -15,7 +15,8 @@ import android.webkit.WebChromeClient
 
 class WebActivity : BaseActivity() {
     override fun appViewInitComplete() {
-        web.loadUrl(intent.getStringExtra("url"))
+        var url = if(intent.getStringExtra("url").contains(Url.baseUrl)) intent.getStringExtra("url") else Url.baseUrl+intent.getStringExtra("url")
+        web.loadUrl(url)
         web.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 view.loadUrl(url)

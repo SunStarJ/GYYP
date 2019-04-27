@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="data"
+            type="com.sunstar.gyyp.data.ArticlesItem" />
+    </data>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+        <ImageView
+            android:id="@+id/image"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:imageUrl="@{data.pic}"
+            app:layout_constraintDimensionRatio="H,1:1"
+            app:layout_constraintWidth_percent="0.3"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+        <LinearLayout
+            app:layout_constraintLeft_toRightOf="@+id/image"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="0dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:orientation="vertical"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintBottom_toBottomOf="@+id/image"
+            android:padding="10dp"
+            android:layout_height="0dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:text="@{data.title}"
+                android:textColor="@color/color_text_black"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:textColor="@color/color_text_light"
+                android:singleLine="true"
+                android:text="@{data.createtime+@string/space+data.readed+@string/read}"
+                android:textSize="12sp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+</layout>
