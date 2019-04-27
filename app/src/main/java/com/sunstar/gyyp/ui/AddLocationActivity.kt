@@ -21,6 +21,7 @@ import com.lljjcoder.bean.CityBean
 import kotlinx.android.synthetic.main.activity_add_location.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import com.lljjcoder.citywheel.CityConfig
+import com.sunstar.gyyp.data.AddressListItem
 
 class AddLocationActivity : BaseActivity(), EditLocationView {
     var cityPicker = CityPickerView()
@@ -33,6 +34,9 @@ class AddLocationActivity : BaseActivity(), EditLocationView {
     override fun appViewInitComplete() {
         if (intent.getIntExtra("type", 0) == 1) {
             changeText("修改地址")
+            (intent.getSerializableExtra("data") as AddressListItem)?.let {
+                vm?.initData(it)
+            }
         }
         vm?.initCityShow()
         //监听选择点击事件及返回结果

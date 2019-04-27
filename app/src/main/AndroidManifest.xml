@@ -24,7 +24,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
-        <activity android:name=".ui.AddLocationActivity"></activity>
+        <activity android:name=".ui.ArticalListActivity"></activity>
+        <activity android:name=".ui.AddLocationActivity" />
         <activity android:name=".ui.LocationListActivity" />
         <activity android:name=".ui.VipCenterActivity" />
         <activity android:name=".ui.ChangeBuyPasswordActivity" />

@@ -15,14 +15,16 @@
         tools:context=".ui.AddLocationActivity">
         <include layout="@layout/edit_layout"
             app:editName="@{@string/receive_name}"
-            app:value="@={data.receiverName}"/>
+            app:value="@={data.receiverName}"
+            app:test="@{@string/receive_name_hint}"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/color_divider"/>
         <include layout="@layout/phone_edit_layout"
             app:editName="@{@string/receive_phone}"
-            app:value="@={data.receiverPhone}"/>
+            app:value="@={data.receiverPhone}"
+            app:hintString="@{@string/receive_phone_hint}"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:background="@color/colorWhite"
@@ -54,6 +56,15 @@
             android:background="@color/color_divider"/>
         <include layout="@layout/edit_layout"
             app:editName="@{@string/info_address}"
-            app:value="@={data.addressdetail}"/>
+            app:value="@={data.addressdetail}"
+            app:test="@{@string/info_address_hint}"/>
+        <Button
+            android:onClick="@{()->data.saveLocation()}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:textColor="@color/colorWhite"
+            android:text="保存"
+            android:background="@color/color_red"/>
     </LinearLayout>
 </layout>

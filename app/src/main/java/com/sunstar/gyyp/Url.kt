@@ -12,5 +12,9 @@ object Url {
     val changeloginpwd = "${BASE_URL}api/user/changeloginpwd"
     val changepaypwd = "${BASE_URL}api/user/changepaypwd"
     val getdeliveryaddress = "${BASE_URL}api/user/getdeliveryaddress"
+    val editdeliveryaddress = "${BASE_URL}api/user/editdeliveryaddress"
+    val setaddressdefault = "${BASE_URL}api/user/setaddressdefault"
+    val deleteaddress = "${BASE_URL}api/user/deleteaddress"
+    val getarticles = "${BASE_URL}api/article/getarticles"
     val baseUrl:String get() =  BASE_URL
 }

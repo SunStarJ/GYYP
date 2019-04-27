@@ -24,6 +24,7 @@ import android.view.animation.AnimationUtils
 import android.view.animation.Animation
 import com.sunstar.gyyp.base.SSBaseDataBindingAdapter
 import com.sunstar.gyyp.databinding.*
+import com.sunstar.gyyp.ui.ArticalListActivity
 import com.sunstar.gyyp.vm.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -93,7 +94,7 @@ class MainAdapter<T0 : ViewDataBinding>(var context: Context) : BaseMuiltAdapter
             var curIndex = 0
             var list = (t1 as MainTextSwitcherVM).adList
             it.root.find<View>(R.id.ad_check_all).onClick {
-                context.toast("查看更多")
+                mContext.startActivity<ArticalListActivity>()
             }
 
             var switcher = it.root.find<TextSwitcher>(R.id.text_switcher)

@@ -1,3 +1,5 @@
 package com.sunstar.gyyp.data
 
-class UserChangeData(var nickname:String)
+class UserChangeData(var nickname:String){
+    var headImg=""
+}

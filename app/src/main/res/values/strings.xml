@@ -9,4 +9,9 @@
     <string name="receive_name">收货人</string>
     <string name="receive_phone">收货电话</string>
     <string name="info_address">详细地址</string>
+    <string name="receive_name_hint">请输入收货人姓名</string>
+    <string name="receive_phone_hint">请输入收货电话</string>
+    <string name="info_address_hint">请输入详细地址</string>
+    <string name="space">　　</string>
+    <string name="maohao">：</string>
 </resources>

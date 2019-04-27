@@ -38,7 +38,7 @@
                         android:id="@+id/avater"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        app:avater="@{userData.user.pic}"
+                        app:avater="@{userData.user.headpic}"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"

@@ -7,6 +7,7 @@
     tools:context=".ui.PhotoCheckActivity">
     <com.github.chrisbanes.photoview.PhotoView
         android:layout_width="match_parent"
+        android:background="#333"
         android:layout_height="match_parent"
         android:id="@+id/photo_checkview"/>
 </android.support.constraint.ConstraintLayout>

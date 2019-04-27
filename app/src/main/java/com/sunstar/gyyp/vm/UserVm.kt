@@ -57,7 +57,8 @@ open class UserVm<T : BaseView> : BaseObservable ,AnkoLogger{
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(changeData: UserChangeData){
         user?.run{
-            nickname = changeData.nickname
+            if(changeData.nickname!="") nickname = changeData.nickname
+            if(changeData.headImg !="") headpic = changeData.headImg
         }
         nickName = changeData.nickname
         notifyChange()
