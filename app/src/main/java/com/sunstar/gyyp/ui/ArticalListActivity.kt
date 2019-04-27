@@ -26,7 +26,7 @@ class ArticalListActivity : BaseActivity() {
             }
 
             override fun onRefresh(refreshLayout: RefreshLayout) {
-                page = 0
+                page = 1
                 refresh_view.setNoMoreData(false)
                 initData()
             }
