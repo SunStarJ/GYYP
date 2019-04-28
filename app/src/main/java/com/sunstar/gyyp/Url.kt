@@ -16,5 +16,7 @@ object Url {
     val setaddressdefault = "${BASE_URL}api/user/setaddressdefault"
     val deleteaddress = "${BASE_URL}api/user/deleteaddress"
     val getarticles = "${BASE_URL}api/article/getarticles"
+    val getproductdetail = "${BASE_URL}api/product/getproductdetail"
+    val collectproduct = "${BASE_URL}api/product/collectproduct"
     val baseUrl:String get() =  BASE_URL
 }

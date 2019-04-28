@@ -2,7 +2,10 @@ package com.sunstar.gyyp.base
 
 import android.content.Context
 import android.os.Environment
+import android.text.SpannableStringBuilder
+import android.text.Spanned
 import android.text.TextUtils
+import android.text.style.ForegroundColorSpan
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
@@ -43,6 +46,14 @@ object Util {
         }
 
         return cachePath + File.separator + dirName
+    }
+
+    fun changeStringColor(context: Context, allText: String, highColorString: String, colorId: Int): SpannableStringBuilder {
+        val builder = SpannableStringBuilder(allText)
+        val start = allText.indexOf(highColorString)
+        val end = start + highColorString.length
+        builder.setSpan(ForegroundColorSpan(context.resources.getColor(colorId)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        return builder
     }
 
 

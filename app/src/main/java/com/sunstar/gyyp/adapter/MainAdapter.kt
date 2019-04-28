@@ -25,6 +25,7 @@ import android.view.animation.Animation
 import com.sunstar.gyyp.base.SSBaseDataBindingAdapter
 import com.sunstar.gyyp.databinding.*
 import com.sunstar.gyyp.ui.ArticalListActivity
+import com.sunstar.gyyp.ui.GoodsInfoActivity
 import com.sunstar.gyyp.vm.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -35,8 +36,8 @@ import java.util.concurrent.TimeUnit
 
 class MainAdapter<T0 : ViewDataBinding>(var context: Context) : BaseMuiltAdapter<T0, BaseMuiltAdapter.MuiltAdapterBaseData<T0>>(context), AnkoLogger {
     @SuppressLint("CheckResult")
-    override fun initBandingComplete(holder: BaseHolder,t2: T0, t1: MuiltAdapterBaseData<T0>) {
-        super.initBandingComplete(holder,t2, t1)
+    override fun initBandingComplete(holder: BaseHolder, t2: T0, t1: MuiltAdapterBaseData<T0>) {
+        super.initBandingComplete(holder, t2, t1)
         t2.run {
             if (this is AdapterMainBannerLayoutBinding) {
                 var banner = root.find<Banner>(R.id.banner)
@@ -50,38 +51,38 @@ class MainAdapter<T0 : ViewDataBinding>(var context: Context) : BaseMuiltAdapter
                 banner.start()
             }
             createTextSwitcher(this, t1, t2)
-            if(this is AdapterMainControlBinding){
+            if (this is AdapterMainControlBinding) {
                 var controlView = root.find<RecyclerView>(R.id.main_control_rec)
                 controlView.adapter = MainControlAdapter(mContext).initDataList((t1 as MainControlVm).controlList)
-                        .initBindView(object:SSBaseDataBindingAdapter.BindView<AdapterMainControlInnerAdapterBinding>{
-                    override fun onBindViewHolder(b: AdapterMainControlInnerAdapterBinding, position: Int) {
-                        b.data = t1.controlList[position]
-                        b.root.onClick {
-                            mContext.toast(position.toString())
-                        }
-                    }
-                })
-                controlView.layoutManager = GridLayoutManager(mContext,4)
+                        .initBindView(object : SSBaseDataBindingAdapter.BindView<AdapterMainControlInnerAdapterBinding> {
+                            override fun onBindViewHolder(b: AdapterMainControlInnerAdapterBinding, position: Int) {
+                                b.data = t1.controlList[position]
+                                b.root.onClick {
+                                    mContext.toast(position.toString())
+                                }
+                            }
+                        })
+                controlView.layoutManager = GridLayoutManager(mContext, 4)
             }
-            if(this is AdapterMainPreferenceLayoutBinding){
+            if (this is AdapterMainPreferenceLayoutBinding) {
                 var view = root.find<RecyclerView>(R.id.main_preference_recycle_view)
-                view.adapter = MainPreferenceAdapter(mContext).initDataList((t1 as MainPreferenceVM).preferenceDatas).initBindView(object :SSBaseDataBindingAdapter.BindView<AdapterPerferenceInnerAdapterBinding>{
+                view.adapter = MainPreferenceAdapter(mContext).initDataList((t1 as MainPreferenceVM).preferenceDatas).initBindView(object : SSBaseDataBindingAdapter.BindView<AdapterPerferenceInnerAdapterBinding> {
                     override fun onBindViewHolder(b: AdapterPerferenceInnerAdapterBinding, position: Int) {
                         b.data = t1.preferenceDatas[position]
-                        b.root.onClick { mContext.toast(position.toString()) }
+                        b.root.onClick { mContext.startActivity<GoodsInfoActivity>("id" to t1.preferenceDatas[position].id.toString()) }
                     }
                 })
-                view.layoutManager = GridLayoutManager(mContext,t1.preferenceDatas.size)
+                view.layoutManager = GridLayoutManager(mContext, t1.preferenceDatas.size)
             }
-            if(this is AdapterMainHotMarketBinding){
+            if (this is AdapterMainHotMarketBinding) {
                 var view = root.find<RecyclerView>(R.id.market_view)
-                view.adapter = MainHotmarketItemAdapter(mContext).initDataList((t1 as MainHotmarketVM).hotMarketList).initBindView(object :SSBaseDataBindingAdapter.BindView<AdapterMainHotmarktInnerBinding>{
+                view.adapter = MainHotmarketItemAdapter(mContext).initDataList((t1 as MainHotmarketVM).hotMarketList).initBindView(object : SSBaseDataBindingAdapter.BindView<AdapterMainHotmarktInnerBinding> {
                     override fun onBindViewHolder(b: AdapterMainHotmarktInnerBinding, position: Int) {
                         b.data = t1.hotMarketList[position]
-                        b.root.onClick { mContext.toast(position.toString()) }
+                        b.root.onClick { mContext.startActivity<GoodsInfoActivity>("id" to t1.hotMarketList[position].id.toString()) }
                     }
                 })
-                view.layoutManager = GridLayoutManager(mContext,2)
+                view.layoutManager = GridLayoutManager(mContext, 2)
             }
         }
     }
@@ -106,13 +107,14 @@ class MainAdapter<T0 : ViewDataBinding>(var context: Context) : BaseMuiltAdapter
             switcher.outAnimation = out
             try {
                 switcher.setFactory {
-                    View.inflate(mContext,R.layout.textswitcher_text_layout,null)
+                    View.inflate(mContext, R.layout.textswitcher_text_layout, null)
                 }
-            }catch (e:Exception){}
+            } catch (e: Exception) {
+            }
 
-            if (list.size != 0 &&result == null) {
+            if (list.size != 0 && result == null) {
                 switcher.setText(list[curIndex].title)
-               result = Observable.interval(4, 4, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+                result = Observable.interval(4, 4, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
                     if (curIndex == list.size - 1) {
                         curIndex = 0
                     } else {
