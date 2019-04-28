@@ -8,7 +8,29 @@
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
         android:gravity="center"
+        android:background="@color/colorWhite"
         android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/color_text_black"
+                android:textStyle="bold"
+                android:text="国源"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="头条"
+                android:typeface="monospace"
+                android:textColor="@color/color_red"
+                android:textStyle="bold"/>
+        </LinearLayout>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -21,10 +43,17 @@
             android:padding="10dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"></TextSwitcher>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/color_divider"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
             android:paddingTop="10dp"
             android:id="@+id/ad_check_all"
             android:paddingBottom="10dp"

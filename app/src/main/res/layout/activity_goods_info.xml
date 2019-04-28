@@ -142,7 +142,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:text="加入购物车"
-
+                android:onClick="@{()->data.addToCart()}"
                 android:gravity="center"
                 android:background="#FA9897"
                 android:textColor="@color/colorWhite"
@@ -150,6 +150,7 @@
                 android:layout_weight="1"/>
             <TextView
                 android:layout_width="0dp"
+                android:onClick="@{()->data.buyNowShowPop()}"
                 android:background="@color/color_red"
                 android:text="立即购买"
                 android:gravity="center"

@@ -18,5 +18,6 @@ object Url {
     val getarticles = "${BASE_URL}api/article/getarticles"
     val getproductdetail = "${BASE_URL}api/product/getproductdetail"
     val collectproduct = "${BASE_URL}api/product/collectproduct"
+    val addshopcart = "${BASE_URL}api/shopcart/addshopcart"
     val baseUrl:String get() =  BASE_URL
 }

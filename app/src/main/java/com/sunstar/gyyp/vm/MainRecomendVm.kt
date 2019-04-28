@@ -11,6 +11,7 @@ class MainRecomendVm (var data : RecommendsItem) : BaseMuiltAdapter.MuiltAdapter
     override fun initBindingView(): BaseMuiltAdapter.BindView<ViewDataBinding> = object : BaseMuiltAdapter.BindView<ViewDataBinding>{
         override fun onBindViewHolder(b: ViewDataBinding, position: Int) {
             (b as AdapterMainListLayoutBinding).data = this@MainRecomendVm
+
         }
     }
     override fun getViewId(): Int = R.layout.adapter_main_list_layout
