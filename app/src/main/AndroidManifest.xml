@@ -24,7 +24,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
-        <activity android:name=".ui.GoodsInfoActivity"></activity>
+        <activity android:name=".ui.GoodsListPageActivity"></activity>
+        <activity android:name=".ui.SearchPageActivity" />
+        <activity android:name=".ui.ShoopCartActivity" />
+        <activity android:name=".ui.GoodsInfoActivity" />
         <activity android:name=".ui.ArticalListActivity" />
         <activity android:name=".ui.AddLocationActivity" />
         <activity android:name=".ui.LocationListActivity" />

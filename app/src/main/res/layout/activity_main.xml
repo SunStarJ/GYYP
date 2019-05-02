@@ -42,6 +42,7 @@
 
             <LinearLayout
                 style="@style/BasePadding"
+                android:id="@+id/search_click_layout"
                 android:background="@drawable/round_corner_shape"
                 android:layout_width="0dp"
                 android:gravity="center"

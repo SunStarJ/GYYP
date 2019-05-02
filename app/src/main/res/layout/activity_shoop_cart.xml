@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="data"
+            type="com.sunstar.gyyp.vm.ShopCartVm" />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.ShoopCartActivity">
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:id="@+id/data_view"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@color/color_divider"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textColor="@color/color_text_black"
+                android:drawableLeft="@drawable/select_drawable"
+                android:drawablePadding="10dp"
+                android:text="全选"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="@{data.showPrice}"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/color_text_black"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{data.showCount}"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/color_text_black"
+                android:textSize="12sp"/>
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{data.isDelete ? @string/complete : @string/pay_for}"
+                android:onClick="@{()->data.goBuy()}"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:textColor="@color/colorWhite"
+                android:background="@color/color_red"/>
+        </LinearLayout>
+    </LinearLayout>
+</layout>

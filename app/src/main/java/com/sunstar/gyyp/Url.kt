@@ -1,7 +1,7 @@
 package com.sunstar.gyyp
 
 object Url {
-    private val BASE_URL = "http://guoyuanyoupin.tongtonging.com/"
+    private val BASE_URL = "http://47.112.216.41/"
     val getMainPage = "$BASE_URL/api/home/getmainpage"
     val login = "$BASE_URL/api/user/login"
     val register = "$BASE_URL/api/user/register"
@@ -19,5 +19,11 @@ object Url {
     val getproductdetail = "${BASE_URL}api/product/getproductdetail"
     val collectproduct = "${BASE_URL}api/product/collectproduct"
     val addshopcart = "${BASE_URL}api/shopcart/addshopcart"
+    val getshopcart = "${BASE_URL}api/shopcart/getshopcart"
+    val changeshopcartnum = "${BASE_URL}api/shopcart/changeshopcartnum"
+    val deleteshopcart = "${BASE_URL}api/shopcart/deleteshopcart"
+    val gethotwords = "${BASE_URL}api/product/gethotwords"
+    val getproductcategorys = "${BASE_URL}api/product/getproductcategorys"
+    val getproducts = "${BASE_URL}api/product/getproducts"
     val baseUrl:String get() =  BASE_URL
 }

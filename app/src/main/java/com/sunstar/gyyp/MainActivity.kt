@@ -19,6 +19,7 @@ import com.sunstar.gyyp.data.PublicStaticData
 import com.sunstar.gyyp.data.RootBean
 import com.sunstar.gyyp.databinding.ActivityMainBinding
 import com.sunstar.gyyp.ui.LoginActivity
+import com.sunstar.gyyp.ui.SearchPageActivity
 import com.sunstar.gyyp.ui.UserCenterActivity
 import com.sunstar.gyyp.ui.VipCenterActivity
 import com.sunstar.gyyp.vm.*
@@ -114,6 +115,9 @@ class MainActivity : BaseActivity() {
             }else{
                 startActivity<VipCenterActivity>()
             }
+        }
+        search_click_layout.onClick {
+            startActivity<SearchPageActivity>()
         }
     }
 

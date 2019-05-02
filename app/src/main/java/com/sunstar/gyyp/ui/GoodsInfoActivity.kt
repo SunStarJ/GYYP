@@ -20,8 +20,10 @@ import com.sunstar.gyyp.view.GoodsInfoView
 import com.sunstar.gyyp.vm.GoodsInfoVm
 import kotlinx.android.synthetic.main.activity_goods_info.*
 import com.sunstar.gyyp.databinding.GoodsInfoBottomDialogBinding
+import com.sunstar.gyyp.vm.ShopCartVm
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 class GoodsInfoActivity : BaseActivity(), GoodsInfoView {
@@ -102,7 +104,7 @@ class GoodsInfoActivity : BaseActivity(), GoodsInfoView {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if(item?.itemId == R.id.cart){
-            toast("购物车")
+            startActivity<ShoopCartActivity>()
         }
         return true
     }

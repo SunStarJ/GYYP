@@ -56,4 +56,5 @@ dependencies {
     implementation 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-22'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-22'
+    implementation 'com.hyman:flowlayout-lib:1.1.2'
 }
