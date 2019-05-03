@@ -54,7 +54,8 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'liji.library.dev:citypickerview:4.2.1'
     implementation 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
-    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-22'
-    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-22'
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5'
     implementation 'com.hyman:flowlayout-lib:1.1.2'
+    implementation 'com.github.razerdp:BasePopup:2.1.9'
 }

@@ -24,8 +24,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
-        <activity android:name=".ui.GoodsListPageActivity"></activity>
-        <activity android:name=".ui.SearchPageActivity" />
+        <activity android:name=".ui.PointChargeActivity"></activity>
+        <activity android:name=".ui.MyCollectActivity" />
+        <activity android:name=".ui.GoodsListPageActivity" />
+        <activity
+            android:name=".ui.SearchPageActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".ui.ShoopCartActivity" />
         <activity android:name=".ui.GoodsInfoActivity" />
         <activity android:name=".ui.ArticalListActivity" />
@@ -46,20 +50,15 @@
                 android:resource="@xml/path" />
         </provider>
 
-        <activity
-            android:name="cn.finalteam.rxgalleryfinal.ui.activity.MediaActivity"
-            android:exported="true"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait" />
         <activity android:name=".ui.ChangeUserInfoActivity" />
         <activity android:name=".ui.UserCenterActivity" />
         <activity android:name=".ui.FindPasswordActivity" />
         <activity android:name=".ui.RegisterActivity" />
         <activity android:name=".ui.LoginActivity" />
         <activity android:name=".WebActivity" />
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

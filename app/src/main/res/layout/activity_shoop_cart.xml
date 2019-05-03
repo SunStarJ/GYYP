@@ -29,6 +29,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/select_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
@@ -53,7 +54,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{data.isDelete ? @string/complete : @string/pay_for}"
+                android:text="@{data.isDelete ? @string/delete : @string/pay_for}"
                 android:onClick="@{()->data.goBuy()}"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"

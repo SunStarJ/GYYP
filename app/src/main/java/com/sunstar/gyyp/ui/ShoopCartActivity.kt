@@ -25,16 +25,17 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_artical_list.*
+import kotlinx.android.synthetic.main.activity_artical_list.data_view
+import kotlinx.android.synthetic.main.activity_shoop_cart.*
 import org.jetbrains.anko.info
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.reactivestreams.Subscription
 import java.util.concurrent.TimeUnit
 
 class ShoopCartActivity : BaseActivity(), ShopCartView {
-    override fun changeSelectAll() {
-
+    override fun showAllSelect(select: Boolean) {
+        select_all.isSelected = select
     }
-
     override fun goToOrederPayPage() {
 
     }
@@ -65,8 +66,16 @@ class ShoopCartActivity : BaseActivity(), ShopCartView {
             data_view.layoutManager = LinearLayoutManager(mContext)
             data_view.addItemDecoration(DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL))
             initConfig()
-        }
 
+        }
+        select_all.onClick {
+            select_all.isSelected = !select_all.isSelected
+            for(i in 0 until  vm!!.dataList.size){
+                var data = vm!!.dataList[i]
+                data.isSelect = select_all.isSelected
+                vm!!.dataList[i] = data
+            }
+        }
         vm?.getData()
     }
 

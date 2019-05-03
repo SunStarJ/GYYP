@@ -9,6 +9,7 @@
     <color name="color_red">#D72822</color>
     <color name="color_divider">#E0E0E0</color>
     <color name="color_transparent">#00000000</color>
+    <color name="color_org">#D54B28</color>
 
     <color name="alpha_05_white">#0DFFFFFF</color>
     <color name="alpha_10_white">#1AFFFFFF</color>

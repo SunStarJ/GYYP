@@ -28,7 +28,7 @@ class SearchPageActivity : BaseActivity() {
             super.onBackPressed()
         }
         search.onClick {
-            startActivity<GoodsListPageActivity>()
+            startActivity<GoodsListPageActivity>("keyWord" to key_word.text.toString())
         }
     }
 
@@ -41,16 +41,18 @@ class SearchPageActivity : BaseActivity() {
             }
 
             override fun success(it: Response<RootBean>) {
+                var datas = it.body().hotwords
                 hiddenLoading()
-                flow_layout.adapter = object:TagAdapter<String>(it.body().hotwords){
+                flow_layout.adapter = object:TagAdapter<String>(datas){
                     override fun getView(parent: FlowLayout?, position: Int, t: String?): View {
                         var v = View.inflate(mContext,R.layout.adapter_flow_layout_item,null)
-                        v.find<TextView>(R.id.flow_text).onClick {
-                            toast("热门点击")
-                        }
                         v.find<TextView>(R.id.flow_text).text = t
                         return v
                     }
+                }
+                flow_layout.setOnTagClickListener { view, position, parent ->
+                    startActivity<GoodsListPageActivity>("keyWord" to datas!![position])
+                    true
                 }
             }
 

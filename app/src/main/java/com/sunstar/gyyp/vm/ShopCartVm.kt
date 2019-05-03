@@ -46,9 +46,11 @@ class ShopCartVm(var mv: ShopCartView) : BaseObservable() {
     fun listrStatusChange() {
         var caluateMoney = 0.0
         var caluateCount = 0.0
+        var selectNum = 0
         for (data in dataList) {
             data.run {
                 if (isSelect) {
+                    selectNum +=1
                     var dataMoney = BigDecimalUtils.mul(data.price.toString(), data.num.toString(), 2)
                     caluateMoney = BigDecimalUtils.add(caluateMoney.toString(), dataMoney, 2).toDouble()
                     var dataCount = BigDecimalUtils.mul(data.points.toString(), data.num.toString(), 2)
@@ -56,12 +58,14 @@ class ShopCartVm(var mv: ShopCartView) : BaseObservable() {
                 }
             }
         }
+        isSelect = selectNum == dataList.size
+        mv.showAllSelect(isSelect)
         totalMoney.set(caluateMoney)
         totalCont.set(caluateCount)
     }
 
     fun goBuy() {
-        mv.showLoading("提交数据中，请稍后")
+
         if (isDelete.get()) {
             var deleteIds = ""
             for( data in dataList){
@@ -69,7 +73,12 @@ class ShopCartVm(var mv: ShopCartView) : BaseObservable() {
                     deleteIds+="${data.id},"
                 }
             }
-            deleteIds = deleteIds.substring(0,deleteIds.length-1)
+            if(deleteIds.isNotEmpty()) deleteIds = deleteIds.substring(0,deleteIds.length-1)
+            if(deleteIds == ""){
+                mv.showMsg("未选择要删除的商品")
+                return
+            }
+            mv.showLoading("提交数据中，请稍后")
             OkGo.post<RootBean>(Url.deleteshopcart)
                     .params("ids", deleteIds)
                     .execute(object : BaseCallBack() {
@@ -123,9 +132,6 @@ class ShopCartVm(var mv: ShopCartView) : BaseObservable() {
                 })
     }
 
-    fun delete(position: Int) {}
-    fun addNum(position: Int) {}
-    fun subNum(position: Int) {}
     fun numberChange(position: Int, type: Int) {
         mv.showLoading("提交数据中，请稍后")
         OkGo.post<RootBean>(Url.changeshopcartnum)

@@ -26,6 +26,7 @@ import com.sunstar.gyyp.base.SSBaseDataBindingAdapter
 import com.sunstar.gyyp.databinding.*
 import com.sunstar.gyyp.ui.ArticalListActivity
 import com.sunstar.gyyp.ui.GoodsInfoActivity
+import com.sunstar.gyyp.ui.GoodsListPageActivity
 import com.sunstar.gyyp.vm.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -58,7 +59,12 @@ class MainAdapter<T0 : ViewDataBinding>(var context: Context) : BaseMuiltAdapter
                             override fun onBindViewHolder(b: AdapterMainControlInnerAdapterBinding, position: Int) {
                                 b.data = t1.controlList[position]
                                 b.root.onClick {
-                                    mContext.toast(position.toString())
+                                    when(position){
+                                        0->{mContext.startActivity<GoodsListPageActivity>("hot" to 1)}
+                                        1->{mContext.startActivity<GoodsListPageActivity>("sec" to 1)}
+                                        2->{}
+                                        3->{}
+                                    }
                                 }
                             }
                         })
@@ -79,7 +85,7 @@ class MainAdapter<T0 : ViewDataBinding>(var context: Context) : BaseMuiltAdapter
                 view.adapter = MainHotmarketItemAdapter(mContext).initDataList((t1 as MainHotmarketVM).hotMarketList).initBindView(object : SSBaseDataBindingAdapter.BindView<AdapterMainHotmarktInnerBinding> {
                     override fun onBindViewHolder(b: AdapterMainHotmarktInnerBinding, position: Int) {
                         b.data = t1.hotMarketList[position]
-                        b.root.onClick { mContext.startActivity<GoodsInfoActivity>("id" to t1.hotMarketList[position].id.toString()) }
+                        b.root.onClick { mContext.startActivity<GoodsListPageActivity>("pageId" to t1.hotMarketList[position].id.toString()) }
                     }
                 })
                 view.layoutManager = GridLayoutManager(mContext, 2)

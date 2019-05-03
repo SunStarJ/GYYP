@@ -63,9 +63,9 @@ class VipCenterActivity : BaseActivity() {
                             startActivity<ChangeLoginPasswordActivity>()
                         }
                         2 -> {
-
+                            startActivity<MyCollectActivity>()
                         }
-                        4 -> {
+                        3 -> {
 
                         }
                     }
