@@ -24,7 +24,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
-        <activity android:name=".ui.PointChargeActivity"></activity>
+        <activity android:name=".ui.RecommendMainActivity"></activity>
+        <activity android:name=".ui.PointChargeActivity" />
         <activity android:name=".ui.MyCollectActivity" />
         <activity android:name=".ui.GoodsListPageActivity" />
         <activity

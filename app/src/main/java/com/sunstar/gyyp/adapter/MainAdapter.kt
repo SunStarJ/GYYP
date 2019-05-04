@@ -23,10 +23,9 @@ import android.widget.TextSwitcher
 import android.view.animation.AnimationUtils
 import android.view.animation.Animation
 import com.sunstar.gyyp.base.SSBaseDataBindingAdapter
+import com.sunstar.gyyp.data.PublicStaticData
 import com.sunstar.gyyp.databinding.*
-import com.sunstar.gyyp.ui.ArticalListActivity
-import com.sunstar.gyyp.ui.GoodsInfoActivity
-import com.sunstar.gyyp.ui.GoodsListPageActivity
+import com.sunstar.gyyp.ui.*
 import com.sunstar.gyyp.vm.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -59,11 +58,19 @@ class MainAdapter<T0 : ViewDataBinding>(var context: Context) : BaseMuiltAdapter
                             override fun onBindViewHolder(b: AdapterMainControlInnerAdapterBinding, position: Int) {
                                 b.data = t1.controlList[position]
                                 b.root.onClick {
-                                    when(position){
-                                        0->{mContext.startActivity<GoodsListPageActivity>("hot" to 1)}
-                                        1->{mContext.startActivity<GoodsListPageActivity>("sec" to 1)}
-                                        2->{}
-                                        3->{}
+                                    when (position) {
+                                        0 -> {
+                                            mContext.startActivity<GoodsListPageActivity>("hot" to 1)
+                                        }
+                                        1 -> {
+                                            mContext.startActivity<GoodsListPageActivity>("sec" to 1)
+                                        }
+                                        2 -> {
+                                        }
+                                        3 -> {
+                                            if (PublicStaticData.tooken == "") mContext.startActivity<LoginActivity>()
+                                            else mContext.startActivity<PointChargeActivity>()
+                                        }
                                     }
                                 }
                             }

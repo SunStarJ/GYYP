@@ -20,4 +20,7 @@
     <string name="pay_for">结算</string>
     <string name="complete">完成</string>
     <string name="delete">删除</string>
+    <string name="be_partner">成为合伙人</string>
+    <string name="recommend">推荐好友</string>
+
 </resources>
