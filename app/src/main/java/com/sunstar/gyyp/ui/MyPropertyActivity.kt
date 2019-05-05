@@ -15,6 +15,7 @@ import com.sunstar.gyyp.databinding.AdapterMainControlInnerAdapterBinding
 import kotlinx.android.synthetic.main.activity_my_property.*
 import kotlinx.android.synthetic.main.activity_order_info.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.startActivity
 
 class MyPropertyActivity : BaseActivity() {
     override fun appViewInitComplete() {
@@ -29,9 +30,13 @@ class MyPropertyActivity : BaseActivity() {
                 b.data = dataList[position]
                 b.root.onClick {
                     when(position){
-                        0->{}
+                        0->{
+                            startActivity<PointsHistoryActivity>()
+                        }
                         1->{}
-                        2->{}
+                        2->{
+                            startActivity<InvestPointsActivity>()
+                        }
                         3->{}
                     }
                 }

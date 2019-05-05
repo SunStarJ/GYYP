@@ -68,6 +68,9 @@ class VipCenterActivity : BaseActivity() {
                         3 -> {
 
                         }
+                        4 -> {
+                            startActivity<InvestPointsActivity>()
+                        }
                         5 -> {
                             startActivity<RecommendMainActivity>("userData" to vm!!.user)
                         }
