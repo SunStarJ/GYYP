@@ -24,7 +24,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
-        <activity android:name=".ui.RecommendMainActivity"></activity>
+        <activity android:name=".ui.InvestPointsActivity"></activity>
+        <activity android:name=".ui.MyPropertyActivity" />
+        <activity android:name=".ui.OrderInfoActivity" />
+        <activity android:name=".ui.RecommendMainActivity" />
         <activity android:name=".ui.PointChargeActivity" />
         <activity android:name=".ui.MyCollectActivity" />
         <activity android:name=".ui.GoodsListPageActivity" />

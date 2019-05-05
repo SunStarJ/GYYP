@@ -2,6 +2,8 @@ package com.sunstar.gyyp.vm
 
 import android.databinding.*
 import android.text.SpannableStringBuilder
+import android.view.View
+import com.google.gson.Gson
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
 import com.sunstar.gyyp.BigDecimalUtils
@@ -12,7 +14,9 @@ import com.sunstar.gyyp.base.BaseCallBack
 import com.sunstar.gyyp.base.Util
 import com.sunstar.gyyp.data.PreferenceItem
 import com.sunstar.gyyp.data.RootBean
+import com.sunstar.gyyp.ui.OrderInfoActivity
 import com.sunstar.gyyp.view.ShopCartView
+import org.jetbrains.anko.startActivity
 
 class ShopCartVm(var mv: ShopCartView) : BaseObservable() {
     var dataList = ObservableArrayList<PreferenceItem>()
@@ -64,7 +68,7 @@ class ShopCartVm(var mv: ShopCartView) : BaseObservable() {
         totalCont.set(caluateCount)
     }
 
-    fun goBuy() {
+    fun goBuy(view: View) {
 
         if (isDelete.get()) {
             var deleteIds = ""
@@ -75,7 +79,7 @@ class ShopCartVm(var mv: ShopCartView) : BaseObservable() {
             }
             if(deleteIds.isNotEmpty()) deleteIds = deleteIds.substring(0,deleteIds.length-1)
             if(deleteIds == ""){
-                mv.showMsg("未选择要删除的商品")
+                mv.showMsg("未选择商品")
                 return
             }
             mv.showLoading("提交数据中，请稍后")
@@ -101,7 +105,36 @@ class ShopCartVm(var mv: ShopCartView) : BaseObservable() {
                         }
                     })
         } else {
+            var selectList = ObservableArrayList<CommitData>()
+            for( data in dataList){
+                if(data.isSelect){
+                    selectList.add(CommitData(data.id,data.num))
+                }
+            }
+            if(selectList.size == 0){
+                mv.showMsg("未选择商品")
+                return
+            }
+            mv.showLoading("提交数据中，请稍后")
+            OkGo.post<RootBean>(Url.booking)
+                    .params("orderinfo",Gson().toJson(selectList))
+                    .execute(object:BaseCallBack(){
+                        override fun dataError(data: RootBean) {
+                            mv.hiddenLoading()
+                            mv.showMsg(data.msg)
+                        }
 
+                        override fun success(it: Response<RootBean>) {
+
+                        }
+
+                        override fun dataNull() {
+
+                        }
+                    })
+
+
+//            view.context.startActivity<OrderInfoActivity>("dataList" to Gson().toJson(selectList))
         }
     }
 
@@ -166,4 +199,15 @@ class ShopCartVm(var mv: ShopCartView) : BaseObservable() {
                     }
                 })
     }
+
+    class CommitData {
+        var shopcartid:Int = 0
+        var count:Int = 0
+
+        constructor(shopcartid: Int, count: Int) {
+            this.shopcartid = shopcartid
+            this.count = count
+        }
+    }
+
 }

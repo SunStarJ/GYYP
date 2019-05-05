@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="data"
+            type="com.sunstar.gyyp.vm.RecommendVm" />
     </data>
 
     <android.support.v4.widget.NestedScrollView
@@ -41,7 +44,7 @@
                             android:id="@+id/avater"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            app:avater="@{userData.user.headpic}"
+                            app:avater="@{data.userImg}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -51,7 +54,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:paddingTop="10dp"
-                            android:text="@{userData.user.nickname}"
+                            android:text="@{data.userName}"
                             android:textColor="@color/colorWhite"
                             android:textSize="16sp"
                             android:textStyle="bold"
@@ -63,7 +66,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:paddingBottom="10dp"
-                            android:text="@{userData.user.u_annex}"
+                            android:text="@{data.userPhone}"
                             android:textColor="@color/colorWhite"
                             app:layout_constraintBottom_toBottomOf="@+id/avater"
                             app:layout_constraintLeft_toRightOf="@+id/avater" />
@@ -80,12 +83,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="@{data.recommpoin}" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="@{data.recommcount}" />
             </LinearLayout>
 
             <TextView
@@ -112,19 +117,33 @@
                     android:layout_height="wrap_content"
                     android:text="暂无推荐人" />
 
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp" />
-
-                <TextView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1" />
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="50dp"
+                        app:avater="@{data.recommendData.recommer.headpic}"
+                        android:layout_height="50dp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="10dp"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{data.recommendData.recommer.name}"
+                            android:layout_weight="1" />
+                        <TextView
+                            android:layout_marginTop="10dp"
+                            android:layout_width="wrap_content"
+                            android:text="@{data.recommendData.recommer.time}"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+
+                </LinearLayout>
             </LinearLayout>
 
             <TextView
@@ -153,34 +172,38 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
+
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_red"
-                android:textColor="@color/white"
                 android:layout_margin="10dp"
-                android:text="@string/be_partner"/>
+                android:background="@color/color_red"
+                android:text="@string/be_partner"
+                android:textColor="@color/white" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
-                android:textSize="12sp"
                 android:gravity="center"
-                android:text="您还不是合伙人,不具备推荐好友的资格，赶快申请加入我们吧"/>
+                android:text="您还不是合伙人,不具备推荐好友的资格，赶快申请加入我们吧"
+                android:textSize="12sp" />
+
             <TextView
                 android:layout_width="match_parent"
-                android:text="活动规则"
+                android:layout_height="wrap_content"
                 android:padding="10dp"
+                android:text="活动规则"
                 android:textColor="@color/color_text_black"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_height="wrap_content" />
+                android:textStyle="bold" />
+
             <WebView
                 android:id="@+id/rules_web"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </layout>

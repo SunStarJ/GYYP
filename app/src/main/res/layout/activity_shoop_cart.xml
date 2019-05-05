@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{data.isDelete ? @string/delete : @string/pay_for}"
-                android:onClick="@{()->data.goBuy()}"
+                android:onClick="@{(view)->data.goBuy(view)}"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:paddingLeft="30dp"

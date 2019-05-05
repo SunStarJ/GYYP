@@ -8,4 +8,5 @@ interface GoodsInfoView : BaseView {
     fun showBuyDialog(type:Int)
     fun showPrice()
     fun hideBottom()
+    fun buyNow()
 }

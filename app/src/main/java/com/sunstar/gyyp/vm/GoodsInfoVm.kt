@@ -5,7 +5,6 @@ import android.databinding.ObservableField
 import android.text.SpannableStringBuilder
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
-import com.sunstar.gyyp.BR
 import com.sunstar.gyyp.ProjectApplication
 import com.sunstar.gyyp.R
 import com.sunstar.gyyp.Url
@@ -92,11 +91,15 @@ class GoodsInfoVm(var mv: GoodsInfoView) : BaseObservable() {
     }
 
     fun addCart() {
+        buyInCart(0)
+    }
+
+    private fun buyInCart(type:Int) {
         mv.showLoading("提交数据中，请稍后")
         OkGo.post<RootBean>(Url.addshopcart)
-                .params("num",showNum)
-                .params("productid",data?.id)
-                .execute(object:BaseCallBack(){
+                .params("num", showNum)
+                .params("productid", data?.id)
+                .execute(object : BaseCallBack() {
                     override fun dataError(data: RootBean) {
                         mv.hiddenLoading()
                         mv.showMsg(data.msg)
@@ -108,6 +111,9 @@ class GoodsInfoVm(var mv: GoodsInfoView) : BaseObservable() {
                         showNum = 1.toString()
                         mv.hideBottom()
                         mv.showPrice()
+                        if(type == 1){
+                            mv.buyNow()
+                        }
                     }
 
                     override fun dataNull() {
@@ -115,8 +121,9 @@ class GoodsInfoVm(var mv: GoodsInfoView) : BaseObservable() {
                     }
                 })
     }
-    fun buyNow(){
 
+    fun buyNow(){
+        buyInCart(1)
     }
 
 }

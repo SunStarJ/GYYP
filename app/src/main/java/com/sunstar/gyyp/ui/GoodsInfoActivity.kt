@@ -27,6 +27,10 @@ import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 class GoodsInfoActivity : BaseActivity(), GoodsInfoView {
+    override fun buyNow() {
+        startActivity<ShoopCartActivity>()
+    }
+
     override fun hideBottom() {
         dialog?.dismiss()
     }

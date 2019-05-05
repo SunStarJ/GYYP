@@ -35,7 +35,7 @@ import org.jetbrains.anko.startActivity
 class VipCenterActivity : BaseActivity() {
     var vm : UserVm<BaseView>?=null
     var controlList = mutableListOf<ControlData>()
-    var secondControlList = mutableListOf<String>("我的资产", "我的订单", "我的收藏", "积分兑换", "积分充值","我的推荐")
+    var secondControlList = mutableListOf<String>("我的资产", "我的订单", "我的收藏", "积分兑换", "积分充值")
     override fun appViewInitComplete() {
         vm?.getUserData()
         controlList.add(ControlData("待付款",R.mipmap.daifukuan))
@@ -57,7 +57,7 @@ class VipCenterActivity : BaseActivity() {
                 b.root.onClick {
                     when (position) {
                         0 -> {
-                            startActivity<ChangeUserInfoActivity>()
+                            startActivity<MyPropertyActivity>("accumulatepoint" to vm?.user?.accumulatepoint)
                         }
                         1 -> {
                             startActivity<ChangeLoginPasswordActivity>()
@@ -67,6 +67,9 @@ class VipCenterActivity : BaseActivity() {
                         }
                         3 -> {
 
+                        }
+                        5 -> {
+                            startActivity<RecommendMainActivity>("userData" to vm!!.user)
                         }
                     }
                 }

@@ -1,11 +1,15 @@
 package com.sunstar.gyyp.data
 
+import java.io.Serializable
+
 data class RootBean(var msg: String = "",
                     var searchlog: MutableList<String>?,
                     var code: Int = 0,
+                    var recommcount: Int = 0,
                     var pic: String = "",
                     var id: String = "",
                     var pic1: String = "",
+                    var recommpoin: String = "",
                     var pic2: String = "",
                     var preference: MutableList<PreferenceItem>?,
                     var catagories: MutableList<CatagoryBean>?,
@@ -36,6 +40,7 @@ data class RootBean(var msg: String = "",
                     var points:Double = 0.0,
                     var countrypic:String = "",
                     var countryname:String = "",
+                    var recommer:recommerBean?,
                     var addresslist:MutableList<AddressListItem>?,
                     var pics:MutableList<String>?,
-                    var realname: String = "")
+                    var realname: String = ""):Serializable
