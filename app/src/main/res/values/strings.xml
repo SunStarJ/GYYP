@@ -23,5 +23,7 @@
     <string name="be_partner">成为合伙人</string>
     <string name="recommend">推荐好友</string>
     <string name="number">数量：</string>
+    <string name="total_name">合计：</string>
+    <string name="order_date">下单时间：</string>
 
 </resources>

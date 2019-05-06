@@ -46,10 +46,15 @@ class VipCenterActivity : BaseActivity() {
                 .initBindView(object:SSBaseDataBindingAdapter.BindView<AdapterMainControlInnerAdapterBinding> {
                     override fun onBindViewHolder(b: AdapterMainControlInnerAdapterBinding, position: Int) {
                         b.data = controlList[position]
+                        b.root.onClick {
+                            startActivity<OrderListDataActivity>("pageInde" to position+1)
+                        }
                     }
                 })
         control_view.layoutManager = GridLayoutManager(mContext,4)
-
+        check_order.onClick {
+            startActivity<OrderListDataActivity>()
+        }
 
         var secondAdapter = UserCenterAdapter(mContext).initDataList(secondControlList).initBindView(object : SSBaseDataBindingAdapter.BindView<AdapterSingletextViewBinding> {
             override fun onBindViewHolder(b: AdapterSingletextViewBinding, position: Int) {
@@ -60,7 +65,7 @@ class VipCenterActivity : BaseActivity() {
                             startActivity<MyPropertyActivity>("accumulatepoint" to vm?.user?.accumulatepoint,"leftpoints" to vm?.user?.leftpoint)
                         }
                         1 -> {
-                            startActivity<ChangeLoginPasswordActivity>()
+                            startActivity<OrderListDataActivity>()
                         }
                         2 -> {
                             startActivity<MyCollectActivity>()

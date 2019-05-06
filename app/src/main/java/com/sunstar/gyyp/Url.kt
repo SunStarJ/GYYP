@@ -32,5 +32,6 @@ object Url {
     val booking = "${BASE_URL}api/order/booking"
     val pointwithdraw = "${BASE_URL}api/user/pointwithdraw"
     val getmyfinancelog = "${BASE_URL}api/user/getmyfinancelog"
+    val getorders = "${BASE_URL}api/order/getorders"
     val baseUrl:String get() =  BASE_URL
 }
