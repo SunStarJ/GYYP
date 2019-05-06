@@ -111,7 +111,7 @@ class MainActivity : BaseActivity() {
         }
         mine_center.onClick {
             if(PublicStaticData.tooken == ""){
-                startActivity<LoginActivity>()
+                startActivity<LoginActivity>("type" to 1)
             }else{
                 startActivity<VipCenterActivity>()
             }

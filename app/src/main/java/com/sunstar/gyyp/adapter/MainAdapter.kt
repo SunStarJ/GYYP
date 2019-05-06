@@ -68,7 +68,7 @@ class MainAdapter<T0 : ViewDataBinding>(var context: Context) : BaseMuiltAdapter
                                         2 -> {
                                         }
                                         3 -> {
-                                            if (PublicStaticData.tooken == "") mContext.startActivity<LoginActivity>()
+                                            if (PublicStaticData.tooken == "") mContext.startActivity<LoginActivity>("type" to 1)
                                             else mContext.startActivity<PointChargeActivity>()
                                         }
                                     }

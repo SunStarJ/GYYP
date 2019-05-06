@@ -22,6 +22,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 dependencies {
@@ -58,4 +63,7 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5'
     implementation 'com.hyman:flowlayout-lib:1.1.2'
     implementation 'com.github.razerdp:BasePopup:2.1.9'
+    implementation(name: 'alipaySdk-15.6.2-20190416165100-noUtdid', ext: 'aar')
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+    implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
 }

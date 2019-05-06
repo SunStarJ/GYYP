@@ -19,10 +19,15 @@ import org.jetbrains.anko.startActivity
 
 class LoginActivity : BaseActivity(),LoginView {
     override fun loginSuccess() {
-        var intent = Intent(mContext,MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        startActivity(intent)
-        finish()
+        if(intent.getIntExtra("type",0) == 1){
+            var intent = Intent(mContext,MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+            finish()
+        }else{
+            finish()
+        }
+
     }
 
     override fun loginError(msg:String) {

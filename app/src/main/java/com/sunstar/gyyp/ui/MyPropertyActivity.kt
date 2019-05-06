@@ -33,7 +33,9 @@ class MyPropertyActivity : BaseActivity() {
                         0->{
                             startActivity<PointsHistoryActivity>()
                         }
-                        1->{}
+                        1->{
+                            startActivity<GetCashWayActivity>("leftpoint" to intent.getStringExtra("leftpoints"))
+                        }
                         2->{
                             startActivity<InvestPointsActivity>()
                         }

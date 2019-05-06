@@ -57,7 +57,7 @@ class VipCenterActivity : BaseActivity() {
                 b.root.onClick {
                     when (position) {
                         0 -> {
-                            startActivity<MyPropertyActivity>("accumulatepoint" to vm?.user?.accumulatepoint)
+                            startActivity<MyPropertyActivity>("accumulatepoint" to vm?.user?.accumulatepoint,"leftpoints" to vm?.user?.leftpoint)
                         }
                         1 -> {
                             startActivity<ChangeLoginPasswordActivity>()
@@ -66,7 +66,7 @@ class VipCenterActivity : BaseActivity() {
                             startActivity<MyCollectActivity>()
                         }
                         3 -> {
-
+                            startActivity<GetCashWayActivity>("leftpoint" to vm?.user?.leftpoint)
                         }
                         4 -> {
                             startActivity<InvestPointsActivity>()
