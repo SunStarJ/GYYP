@@ -25,5 +25,11 @@
     <string name="number">数量：</string>
     <string name="total_name">合计：</string>
     <string name="order_date">下单时间：</string>
+    <string name="ship_fee">运费：</string>
+    <string name="wait_pay">待付款</string>
+    <string name="wait_send">待发货</string>
+    <string name="wait_receive">待收货</string>
+    <string name="order_complete">已完成</string>
+    <string name="x">×</string>
 
 </resources>

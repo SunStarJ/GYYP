@@ -15,6 +15,7 @@ import com.sunstar.gyyp.Url
 import com.sunstar.gyyp.base.BaseActivity
 import com.sunstar.gyyp.base.GlideImageLoader
 import com.sunstar.gyyp.base.GlideImageStringPathLoader
+import com.sunstar.gyyp.data.PublicStaticData
 import com.sunstar.gyyp.databinding.ActivityGoodsInfoBinding
 import com.sunstar.gyyp.view.GoodsInfoView
 import com.sunstar.gyyp.vm.GoodsInfoVm
@@ -108,7 +109,7 @@ class GoodsInfoActivity : BaseActivity(), GoodsInfoView {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if(item?.itemId == R.id.cart){
-            startActivity<ShoopCartActivity>()
+         if(PublicStaticData.tooken == "") startActivity<LoginActivity>()  else  startActivity<ShoopCartActivity>()
         }
         return true
     }

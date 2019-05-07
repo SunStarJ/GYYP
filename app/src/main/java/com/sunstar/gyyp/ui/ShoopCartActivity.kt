@@ -16,6 +16,7 @@ import com.sunstar.gyyp.adapter.ShopingCartAdapter
 import com.sunstar.gyyp.base.BaseActivity
 import com.sunstar.gyyp.base.SSBaseDataBindingAdapter
 import com.sunstar.gyyp.data.PreferenceItem
+import com.sunstar.gyyp.data.RootBean
 import com.sunstar.gyyp.databinding.ActivityShoopCartBinding
 import com.sunstar.gyyp.databinding.AdapterShopCartBinding
 import com.sunstar.gyyp.view.ShopCartView
@@ -27,8 +28,12 @@ import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_artical_list.*
 import kotlinx.android.synthetic.main.activity_artical_list.data_view
 import kotlinx.android.synthetic.main.activity_shoop_cart.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.info
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.startActivity
 import org.reactivestreams.Subscription
 import java.util.concurrent.TimeUnit
 
@@ -36,8 +41,8 @@ class ShoopCartActivity : BaseActivity(), ShopCartView {
     override fun showAllSelect(select: Boolean) {
         select_all.isSelected = select
     }
-    override fun goToOrederPayPage() {
-
+    override fun goToOrederPayPage(data: RootBean) {
+        startActivity<OrderInfoActivity>("data" to data)
     }
 
     var adapter: ShopingCartAdapter? = null
@@ -113,6 +118,23 @@ class ShoopCartActivity : BaseActivity(), ShopCartView {
         vm = ShopCartVm(this)
         binding.data = vm
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(msg:String){
+        if(msg == "order_commit_complete"){
+            vm?.getData()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
     }
 
 }

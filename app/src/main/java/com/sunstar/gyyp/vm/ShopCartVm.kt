@@ -125,7 +125,8 @@ class ShopCartVm(var mv: ShopCartView) : BaseObservable() {
                         }
 
                         override fun success(it: Response<RootBean>) {
-
+                            mv.hiddenLoading()
+                            mv.goToOrederPayPage(it.body())
                         }
 
                         override fun dataNull() {

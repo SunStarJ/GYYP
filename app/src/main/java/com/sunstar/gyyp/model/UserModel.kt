@@ -108,7 +108,7 @@ class UserModel : AnkoLogger {
     }
 
     fun findPassword(userName: String, password: String, checkCode: String, netDataListener: DataListener.NetDataListener<Boolean>) {
-        TODO("找回密码逻辑暂无")
+
     }
 
     fun saveUserData(nickname: String, realname: String, gender: Int, birth: String, imagePath: String, netDataListener: DataListener.NetDataListener<Boolean>) {

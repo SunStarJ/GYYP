@@ -15,16 +15,23 @@ import com.sunstar.gyyp.base.BaseActivity
 import com.sunstar.gyyp.base.BaseMuiltAdapter
 import com.sunstar.gyyp.base.SSBaseDataBindingAdapter
 import com.sunstar.gyyp.data.PreferenceItem
+import com.sunstar.gyyp.data.RootBean
 import com.sunstar.gyyp.databinding.ActivityOrderInfoBinding
 import com.sunstar.gyyp.databinding.AdapterOrderInfoGoodsBinding
+import com.sunstar.gyyp.view.OrderView
 import com.sunstar.gyyp.vm.OrderVm
 import kotlinx.android.synthetic.main.activity_order_info.*
 
-class OrderInfoActivity : BaseActivity() {
-    var vm = OrderVm()
+class OrderInfoActivity : BaseActivity(),OrderView {
+    override fun commitComplete() {
+        finish()
+    }
+
+    var vm = OrderVm(this)
     var adapter:OrderInfoGoodsAdapter?=null
     override fun appViewInitComplete() {
-        vm.initList(Gson().fromJson<Array<PreferenceItem>>(intent.getStringExtra("dataList"), Array<PreferenceItem>::class.java).toMutableList())
+        vm.initData(intent.getSerializableExtra("data") as RootBean)
+//        vm.initList(Gson().fromJson<Array<PreferenceItem>>(intent.getStringExtra("dataList"), Array<PreferenceItem>::class.java).toMutableList())
         adapter = OrderInfoGoodsAdapter(mContext).initDataList(vm?.dataList).initBindView(object:SSBaseDataBindingAdapter.BindView<AdapterOrderInfoGoodsBinding>{
             override fun onBindViewHolder(b: AdapterOrderInfoGoodsBinding, position: Int) {
                 b.data = vm.dataList[position]

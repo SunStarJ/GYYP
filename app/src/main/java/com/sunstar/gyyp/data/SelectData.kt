@@ -1,5 +1,7 @@
 package com.sunstar.gyyp.data
 
-open class SelectData {
+import java.io.Serializable
+
+open class SelectData : Serializable {
     var isSelect = false
 }

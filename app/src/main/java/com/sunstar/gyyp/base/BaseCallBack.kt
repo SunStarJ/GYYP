@@ -1,10 +1,13 @@
 package com.sunstar.gyyp.base
 
+import android.content.Intent
 import com.lzy.okgo.model.Response
 import com.lzy.okgo.request.base.Request
 import com.sunstar.gyyp.ProjectApplication
 import com.sunstar.gyyp.data.PublicStaticData
 import com.sunstar.gyyp.data.RootBean
+import com.sunstar.gyyp.ui.LoginActivity
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 abstract class BaseCallBack : JsonCallBack<RootBean>(RootBean::class.java) {
@@ -19,6 +22,7 @@ abstract class BaseCallBack : JsonCallBack<RootBean>(RootBean::class.java) {
             if(it.body() == null){
                 dataNull()
             }else if(it.body().code == -1){
+                dataError(it.body())
                 relogin()
             }else if(it.body().code == 0){
                 success(it)
@@ -33,7 +37,10 @@ abstract class BaseCallBack : JsonCallBack<RootBean>(RootBean::class.java) {
     abstract fun success(it: Response<RootBean>)
 
     private fun relogin() {
-
+        var intent = Intent(ProjectApplication.instance.applicationContext,LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        intent.putExtra("type",1)
+        ProjectApplication.instance.applicationContext.startActivity(intent)
     }
 
     abstract fun dataNull()

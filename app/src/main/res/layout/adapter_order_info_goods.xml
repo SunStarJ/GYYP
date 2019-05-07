@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toRightOf="@+id/img"
             android:layout_marginLeft="10dp"
-            android:text="@{@string/countname+data.points}"
+            android:text="@{@string/countname+data.pricepoint}"
             app:layout_constraintTop_toBottomOf="@id/title"
             app:layout_constraintBottom_toTopOf="@id/price"
             />
@@ -55,7 +55,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{@string/number+data.num}"
+            android:text="@{@string/number+data.count}"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
     </android.support.constraint.ConstraintLayout>
