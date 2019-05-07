@@ -38,7 +38,7 @@ class LocationVm(var mv: BaseView) : BaseObservable() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(data: AddressListItem) {
         var isHase = false
-        var setDeauflt  = addressList.size == 0
+        var setDeauflt = addressList.size == 0
         for (i in 0 until addressList.size) {
             if (addressList[i].id == data.id) {
                 isHase = true
@@ -99,7 +99,7 @@ class LocationVm(var mv: BaseView) : BaseObservable() {
                     override fun success(it: Response<RootBean>) {
                         mv.hiddenLoading()
                         (mv as EditLocationView).saveComplete()
-                        EventBus.getDefault().post(AddressListItem(area = area, id = locationId, name = receiverName,
+                        EventBus.getDefault().post(AddressListItem(area = area, id = if (locationId == "") it.body().id else locationId, name = receiverName,
                                 phone = receiverPhone, addressdetail = addressdetail
                                 , city = city, province = province, isdefault = 0))
                     }

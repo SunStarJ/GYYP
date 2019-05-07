@@ -22,8 +22,10 @@ import com.sunstar.gyyp.data.OrderBean
 import com.sunstar.gyyp.data.RootBean
 import com.sunstar.gyyp.databinding.AdapterOrderChildItemBinding
 import com.sunstar.gyyp.databinding.AdapterOrderFatherItemBinding
+import com.sunstar.gyyp.ui.CheckOrderInfoActivity
 import kotlinx.android.synthetic.main.refresh_layout.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
 
 class OrderListBaseFragment:LazyFragment() {
@@ -75,11 +77,17 @@ class OrderListBaseFragment:LazyFragment() {
                             }
 
                         }
+                        b.root.onClick {
+                            startActivity<CheckOrderInfoActivity>("orderId" to dataList[position].id.toString())
+                        }
                         b.mainText.onClick {  }
                         var adapter = OrderListChildAdapter(mContext = activity as Context).initDataList(dataList[position].details)
                                 .initBindView(object:SSBaseDataBindingAdapter.BindView<AdapterOrderChildItemBinding>{
                                     override fun onBindViewHolder(b: AdapterOrderChildItemBinding, p2: Int) {
                                         b.data = dataList[position].details[p2]
+                                        b.root.onClick {
+                                            startActivity<CheckOrderInfoActivity>("orderId" to dataList[position].id.toString())
+                                        }
                                     }
                                 })
                         b.innerDataView.adapter = adapter

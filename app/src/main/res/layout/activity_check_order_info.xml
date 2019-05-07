@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-
+        <variable
+            name="data"
+            type="com.sunstar.gyyp.vm.CheckOrderVm" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,19 +21,92 @@
                 android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{data.showSatate}"
+                    android:padding="10dp"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@drawable/divider_bg"/>
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
+                    android:padding="10dp"
                     android:layout_height="wrap_content">
-
+                    <TextView
+                        android:layout_width="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:textSize="16sp"
+                        android:text="@{data.orderData.addressee}"
+                        android:textColor="@color/color_text_black"
+                        android:id="@+id/name_text"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{data.orderData.liaisonphone}"
+                        app:layout_constraintTop_toTopOf="@id/name_text"
+                        android:layout_marginRight="10dp"
+                        android:textColor="@color/color_red"
+                        app:layout_constraintBottom_toBottomOf="@id/name_text"
+                        app:layout_constraintRight_toRightOf="parent"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        app:layout_constraintTop_toBottomOf="@id/name_text"
+                        android:text="@{data.orderData.address}"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"/>
                 </android.support.constraint.ConstraintLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@drawable/divider_bg"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textColor="@color/color_text_black"
+                    android:textSize="16sp"
+                    android:text="商品详情"/>
                 <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@drawable/divider_bg"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="10dp"
                     android:orientation="vertical">
-
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:textSize="12sp"
+                        android:text="@{data.showShipNo}"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_marginTop="3dp"
+                        android:text="@{data.createTime}"
+                        android:layout_width="wrap_content"
+                        android:textSize="12sp"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_marginTop="3dp"
+                        android:textSize="12sp"
+                        android:text="@{data.shipWay}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_marginTop="3dp"
+                        android:textSize="12sp"
+                        android:text="@{data.remark}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
