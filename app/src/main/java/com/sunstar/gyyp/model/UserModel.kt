@@ -108,7 +108,23 @@ class UserModel : AnkoLogger {
     }
 
     fun findPassword(userName: String, password: String, checkCode: String, netDataListener: DataListener.NetDataListener<Boolean>) {
+        OkGo.post<RootBean>(Url.resetloginpwd)
+                .params("phonenum",userName)
+                .params("newpwd",password)
+                .params("smsvalidcode",checkCode)
+                .execute(object:BaseCallBack(){
+                    override fun dataError(data: RootBean) {
+                        netDataListener.error(data.msg)
+                    }
 
+                    override fun success(it: Response<RootBean>) {
+                        netDataListener.success(true)
+                    }
+
+                    override fun dataNull() {
+
+                    }
+                })
     }
 
     fun saveUserData(nickname: String, realname: String, gender: Int, birth: String, imagePath: String, netDataListener: DataListener.NetDataListener<Boolean>) {

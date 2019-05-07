@@ -12,10 +12,12 @@ import com.sunstar.gyyp.databinding.ActivityFindPasswordBinding
 import com.sunstar.gyyp.model.UserModel
 import com.sunstar.gyyp.view.FindPasswordView
 import com.sunstar.gyyp.vm.UserVm
+import org.jetbrains.anko.toast
 
 class FindPasswordActivity : BaseActivity(),FindPasswordView {
     override fun findPasswordComplete() {
-
+        toast("修改成功")
+        finish()
     }
 
     var binding : ActivityFindPasswordBinding?=null

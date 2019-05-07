@@ -35,5 +35,6 @@ object Url {
     val getorders = "${BASE_URL}api/order/getorders"
     val cancelorder = "${BASE_URL}api/order/cancelorder"
     val deleteorder = "${BASE_URL}api/order/deleteorder"
+    val resetloginpwd = "${BASE_URL}api/user/resetloginpwd"
     val baseUrl:String get() =  BASE_URL
 }

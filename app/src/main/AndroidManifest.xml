@@ -24,7 +24,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
-        <activity android:name=".ui.OrderListDataActivity"></activity>
+        <activity android:name=".ui.CheckOrderInfoActivity"></activity>
+        <activity android:name=".ui.OrderListDataActivity" />
         <activity android:name=".ui.GetCashWayActivity" />
         <activity android:name=".ui.GetMoneyActivity" />
         <activity android:name=".ui.PointsHistoryActivity" />
