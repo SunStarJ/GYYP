@@ -2,135 +2,168 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="data"
             type="com.sunstar.gyyp.vm.CheckOrderVm" />
+
+        <import type="android.view.View" />
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context=".ui.CheckOrderInfoActivity">
+
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/colorWhite"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:background="@color/colorWhite">
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{data.showSatate}"
-                    android:padding="10dp"/>
+                    android:padding="10dp"
+                    android:text="@{data.showSatate}" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="10dp"
-                    android:background="@drawable/divider_bg"/>
+                    android:background="@drawable/divider_bg" />
+
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:padding="10dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
                     <TextView
+                        android:id="@+id/name_text"
                         android:layout_width="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:textSize="16sp"
+                        android:layout_height="wrap_content"
                         android:text="@{data.orderData.addressee}"
                         android:textColor="@color/color_text_black"
-                        android:id="@+id/name_text"
+                        android:textSize="16sp"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        android:layout_height="wrap_content" />
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{data.orderData.liaisonphone}"
-                        app:layout_constraintTop_toTopOf="@id/name_text"
                         android:layout_marginRight="10dp"
+                        android:text="@{data.orderData.liaisonphone}"
                         android:textColor="@color/color_red"
                         app:layout_constraintBottom_toBottomOf="@id/name_text"
-                        app:layout_constraintRight_toRightOf="parent"/>
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/name_text" />
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        app:layout_constraintTop_toBottomOf="@id/name_text"
                         android:text="@{data.orderData.address}"
+                        app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"/>
+                        app:layout_constraintTop_toBottomOf="@id/name_text" />
                 </android.support.constraint.ConstraintLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="10dp"
-                    android:background="@drawable/divider_bg"/>
+                    android:background="@drawable/divider_bg" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
+                    android:text="商品详情"
                     android:textColor="@color/color_text_black"
-                    android:textSize="16sp"
-                    android:text="商品详情"/>
+                    android:textSize="16sp" />
+
                 <android.support.v7.widget.RecyclerView
+                    android:id="@+id/data_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="10dp"
-                    android:background="@drawable/divider_bg"/>
+                    android:background="@drawable/divider_bg" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
                     <TextView
                         android:layout_width="wrap_content"
-                        android:textSize="12sp"
+                        android:layout_height="wrap_content"
                         android:text="@{data.showShipNo}"
-                        android:layout_height="wrap_content" />
+                        android:textSize="12sp" />
+
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
                         android:text="@{data.createTime}"
-                        android:layout_width="wrap_content"
-                        android:textSize="12sp"
-                        android:layout_height="wrap_content" />
+                        android:textSize="12sp" />
+
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
-                        android:textSize="12sp"
                         android:text="@{data.shipWay}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:textSize="12sp" />
+
                     <TextView
-                        android:layout_marginTop="3dp"
-                        android:textSize="12sp"
-                        android:text="@{data.remark}"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="@{data.remark}"
+                        android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@drawable/divider_bg"/>
+            android:background="@drawable/divider_bg" />
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:background="@drawable/divider_bg"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/divider_bg">
+
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:padding="12dp"
-                android:gravity="center"/>
+                android:onClick="@{()->data.secondClick()}"
+                android:text="@{data.orderData.candelete == 1 ? @string/delete_order : data.orderData.cancancel == 1 ? @string/cancle_order : @string/space}"
+                android:visibility="@{data.orderData.cancancel == 1 || data.orderData.candelete == 1 ? View.GONE:View.VISIBLE}" />
+
             <TextView
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/color_red"
-                android:layout_height="wrap_content"
+                android:gravity="center"
                 android:padding="12dp"
-                android:gravity="center"/>
+                android:onClick="@{(view)->data.mainClick(view)}"
+                android:text="@{data.orderData.state == 0 ? @string/pay_order : @string/receive_order}"
+                android:visibility="@{data.orderData.state == 0 || data.orderData.canmakesure == 1 ? View.GONE:View.VISIBLE}" />
         </LinearLayout>
     </LinearLayout>
 </layout>

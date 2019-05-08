@@ -26,6 +26,7 @@ class OrderListDataActivity : BaseActivity() {
         var pagerAdapter = VpBodyAdapter(titelList,fragmentList,supportFragmentManager)
         vp_body.adapter = pagerAdapter
         title_tab.setupWithViewPager(vp_body)
+        vp_body.offscreenPageLimit = fragmentList.size
         vp_body.currentItem = pageIndex
     }
     override fun initHeadModel(): HeadVm = HeadVm("我的订单",true,R.mipmap.back)

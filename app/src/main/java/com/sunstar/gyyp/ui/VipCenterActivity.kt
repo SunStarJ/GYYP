@@ -28,6 +28,9 @@ import com.sunstar.gyyp.databinding.AdapterSingletextViewBinding
 import com.sunstar.gyyp.vm.UserVm
 import kotlinx.android.synthetic.main.activity_user_center.*
 import kotlinx.android.synthetic.main.activity_vip_center.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
@@ -90,6 +93,26 @@ class VipCenterActivity : BaseActivity() {
             startActivity<UserCenterActivity>()
         }
     }
+
+    @Subscribe(threadMode =  ThreadMode.MAIN)
+    fun onMessageEvent(msg:String){
+        if(msg == "getmoney_complete"){
+            vm?.getUserData()
+        }
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this)
+    }
+
 
     override fun initHeadModel(): HeadVm  = HeadVm("会员中心",true,R.mipmap.back)
 

@@ -17,7 +17,7 @@ data class RootBeanX(
         val paycode: String,
         val paytime: String,
         val postage: String,
-        val products: List<Product>,
+        val products: MutableList<Product>,
         val sendway: String,
         val state: Int,
         val trace: String,

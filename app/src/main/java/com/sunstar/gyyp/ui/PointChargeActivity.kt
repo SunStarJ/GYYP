@@ -36,6 +36,8 @@ class PointChargeActivity : BaseActivity() {
                     override fun success(it: Response<RootBean>) {
                         hiddenLoading()
                         toast(it.body().msg)
+                        key.setText("")
+                        password.setText("")
                     }
 
                     override fun dataNull() {

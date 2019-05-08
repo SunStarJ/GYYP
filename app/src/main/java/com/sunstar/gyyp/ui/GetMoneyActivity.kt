@@ -12,6 +12,7 @@ import com.sunstar.gyyp.base.BaseActivity
 import com.sunstar.gyyp.base.BaseCallBack
 import com.sunstar.gyyp.data.RootBean
 import kotlinx.android.synthetic.main.activity_get_money.*
+import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
 class GetMoneyActivity : BaseActivity() {
@@ -44,6 +45,9 @@ class GetMoneyActivity : BaseActivity() {
     private fun commmitData() {
         OkGo.post<RootBean>(Url.pointwithdraw)
                 .params("point", point_input.text.toString())
+                .params("bankno", intent.getStringExtra("bankNo"))
+                .params("bank", intent.getStringExtra("bankName"))
+                .params("bankuser", point_input.text.toString())
                 .params("paypwd", pay_password.text.toString())
                 .execute(object : BaseCallBack() {
                     override fun dataError(data: RootBean) {
@@ -54,6 +58,7 @@ class GetMoneyActivity : BaseActivity() {
                     override fun success(it: Response<RootBean>) {
                         hiddenLoading()
                         showMsg(it.body().msg)
+                        EventBus.getDefault().post("getmoney_complete")
                         finish()
                     }
 

@@ -11,6 +11,9 @@ import com.sunstar.gyyp.R
 import com.sunstar.gyyp.base.BaseActivity
 import com.sunstar.gyyp.util.GetBank
 import kotlinx.android.synthetic.main.activity_get_cash_way.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
@@ -35,9 +38,28 @@ class GetCashWayActivity : BaseActivity() {
             startActivity<GetMoneyActivity>(
                     "leftPoints" to intent.getStringExtra("leftpoint"),
                     "bankNo" to  card_no.text.toString(),
+                    "bankUser" to user_name.text.toString(),
                     "bankName" to bank_name.text.toString()
             )
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(msg:String){
+        if(msg == "getmoney_complete"){
+            finish()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this)
     }
 
     override fun initHeadModel(): HeadVm = HeadVm("提现方式",true,R.mipmap.back)

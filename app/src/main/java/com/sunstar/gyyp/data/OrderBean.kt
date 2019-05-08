@@ -5,6 +5,9 @@ data class OrderBean(
         var details: MutableList<DetailBean>,
         var id: Int,
         var orderno: String,
+        var cancancel: Int,
+        var candelete: Int,
+        var canmakesure: Int,
         var state: Int,
         var totalcount: Int
 )
