@@ -38,5 +38,7 @@ object Url {
     val resetloginpwd = "${BASE_URL}api/user/resetloginpwd"
     val getorderdetail = "${BASE_URL}api/order/getorderdetail"
     val confirmorder = "${BASE_URL}api/order/confirmorder"
+    val alipay = "${BASE_URL}api/pay/alipay"
+    val recharge = "${BASE_URL}api/user/recharge"
     val baseUrl:String get() =  BASE_URL
 }

@@ -152,9 +152,9 @@ open class UserVm<T : BaseView> : BaseObservable ,AnkoLogger{
     private var showDownUtil: Disposable? = null
 
     //获取验证码
-    fun getPhoneCheckCode() {
+    fun getPhoneCheckCode(type:Int) {
         var phoneNum = this.phoneNum
-        getCodeByString(phoneNum,1)
+        getCodeByString(phoneNum,type)
     }
 
     open fun getCodeByString(phoneNum: String,type: Int) {

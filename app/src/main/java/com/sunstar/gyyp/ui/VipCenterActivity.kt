@@ -77,7 +77,7 @@ class VipCenterActivity : BaseActivity() {
                             startActivity<GetCashWayActivity>("leftpoint" to vm?.user?.leftpoint)
                         }
                         4 -> {
-                            startActivity<InvestPointsActivity>()
+                            startActivity<InvestPointsActivity>("leftpoint" to vm?.user?.leftpoint)
                         }
                         5 -> {
                             startActivity<RecommendMainActivity>("userData" to vm!!.user)

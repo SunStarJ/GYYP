@@ -2,8 +2,6 @@ package com.sunstar.gyyp.vm
 
 import android.databinding.BaseObservable
 import android.databinding.ObservableArrayList
-import android.provider.DocumentsContract
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.view.View
 import com.lzy.okgo.OkGo
@@ -12,17 +10,19 @@ import com.sunstar.gyyp.ProjectApplication
 import com.sunstar.gyyp.R
 import com.sunstar.gyyp.Url
 import com.sunstar.gyyp.base.BaseCallBack
-import com.sunstar.gyyp.base.BaseView
 import com.sunstar.gyyp.base.DataListener
 import com.sunstar.gyyp.base.Util
 import com.sunstar.gyyp.data.Product
 import com.sunstar.gyyp.data.RootBean
 import com.sunstar.gyyp.data.RootBeanX
 import com.sunstar.gyyp.model.OrderControlModel
+import com.sunstar.gyyp.model.PayModel
+import com.sunstar.gyyp.pop.PayWaySelectDialog
+import com.sunstar.gyyp.view.OrderView
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.alert
 
-class CheckOrderVm(var mv: BaseView):BaseObservable() {
+class CheckOrderVm(var mv: OrderView):BaseObservable() {
     var showSatate: SpannableStringBuilder? = null
     var showShipNo = "订单编号："
     var createTime = "创建时间："
@@ -32,11 +32,12 @@ class CheckOrderVm(var mv: BaseView):BaseObservable() {
     var model = OrderControlModel()
     var orderData:RootBeanX?=null
     var dataList = ObservableArrayList<Product>()
-    fun getOrderInfoData(orderId: String) {
-        mv.showLoading("提交数据中，请稍后")
+    fun getOrderInfoData(orderId: String,carState:Int) {
+//        mv.showLoading("提交数据中，请稍后")
         model.getOrderInfo(orderId, object : DataListener.NetDataListener<RootBeanX> {
             override fun success(data: RootBeanX) {
                 orderData = data
+                orderData?.state = carState
                 mv.hiddenLoading()
                 var state = when (data.state) {
                     0 -> "未付款"
@@ -66,9 +67,10 @@ class CheckOrderVm(var mv: BaseView):BaseObservable() {
     }
 
     fun secondClick(){
-        mv.showLoading("提交数据中，请稍后")
+
         orderData?.run {
             if(cancancel == 1){
+                mv.showLoading("提交数据中，请稍后")
                 OkGo.post<RootBean>(Url.cancelorder)
                         .params("orderid",orderid)
                         .execute(object :BaseCallBack(){
@@ -86,6 +88,7 @@ class CheckOrderVm(var mv: BaseView):BaseObservable() {
                             }
                         })
             }else if(candelete == 1){
+                mv.showLoading("提交数据中，请稍后")
                 OkGo.post<RootBean>(Url.deleteorder)
                         .params("orderid",orderid)
                         .execute(object :BaseCallBack(){
@@ -108,9 +111,23 @@ class CheckOrderVm(var mv: BaseView):BaseObservable() {
     fun mainClick(view: View){
         orderData?.run {
             if(state == 0){
-                mv.showMsg("支付")
-            }else if(canmakesure == 1){
+                var dialog = PayWaySelectDialog(view.context,orderData?.orderno.toString())
+                dialog.initListener(object:PayWaySelectDialog.PayComplete{
+                    override fun payNow(payWay: Int) {
+                        if(payWay == 1){
+                           PayModel.aliPayPrepare(orderData!!.orderno,1,object:DataListener.NetDataListener<String>{
+                               override fun success(data: String) {
+                                   mv.payOrder(data)
+                               }
 
+                               override fun error(msg: String) {
+                                   mv.showMsg(msg)
+                               }
+                           })
+                        }
+                    }
+                }).show()
+            }else if(canmakesure == 1){
                 view.context.alert ("请确定收到货物后再进行确定收货哦，否则就会人财两空啦！"){
                     negativeButton("确定") {
                         mv.showLoading("提交数据中，请稍后")

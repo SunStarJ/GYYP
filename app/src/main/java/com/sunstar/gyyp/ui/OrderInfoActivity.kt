@@ -1,5 +1,6 @@
 package com.sunstar.gyyp.ui
 
+import android.app.Activity
 import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -18,11 +19,29 @@ import com.sunstar.gyyp.data.PreferenceItem
 import com.sunstar.gyyp.data.RootBean
 import com.sunstar.gyyp.databinding.ActivityOrderInfoBinding
 import com.sunstar.gyyp.databinding.AdapterOrderInfoGoodsBinding
+import com.sunstar.gyyp.model.PayModel
 import com.sunstar.gyyp.view.OrderView
 import com.sunstar.gyyp.vm.OrderVm
 import kotlinx.android.synthetic.main.activity_order_info.*
+import org.greenrobot.eventbus.EventBus
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 class OrderInfoActivity : BaseActivity(),OrderView {
+    override fun payOrder(orderNo: String) {
+        PayModel.aliPay(mContext as Activity,orderNo,object : PayModel.PayResult{
+            override fun payResult(msg: String,type:Int) {
+                if(type == 9000){
+                    EventBus.getDefault().post("order_commit_complete")
+                    startActivity<PaySuccessActivity>()
+                    finish()
+                }else{
+                    toast(msg)
+                }
+            }
+        })
+    }
+
     override fun commitComplete() {
         finish()
     }

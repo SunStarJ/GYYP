@@ -51,7 +51,7 @@
                     android:paddingRight="10dp"
                     android:paddingBottom="10dp"
                     android:textColor="@color/color_red"
-                    android:text="@{@string/rmb+data.data.showPrice}"
+                    android:text="@{@string/rmb+data.data.price}"
                     />
             </LinearLayout>
             <LinearLayout

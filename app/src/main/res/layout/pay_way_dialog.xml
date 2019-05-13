@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="支付方式"
+        android:gravity="center"
+        android:textColor="@color/color_text_black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:padding="12dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/divider_bg"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:padding="12dp"
+        android:text="支付方式"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/divider_bg"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:padding="12dp"
+        android:gravity="center_vertical"
+        android:id="@+id/pay_way_count"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="积　分\n剩余积分：200"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/color_text_black"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:id="@+id/pay_way_count_select"
+            android:src="@drawable/select_drawable"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/divider_bg"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:padding="12dp"
+        android:gravity="center_vertical"
+        android:id="@+id/pay_way_ali"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@mipmap/ali_pay"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="支付宝"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/color_text_black"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:id="@+id/pay_way_ali_select"
+            android:src="@drawable/select_drawable"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/divider_bg"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:padding="12dp"
+        android:id="@+id/pay_way_wechat"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@mipmap/we_chat_pay"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="微　信"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/color_text_black"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:id="@+id/pay_way_wechat_select"
+            android:src="@drawable/select_drawable"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:id="@+id/pay_now"
+        android:textColor="@color/colorWhite"
+        android:background="@color/color_red"
+        android:text="确定支付"
+        android:gravity="center"/>
+</LinearLayout>

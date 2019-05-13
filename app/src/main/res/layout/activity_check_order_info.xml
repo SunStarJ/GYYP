@@ -149,10 +149,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="12dp"
                 android:onClick="@{()->data.secondClick()}"
+                android:padding="12dp"
                 android:text="@{data.orderData.candelete == 1 ? @string/delete_order : data.orderData.cancancel == 1 ? @string/cancle_order : @string/space}"
-                android:visibility="@{data.orderData.cancancel == 1 || data.orderData.candelete == 1 ? View.GONE:View.VISIBLE}" />
+                android:visibility="@{data.orderData.cancancel == 1 || data.orderData.candelete == 1 ? View.VISIBLE : View.GONE}" />
 
             <TextView
                 android:layout_width="0dp"
@@ -160,10 +160,11 @@
                 android:layout_weight="1"
                 android:background="@color/color_red"
                 android:gravity="center"
-                android:padding="12dp"
+                android:textColor="@color/colorWhite"
                 android:onClick="@{(view)->data.mainClick(view)}"
+                android:padding="12dp"
                 android:text="@{data.orderData.state == 0 ? @string/pay_order : @string/receive_order}"
-                android:visibility="@{data.orderData.state == 0 || data.orderData.canmakesure == 1 ? View.GONE:View.VISIBLE}" />
+                android:visibility="@{data.orderData.state == 0 || data.orderData.canmakesure == 1 ?View.VISIBLE: View.GONE}" />
         </LinearLayout>
     </LinearLayout>
 </layout>

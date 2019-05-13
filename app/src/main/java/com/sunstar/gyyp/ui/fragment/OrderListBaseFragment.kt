@@ -1,5 +1,6 @@
 package com.sunstar.gyyp.ui.fragment
 
+import android.app.Activity
 import android.content.Context
 import android.databinding.ObservableArrayList
 import android.support.v4.app.Fragment
@@ -17,12 +18,15 @@ import com.sunstar.gyyp.adapter.OrderListAdapter
 import com.sunstar.gyyp.adapter.OrderListChildAdapter
 import com.sunstar.gyyp.base.BaseActivity
 import com.sunstar.gyyp.base.BaseCallBack
+import com.sunstar.gyyp.base.DataListener
 import com.sunstar.gyyp.base.SSBaseDataBindingAdapter
 import com.sunstar.gyyp.data.OrderBean
 import com.sunstar.gyyp.data.RootBean
 import com.sunstar.gyyp.databinding.AdapterOrderChildItemBinding
 import com.sunstar.gyyp.databinding.AdapterOrderFatherItemBinding
+import com.sunstar.gyyp.model.PayModel
 import com.sunstar.gyyp.ui.CheckOrderInfoActivity
+import com.sunstar.gyyp.ui.PaySuccessActivity
 import kotlinx.android.synthetic.main.adapter_main_control.*
 import kotlinx.android.synthetic.main.refresh_layout.*
 import org.greenrobot.eventbus.EventBus
@@ -30,9 +34,11 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.toast
 
 class OrderListBaseFragment : LazyFragment() {
     override fun initLayoutId(): Int = R.layout.refresh_layout
@@ -78,11 +84,11 @@ class OrderListBaseFragment : LazyFragment() {
                             }
                         }
                         b.root.onClick {
-                            startActivity<CheckOrderInfoActivity>("orderId" to dataList[position].id.toString())
+                            startActivity<CheckOrderInfoActivity>("orderId" to dataList[position].id.toString(),"carState" to dataList[position].state)
                         }
                         b.mainText.onClick {
                             if (data.state == 0) {
-                                toast("付款")
+                                payOrder(position)
                             } else if (data.canmakesure == 1) {
                                 receiveOrder(position)
                             }
@@ -92,7 +98,7 @@ class OrderListBaseFragment : LazyFragment() {
                                     override fun onBindViewHolder(b: AdapterOrderChildItemBinding, p2: Int) {
                                         b.data = dataList[position].details[p2]
                                         b.root.onClick {
-                                            startActivity<CheckOrderInfoActivity>("orderId" to dataList[position].id.toString())
+                                            startActivity<CheckOrderInfoActivity>("orderId" to dataList[position].id.toString(),"carState" to dataList[position].state)
                                         }
                                     }
                                 })
@@ -119,6 +125,27 @@ class OrderListBaseFragment : LazyFragment() {
             }
         })
         refresh_view.isEnableLoadMore = false
+    }
+
+    private fun payOrder(position: Int) {
+        PayModel.aliPayPrepare(dataList[position].orderno,1,object:DataListener.NetDataListener<String>{
+            override fun success(data: String) {
+                PayModel.aliPay(activity as Activity,data,object:PayModel.PayResult{
+                    override fun payResult(msg: String, type: Int) {
+                        if(type == 9000){
+                            EventBus.getDefault().post("order_state_change")
+                            startActivity<PaySuccessActivity>()
+                        }else {
+                            toast(msg)
+                        }
+                    }
+                })
+            }
+
+            override fun error(msg: String) {
+                toast(msg)
+            }
+        })
     }
 
     private fun receiveOrder(position: Int) {

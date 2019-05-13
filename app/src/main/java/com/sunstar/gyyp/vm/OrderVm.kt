@@ -16,6 +16,7 @@ import com.sunstar.gyyp.data.AddressBean
 import com.sunstar.gyyp.data.AddressListItem
 import com.sunstar.gyyp.data.PreferenceItem
 import com.sunstar.gyyp.data.RootBean
+import com.sunstar.gyyp.model.PayModel
 import com.sunstar.gyyp.ui.LocationListActivity
 import com.sunstar.gyyp.view.OrderView
 import org.greenrobot.eventbus.EventBus
@@ -24,39 +25,39 @@ import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.startActivity
 import java.math.BigDecimal
 
-class OrderVm(var mv: OrderView) :BaseObservable(){
+class OrderVm(var mv: OrderView) : BaseObservable() {
 
     var dataList = ObservableArrayList<PreferenceItem>()
-    var addressData:AddressListItem?= null
-    var addressShowData:AddressBean?=null
+    var addressData: AddressListItem? = null
+    var addressShowData: AddressBean? = null
     var showPrice = "￥0.0"
     var showPoints = "积分：0.0"
     var shipFee = "￥0.0"
     var shipPoints = "积分：0.0"
     var remark = ""
-    var rootBean:RootBean? = null
+    var rootBean: RootBean? = null
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onMessageEvent(addressData:AddressListItem){
+    fun onMessageEvent(addressData: AddressListItem) {
         this.addressData = addressData
-        rootBean!!.address.addressdetail = addressData.province+addressData.city+addressData.area
+        rootBean!!.address.addressdetail = addressData.province + addressData.city + addressData.area
         rootBean!!.address.addressid = addressData.id.toInt()
         rootBean!!.address.name = addressData.name
         rootBean!!.address.phone = addressData.phone
         notifyChange()
     }
 
-    fun commitOrderData(){
+    fun commitOrderData() {
         mv.showLoading("提交数据中请稍候")
         var commitList = mutableListOf<ShopCartVm.CommitData>()
-        for (data in rootBean!!.products!!){
-            var data = ShopCartVm.CommitData(data.shoppingcartid,data.count)
+        for (data in rootBean!!.products!!) {
+            var data = ShopCartVm.CommitData(data.shoppingcartid, data.count)
             commitList.add(data)
         }
         OkGo.post<RootBean>(Url.makeorder)
-                .params("orderinfo",Gson().toJson(commitList))
-                .params("remark",remark)
-                .params("addressid",rootBean!!.address.addressid)
-                .execute(object:BaseCallBack(){
+                .params("orderinfo", Gson().toJson(commitList))
+                .params("remark", remark)
+                .params("addressid", rootBean!!.address.addressid)
+                .execute(object : BaseCallBack() {
                     override fun dataError(data: RootBean) {
                         mv.hiddenLoading()
                         mv.showMsg(data.msg)
@@ -64,9 +65,26 @@ class OrderVm(var mv: OrderView) :BaseObservable(){
 
                     override fun success(it: Response<RootBean>) {
                         mv.hiddenLoading()
-                        it.body().orderno
-                        mv.commitComplete()
-                        EventBus.getDefault().post("order_commit_complete")
+                        orderCalculate(it.body().orderno)
+                    }
+
+                    override fun dataNull() {
+
+                    }
+                })
+    }
+
+    private fun orderCalculate(orderNo: String) {
+        OkGo.post<RootBean>(Url.alipay)
+                .params("datano",orderNo)
+                .params("datatype",1)
+                .execute(object :BaseCallBack(){
+                    override fun dataError(data: RootBean) {
+                        mv.showMsg(data.msg)
+                    }
+
+                    override fun success(it: Response<RootBean>) {
+                        mv.payOrder(it.body().sign)
                     }
 
                     override fun dataNull() {
@@ -79,34 +97,34 @@ class OrderVm(var mv: OrderView) :BaseObservable(){
         EventBus.getDefault().register(this)
     }
 
-    fun onDestory(){
+    fun onDestory() {
         EventBus.getDefault().unregister(this)
     }
 
-    fun initList(dataList:MutableList<PreferenceItem>){
+    fun initList(dataList: MutableList<PreferenceItem>) {
         this.dataList.clear()
-        for(data in dataList){
+        for (data in dataList) {
             this.dataList.add(data)
         }
         var totalPrice = 0.0
         var totalPoints = 0.0
-        for (data in dataList){
-            totalPrice = BigDecimalUtils.add(totalPrice.toString(),BigDecimalUtils.mul(data.price.toString(),data.num.toString(),2),2).toDouble()
-            totalPoints = BigDecimalUtils.add(totalPoints.toString(),BigDecimalUtils.mul(data.points.toString(),data.num.toString(),2),2).toDouble()
+        for (data in dataList) {
+            totalPrice = BigDecimalUtils.add(totalPrice.toString(), BigDecimalUtils.mul(data.price.toString(), data.num.toString(), 2), 2).toDouble()
+            totalPoints = BigDecimalUtils.add(totalPoints.toString(), BigDecimalUtils.mul(data.points.toString(), data.num.toString(), 2), 2).toDouble()
         }
         showPrice = "￥$totalPrice"
         showPoints = "积分：$totalPoints"
         notifyChange()
     }
 
-    fun selectAddressList (view: View){
+    fun selectAddressList(view: View) {
         view.context.startActivity<LocationListActivity>("selectType" to 1)
     }
 
-    fun initData(rootBean:RootBean) {
+    fun initData(rootBean: RootBean) {
         this.rootBean = rootBean
         dataList.clear()
-        for (innerData in rootBean.products!!){
+        for (innerData in rootBean.products!!) {
             dataList.add(innerData)
         }
         addressShowData = rootBean.address

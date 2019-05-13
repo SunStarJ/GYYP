@@ -1,19 +1,27 @@
 package com.sunstar.gyyp.base
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ProgressDialog
 import com.sunstar.activityplugin.SSActivity
 import com.sunstar.gyyp.R
 import com.yanzhenjie.sofia.Bar
 import com.yanzhenjie.sofia.Sofia
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import org.jetbrains.anko.*
+import java.util.concurrent.TimeUnit
 
 
 abstract class BaseActivity : SSActivity(), BaseView, AnkoLogger {
     private var dialog: ProgressDialog? = null
     var sofia: Bar? = null
+    @SuppressLint("CheckResult")
     override fun showLoading(msg: String) {
-        if (dialog == null) dialog = indeterminateProgressDialog(message = msg, title = "")
+        Observable.timer(50,TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+            if (dialog == null) dialog = indeterminateProgressDialog(message = msg, title = "")
+        }
+
     }
 
     override fun viewInitComplete() {
@@ -24,6 +32,14 @@ abstract class BaseActivity : SSActivity(), BaseView, AnkoLogger {
                 .statusBarBackground(mContext.resources.getColor(R.color.colorWhite))
                 .statusBarDarkFont()
         appViewInitComplete()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        dialog?.run {
+            dismiss()
+        }
+        dialog = null
     }
 
     abstract fun appViewInitComplete()
