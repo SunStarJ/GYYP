@@ -68,6 +68,24 @@ object PayModel {
         wxApi.sendReq(request)
     }
 
+    fun pointPay(orderNo: String, payPassword: String,payResult: PayResult) {
+        OkGo.post<RootBean>(Url.paybypoint)
+                .params("orderno",orderNo)
+                .params("paypwd",payPassword)
+                .execute(object :BaseCallBack(){
+                    override fun dataError(data: RootBean) {
+                        payResult.payResult(data.msg,-1)
+                    }
+
+                    override fun success(it: Response<RootBean>) {
+                        payResult.payResult("支付成功",0)
+                    }
+
+                    override fun dataNull() {
+                    }
+                })
+    }
+
     interface PayResult{
         fun payResult(msg:String,type:Int)
     }

@@ -40,5 +40,6 @@ object Url {
     val confirmorder = "${BASE_URL}api/order/confirmorder"
     val alipay = "${BASE_URL}api/pay/alipay"
     val recharge = "${BASE_URL}api/user/recharge"
+    val paybypoint = "${BASE_URL}api/pay/paybypoint"
     val baseUrl:String get() =  BASE_URL
 }

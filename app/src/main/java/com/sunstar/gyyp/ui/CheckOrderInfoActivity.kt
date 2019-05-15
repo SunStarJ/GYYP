@@ -29,7 +29,7 @@ import org.jetbrains.anko.toast
 
 class CheckOrderInfoActivity : BaseActivity(), OrderView {
     override fun commitComplete() {
-
+        finish()
     }
 
     override fun payOrder(orderNo: String) {

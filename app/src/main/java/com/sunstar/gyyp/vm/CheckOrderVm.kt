@@ -17,10 +17,13 @@ import com.sunstar.gyyp.data.RootBean
 import com.sunstar.gyyp.data.RootBeanX
 import com.sunstar.gyyp.model.OrderControlModel
 import com.sunstar.gyyp.model.PayModel
+import com.sunstar.gyyp.pop.PayPasswordDialog
 import com.sunstar.gyyp.pop.PayWaySelectDialog
+import com.sunstar.gyyp.ui.PaySuccessActivity
 import com.sunstar.gyyp.view.OrderView
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.alert
+import org.jetbrains.anko.startActivity
 
 class CheckOrderVm(var mv: OrderView):BaseObservable() {
     var showSatate: SpannableStringBuilder? = null
@@ -124,6 +127,20 @@ class CheckOrderVm(var mv: OrderView):BaseObservable() {
                                    mv.showMsg(msg)
                                }
                            })
+                        }else if(payWay == 0){
+                            var context = view.context
+                            var dialog = PayPasswordDialog(context,orderData!!.orderno,object: PayModel.PayResult{
+                                override fun payResult(msg: String, type: Int) {
+                                    mv.hiddenLoading()
+                                    if(type == 0){
+                                        EventBus.getDefault().post("order_state_change")
+                                        context.startActivity<PaySuccessActivity>()
+                                        mv.commitComplete()
+                                    }
+                                    mv.showMsg(msg)
+                                }
+                            })
+                            dialog.show()
                         }
                     }
                 }).show()

@@ -41,6 +41,7 @@
             android:text="积　分\n剩余积分：200"
             android:textStyle="bold"
             android:layout_marginLeft="10dp"
+            android:id="@+id/count_text"
             android:textColor="@color/color_text_black"
             android:layout_height="wrap_content" />
         <ImageView

@@ -3,7 +3,6 @@ package com.sunstar.gyyp.ui.fragment
 import android.app.Activity
 import android.content.Context
 import android.databinding.ObservableArrayList
-import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
@@ -25,20 +24,18 @@ import com.sunstar.gyyp.data.RootBean
 import com.sunstar.gyyp.databinding.AdapterOrderChildItemBinding
 import com.sunstar.gyyp.databinding.AdapterOrderFatherItemBinding
 import com.sunstar.gyyp.model.PayModel
+import com.sunstar.gyyp.pop.PayPasswordDialog
+import com.sunstar.gyyp.pop.PayWaySelectDialog
 import com.sunstar.gyyp.ui.CheckOrderInfoActivity
 import com.sunstar.gyyp.ui.PaySuccessActivity
-import kotlinx.android.synthetic.main.adapter_main_control.*
 import kotlinx.android.synthetic.main.refresh_layout.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import org.jetbrains.anko.alert
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
-import org.jetbrains.anko.toast
 
 class OrderListBaseFragment : LazyFragment() {
     override fun initLayoutId(): Int = R.layout.refresh_layout
@@ -57,9 +54,9 @@ class OrderListBaseFragment : LazyFragment() {
                         b.orderData = dataList[position]
                         var data = dataList[position]
                         if (data.cancancel == 1 || data.candelete == 1) {
-                            if(data.cancancel == 1){
+                            if (data.cancancel == 1) {
                                 b.secondText.text = "取消订单"
-                            }else if(data.candelete == 1){
+                            } else if (data.candelete == 1) {
                                 b.secondText.text = "删除订单"
                             }
                             b.secondText.visibility = View.VISIBLE
@@ -67,9 +64,9 @@ class OrderListBaseFragment : LazyFragment() {
                             b.secondText.visibility = View.GONE
                         }
                         if (data.state == 0 || data.canmakesure == 1) {
-                            if(data.state == 0){
+                            if (data.state == 0) {
                                 b.mainText.text = "付款"
-                            }else if(data.canmakesure == 1){
+                            } else if (data.canmakesure == 1) {
                                 b.mainText.text = "确认收货"
                             }
                             b.mainText.visibility = View.VISIBLE
@@ -84,7 +81,7 @@ class OrderListBaseFragment : LazyFragment() {
                             }
                         }
                         b.root.onClick {
-                            startActivity<CheckOrderInfoActivity>("orderId" to dataList[position].id.toString(),"carState" to dataList[position].state)
+                            startActivity<CheckOrderInfoActivity>("orderId" to dataList[position].id.toString(), "carState" to dataList[position].state)
                         }
                         b.mainText.onClick {
                             if (data.state == 0) {
@@ -98,7 +95,7 @@ class OrderListBaseFragment : LazyFragment() {
                                     override fun onBindViewHolder(b: AdapterOrderChildItemBinding, p2: Int) {
                                         b.data = dataList[position].details[p2]
                                         b.root.onClick {
-                                            startActivity<CheckOrderInfoActivity>("orderId" to dataList[position].id.toString(),"carState" to dataList[position].state)
+                                            startActivity<CheckOrderInfoActivity>("orderId" to dataList[position].id.toString(), "carState" to dataList[position].state)
                                         }
                                     }
                                 })
@@ -128,24 +125,54 @@ class OrderListBaseFragment : LazyFragment() {
     }
 
     private fun payOrder(position: Int) {
-        PayModel.aliPayPrepare(dataList[position].orderno,1,object:DataListener.NetDataListener<String>{
-            override fun success(data: String) {
-                PayModel.aliPay(activity as Activity,data,object:PayModel.PayResult{
-                    override fun payResult(msg: String, type: Int) {
-                        if(type == 9000){
-                            EventBus.getDefault().post("order_state_change")
-                            startActivity<PaySuccessActivity>()
-                        }else {
-                            toast(msg)
-                        }
-                    }
-                })
-            }
 
-            override fun error(msg: String) {
-                toast(msg)
+        var dialog = PayWaySelectDialog(activity as Context, "")
+        dialog.initListener(object : PayWaySelectDialog.PayComplete {
+            override fun payNow(payWay: Int) {
+                when (payWay) {
+                    0 -> {
+                        var dialog = PayPasswordDialog((activity as Context),dataList[position].orderno,object:PayModel.PayResult{
+                            override fun payResult(msg: String, type: Int) {
+                                if(type == 0){
+                                    dialog.hide()
+                                    EventBus.getDefault().post("order_state_change")
+                                    startActivity<PaySuccessActivity>()
+                                    (activity as BaseActivity).finish()
+                                }
+                                toast(msg)
+                            }
+                        })
+                        dialog.show()
+                    }
+                    1 -> {
+                        PayModel.aliPayPrepare(dataList[position].orderno, 1, object : DataListener.NetDataListener<String> {
+                            override fun success(data: String) {
+                                PayModel.aliPay(activity as Activity, data, object : PayModel.PayResult {
+                                    override fun payResult(msg: String, type: Int) {
+                                        if (type == 9000) {
+                                            EventBus.getDefault().post("order_state_change")
+                                            startActivity<PaySuccessActivity>()
+                                            (activity as BaseActivity).finish()
+                                        } else {
+                                            toast(msg)
+                                        }
+                                    }
+                                })
+                            }
+
+                            override fun error(msg: String) {
+                                toast(msg)
+                            }
+                        })
+                    }
+                    2 -> {
+                    }
+                }
             }
         })
+        dialog.show()
+
+
     }
 
     private fun receiveOrder(position: Int) {
@@ -236,7 +263,6 @@ class OrderListBaseFragment : LazyFragment() {
     }
 
 
-
     override fun onDestroy() {
         super.onDestroy()
         EventBus.getDefault().unregister(this)
@@ -248,9 +274,9 @@ class OrderListBaseFragment : LazyFragment() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onMessageEvent(msg:String) {
-        if(msg == "order_state_change")
-        getData()
+    fun onMessageEvent(msg: String) {
+        if (msg == "order_state_change")
+            getData()
     }
 
     fun getData() {

@@ -14,10 +14,12 @@ import com.sunstar.gyyp.base.BaseCallBack
 import com.sunstar.gyyp.base.DataListener
 import com.sunstar.gyyp.data.RootBean
 import com.sunstar.gyyp.model.PayModel
+import com.sunstar.gyyp.pop.PayWaySelectDialog
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_invest_points.*
 import org.greenrobot.eventbus.EventBus
+import org.jetbrains.anko.info
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.toast
 import java.util.concurrent.TimeUnit
@@ -30,35 +32,49 @@ class InvestPointsActivity : BaseActivity() {
                 toast("请输入充值金额")
                 return@onClick
             }
-            OkGo.post<RootBean>(Url.recharge)
-                    .params("money",charge_num.text.toString())
-                    .execute(object:BaseCallBack(){
-                        override fun dataError(data: RootBean) {
-                            showMsg(data.msg)
-                        }
+            var dialog = PayWaySelectDialog(mContext,"").hidePoint()
+            dialog.initListener(object :PayWaySelectDialog.PayComplete{
+                override fun payNow(payWay: Int) {
+                    info { payWay }
+                    if(payWay == 1){
+                        payNow()
+                    }
+                }
+            })
+            dialog.show()
 
-                        override fun success(it: Response<RootBean>) {
-                            PayModel.aliPayPrepare(it.body().rechargeno,2,object:DataListener.NetDataListener<String>{
-                                override fun success(data: String) {
-                                    PayModel.aliPay(mContext as Activity,data,object:PayModel.PayResult{
-                                        override fun payResult(msg: String, type: Int) {
-                                            EventBus.getDefault().post("getmoney_complete")
-                                            toast("支付成功")
-                                            finish()
-                                        }
-                                    })
-                                }
-
-                                override fun error(msg: String) {
-                                    showMsg(msg)
-                                }
-                            })
-                        }
-
-                        override fun dataNull() {
-                        }
-                    })
         }
+    }
+
+    private fun payNow() {
+        OkGo.post<RootBean>(Url.recharge)
+                .params("money", charge_num.text.toString())
+                .execute(object : BaseCallBack() {
+                    override fun dataError(data: RootBean) {
+                        showMsg(data.msg)
+                    }
+
+                    override fun success(it: Response<RootBean>) {
+                        PayModel.aliPayPrepare(it.body().rechargeno, 2, object : DataListener.NetDataListener<String> {
+                            override fun success(data: String) {
+                                PayModel.aliPay(mContext as Activity, data, object : PayModel.PayResult {
+                                    override fun payResult(msg: String, type: Int) {
+                                        EventBus.getDefault().post("getmoney_complete")
+                                        toast("支付成功")
+                                        finish()
+                                    }
+                                })
+                            }
+
+                            override fun error(msg: String) {
+                                showMsg(msg)
+                            }
+                        })
+                    }
+
+                    override fun dataNull() {
+                    }
+                })
     }
 
     override fun initHeadModel(): HeadVm = HeadVm("积分充值",true,R.mipmap.back)

@@ -1,29 +1,32 @@
 package com.sunstar.gyyp.vm
 
+import android.content.Context
 import android.databinding.BaseObservable
 import android.databinding.ObservableArrayList
-import android.databinding.ObservableField
-import android.databinding.ObservableList
 import android.view.View
 import com.google.gson.Gson
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
 import com.sunstar.gyyp.BigDecimalUtils
 import com.sunstar.gyyp.Url
+import com.sunstar.gyyp.base.BaseActivity
 import com.sunstar.gyyp.base.BaseCallBack
-import com.sunstar.gyyp.base.BaseView
 import com.sunstar.gyyp.data.AddressBean
 import com.sunstar.gyyp.data.AddressListItem
 import com.sunstar.gyyp.data.PreferenceItem
 import com.sunstar.gyyp.data.RootBean
 import com.sunstar.gyyp.model.PayModel
+import com.sunstar.gyyp.pop.PayPasswordDialog
+import com.sunstar.gyyp.pop.PayWaySelectDialog
 import com.sunstar.gyyp.ui.LocationListActivity
+import com.sunstar.gyyp.ui.PaySuccessActivity
 import com.sunstar.gyyp.view.OrderView
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.startActivity
-import java.math.BigDecimal
+import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.support.v4.toast
 
 class OrderVm(var mv: OrderView) : BaseObservable() {
 
@@ -46,7 +49,18 @@ class OrderVm(var mv: OrderView) : BaseObservable() {
         notifyChange()
     }
 
-    fun commitOrderData() {
+    fun commitOrderData(view: View) {
+        var dialog = PayWaySelectDialog(view.context, rootBean!!.productpoint.toString())
+        dialog.initListener(object : PayWaySelectDialog.PayComplete {
+            override fun payNow(payWay: Int) {
+                caluateOrder(payWay,view.context)
+            }
+        })
+        dialog.show()
+
+    }
+
+    private fun caluateOrder(payway: Int,context:Context) {
         mv.showLoading("提交数据中请稍候")
         var commitList = mutableListOf<ShopCartVm.CommitData>()
         for (data in rootBean!!.products!!) {
@@ -65,7 +79,26 @@ class OrderVm(var mv: OrderView) : BaseObservable() {
 
                     override fun success(it: Response<RootBean>) {
                         mv.hiddenLoading()
-                        orderCalculate(it.body().orderno)
+                        when (payway) {
+                            0 -> {
+                                var dialog = PayPasswordDialog(context,it.body().orderno,object: PayModel.PayResult{
+                                    override fun payResult(msg: String, type: Int) {
+                                        mv.hiddenLoading()
+                                        if(type == 0){
+                                            EventBus.getDefault().post("order_commit_complete")
+                                            context.startActivity<PaySuccessActivity>()
+                                            mv.commitComplete()
+                                        }
+                                        mv.showMsg(msg)
+                                    }
+                                })
+                                dialog.show()
+                            }
+                            1 -> aliPay(it.body().orderno)
+                            2 -> {
+                            }
+                        }
+
                     }
 
                     override fun dataNull() {
@@ -74,11 +107,11 @@ class OrderVm(var mv: OrderView) : BaseObservable() {
                 })
     }
 
-    private fun orderCalculate(orderNo: String) {
+    private fun aliPay(orderNo: String) {
         OkGo.post<RootBean>(Url.alipay)
-                .params("datano",orderNo)
-                .params("datatype",1)
-                .execute(object :BaseCallBack(){
+                .params("datano", orderNo)
+                .params("datatype", 1)
+                .execute(object : BaseCallBack() {
                     override fun dataError(data: RootBean) {
                         mv.showMsg(data.msg)
                     }

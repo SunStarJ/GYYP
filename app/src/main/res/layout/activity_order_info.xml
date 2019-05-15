@@ -181,7 +181,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/color_red"
-            android:onClick="@{()->data.commitOrderData()}"
+            android:onClick="@{(view)->data.commitOrderData(view)}"
             android:text="确定"
             android:textColor="@color/colorWhite" />
     </LinearLayout>
