@@ -55,8 +55,6 @@ object PayModel {
 
 
     fun weChatPay(){
-        var wxApi = WXAPIFactory.createWXAPI(ProjectApplication.instance.applicationContext,null)
-        wxApi.registerApp("")
         var request = PayReq()
         request.appId = "wxd930ea5d5a258f4f"
         request.partnerId = "1900000109"
@@ -65,7 +63,24 @@ object PayModel {
         request.nonceStr= "1101000000140429eb40476f8896f4c9"
         request.timeStamp= "1398746574"
         request.sign= "7FFECB600D7157C5AA49810D2D8F28BC2811827B"
-        wxApi.sendReq(request)
+        ProjectApplication.wxApi.sendReq(request)
+    }
+
+    fun wxPreparePay(orderNo: String,type: Int,dataListener: DataListener.NetDataListener<String>){
+        OkGo.post<RootBean>(Url.wxpay)
+                .params("datano",orderNo)
+                .params("datatype",type)
+                .execute(object:BaseCallBack(){
+                    override fun dataError(data: RootBean) {
+
+                    }
+
+                    override fun success(it: Response<RootBean>) {
+                    }
+
+                    override fun dataNull() {
+                    }
+                })
     }
 
     fun pointPay(orderNo: String, payPassword: String,payResult: PayResult) {

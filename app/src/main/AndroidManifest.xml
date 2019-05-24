@@ -37,6 +37,7 @@
         <activity android:name=".ui.PointChargeActivity" />
         <activity android:name=".ui.MyCollectActivity" />
         <activity android:name=".ui.GoodsListPageActivity" />
+        <activity android:name=".wxapi.WXPayEntryActivity"/>
         <activity
             android:name=".ui.SearchPageActivity"
             android:launchMode="singleTask" />

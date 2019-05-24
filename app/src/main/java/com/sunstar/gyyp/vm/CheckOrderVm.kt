@@ -167,7 +167,7 @@ class CheckOrderVm(var mv: OrderView):BaseObservable() {
                                 })
                     }
                     positiveButton("取消"){}
-                }
+                }.show()
             }
         }
 

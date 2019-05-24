@@ -15,17 +15,24 @@ import android.content.Context
 import com.scwang.smartrefresh.header.MaterialHeader
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator
+import com.tencent.mm.opensdk.openapi.IWXAPI
+import com.tencent.mm.opensdk.openapi.WXAPIFactory
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 
 
-
-class ProjectApplication:Application() {
+class ProjectApplication:Application(),AnkoLogger {
     companion object {
         lateinit var instance:ProjectApplication
+        lateinit var wxApi:IWXAPI
     }
 
     override fun onCreate() {
         super.onCreate()
         instance = this
+        wxApi =  WXAPIFactory.createWXAPI(applicationContext,null)
+        var isRgist = wxApi?.registerApp("wx2cf9a1e4ff09353e")
+        info { "isRgist：$isRgist" }
         ISNav.getInstance().init { context, path, imageView ->
             Glide.with(context).load(path).into(imageView)
         }

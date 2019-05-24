@@ -207,7 +207,7 @@ class OrderListBaseFragment : LazyFragment() {
                             })
                 }
                 positiveButton("取消") {}
-            }
+            }.show()
         }
     }
 

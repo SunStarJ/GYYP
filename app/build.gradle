@@ -3,6 +3,14 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 android {
+    signingConfigs {
+        debug {
+            storeFile file('/home/sun/StudioProjects/GYYP/gyyp.jks')
+            storePassword 'gyyp1234'
+            keyAlias = 'key0'
+            keyPassword 'gyyp1234'
+        }
+    }
     compileSdkVersion 28
 
     dataBinding {
