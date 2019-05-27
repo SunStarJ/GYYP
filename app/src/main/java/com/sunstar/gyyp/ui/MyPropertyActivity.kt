@@ -19,7 +19,7 @@ import org.jetbrains.anko.startActivity
 
 class MyPropertyActivity : BaseActivity() {
     override fun appViewInitComplete() {
-        count_show.text = "${intent.getStringExtra("accumulatepoint")}\n\n总资产（积分）"
+        count_show.text = "${intent.getStringExtra("leftpoints")}\n\n总资产（积分）"
         var dataList = mutableListOf<ControlData>()
         dataList.add(ControlData("资产记录",R.mipmap.zzichanjilu))
         dataList.add(ControlData("申请提现",R.mipmap.shenqingtixian))

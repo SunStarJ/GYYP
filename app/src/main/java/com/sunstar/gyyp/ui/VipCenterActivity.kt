@@ -43,7 +43,7 @@ class VipCenterActivity : BaseActivity() {
         vm?.getUserData()
         controlList.add(ControlData("待付款",R.mipmap.daifukuan))
         controlList.add(ControlData("待发货",R.mipmap.daifahuo))
-        controlList.add(ControlData("待收获",R.mipmap.daishouhuo))
+        controlList.add(ControlData("待收货",R.mipmap.daishouhuo))
         controlList.add(ControlData("已完成",R.mipmap.yiwancheng))
         control_view.adapter = MainControlAdapter(mContext).initDataList(controlList)
                 .initBindView(object:SSBaseDataBindingAdapter.BindView<AdapterMainControlInnerAdapterBinding> {
