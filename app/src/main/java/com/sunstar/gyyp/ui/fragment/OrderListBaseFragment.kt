@@ -63,10 +63,10 @@ class OrderListBaseFragment : LazyFragment() {
                         } else {
                             b.secondText.visibility = View.GONE
                         }
-                        if (data.state == 0 || data.canmakesure == 1) {
+                        if (data.state == 0|| data.state == 3) {
                             if (data.state == 0) {
                                 b.mainText.text = "付款"
-                            } else if (data.canmakesure == 1) {
+                            } else if (data.state == 3) {
                                 b.mainText.text = "确认收货"
                             }
                             b.mainText.visibility = View.VISIBLE
