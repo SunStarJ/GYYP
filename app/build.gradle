@@ -7,7 +7,7 @@ android {
         debug {
             storeFile file('../gyyp.jks')
             storePassword 'gyyp1234'
-            keyAlias = 'gyyp'
+            keyAlias = 'key0'
             keyPassword 'gyyp1234'
         }
     }

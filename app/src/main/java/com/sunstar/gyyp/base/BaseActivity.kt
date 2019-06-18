@@ -14,6 +14,13 @@ import java.util.concurrent.TimeUnit
 import android.opengl.ETC1.getHeight
 import android.opengl.ETC1.getWidth
 import android.view.Display
+import android.view.View
+import android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+
+
+
+
 
 
 
@@ -25,6 +32,9 @@ abstract class BaseActivity : SSActivity(), BaseView, AnkoLogger {
     override fun showLoading(msg: String) {
         Observable.timer(50,TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
             if (dialog == null) dialog = indeterminateProgressDialog(message = msg, title = "")
+            dialog?.setOnDismissListener {
+                dialog = null
+            }
         }
 
     }
@@ -33,11 +43,15 @@ abstract class BaseActivity : SSActivity(), BaseView, AnkoLogger {
         setWindow()
         getTitleText().textColor = mContext.resources.getColor(R.color.color_text_black)
         info { "activityName:$localClassName" }
+        val decor = (mContext as Activity).getWindow().getDecorView()
+        decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
+//        sofia = Sofia.with(mContext as Activity)
+//                .statusBarBackground(mContext.resources.getColor(R.color.colorWhite))
+//                .statusBarDarkFont()
+//                .invasionNavigationBar().navigationBarBackgroundAlpha(100)
+        window.statusBarColor = mContext.resources.getColor(R.color.colorWhite)
 
-        sofia = Sofia.with(mContext as Activity)
-                .statusBarBackground(mContext.resources.getColor(R.color.colorWhite))
-                .statusBarDarkFont().navigationBarBackground(mContext.resources.getColor(R.color.color_text_black))
-                .invasionNavigationBar().navigationBarBackgroundAlpha(100)
+
         appViewInitComplete()
     }
 
@@ -52,6 +66,14 @@ abstract class BaseActivity : SSActivity(), BaseView, AnkoLogger {
 
     override fun onDestroy() {
         super.onDestroy()
+        dialog?.run {
+            dismiss()
+        }
+        dialog = null
+    }
+
+    override fun onResume() {
+        super.onResume()
         dialog?.run {
             dismiss()
         }
