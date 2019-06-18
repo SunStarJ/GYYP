@@ -37,11 +37,7 @@ class InvestPointsActivity : BaseActivity() {
             dialog.initListener(object :PayWaySelectDialog.PayComplete{
                 override fun payNow(payWay: Int) {
                     info { payWay }
-                    if(payWay == 1){
-                        payNow(0)
-                    }else if(payWay == 2){
-                        payNow(1)
-                    }
+                    pagePayNow(payWay)
                 }
             })
             dialog.show()
@@ -49,7 +45,7 @@ class InvestPointsActivity : BaseActivity() {
         }
     }
 
-    private fun payNow(type:Int) {
+    private fun pagePayNow(type:Int) {
         OkGo.post<RootBean>(Url.recharge)
                 .params("money", charge_num.text.toString())
                 .execute(object : BaseCallBack() {

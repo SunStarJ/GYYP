@@ -1,9 +1,11 @@
 package com.sunstar.gyyp.vm
 
 import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.databinding.BaseObservable
 import android.databinding.ObservableField
 import android.graphics.Bitmap
+import android.view.View
 import com.sunstar.gyyp.IdentifyingCode
 import com.sunstar.gyyp.ProjectApplication
 import com.sunstar.gyyp.base.BaseView
@@ -12,6 +14,7 @@ import com.sunstar.gyyp.base.Util
 import com.sunstar.gyyp.data.RootBean
 import com.sunstar.gyyp.data.UserChangeData
 import com.sunstar.gyyp.model.UserModel
+import com.sunstar.gyyp.pop.SexEditPop
 import com.sunstar.gyyp.view.ChangeUserInfoView
 import com.sunstar.gyyp.view.FindPasswordView
 import com.sunstar.gyyp.view.LoginView
@@ -29,7 +32,7 @@ import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import java.util.concurrent.TimeUnit
 
-open class UserVm<T : BaseView> : BaseObservable ,AnkoLogger{
+open class UserVm<T : BaseView> : BaseObservable, AnkoLogger {
 
     var userM = UserModel()
     var user: RootBean? = null
@@ -43,39 +46,62 @@ open class UserVm<T : BaseView> : BaseObservable ,AnkoLogger{
     var regisCode: String = ""
     var checkCode: String = ""
     var getCodeString = ObservableField<String>("获取验证码")
+    var genderName = ObservableField<String>("保密")
 
-    var nickName:String = ""
-    var realName:String = ""
-    var gender:Int = 0
-    var birthDay:String = ""
-    var headerImg:String=""
+    var nickName: String = ""
+    var realName: String = ""
+    var gender: Int = 0
+    var birthDay: String = ""
+    var headerImg: String = ""
 
     init {
         EventBus.getDefault().register(this)
     }
 
+    fun changeSex(view: View) {
+        SexEditPop(view.context, genderName.get()!!, view).show(object : SexEditPop.SexSelect {
+            override fun selectSuccess(int: Int) {
+                user!!.gender = int
+                gender = int
+                if (gender == 0) genderName.set("女士") else if (gender == 1) genderName.set("先生") else genderName.set("保密")
+            }
+        })
+    }
+
+    fun changeBirthday(view: View) {
+        DatePickerDialog(view.context, DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+            var date = ""
+            date += "$year-"
+            date += if (month + 1 > 10) "${month + 1}-" else "0${month + 1}-"
+            date += if (dayOfMonth > 10) dayOfMonth else "0$dayOfMonth"
+            user!!.birth = date
+            notifyChange()
+        }, user!!.birth.substring(0, 4).toInt(), user!!.birth.substring(5, 7).toInt() - 1, user!!.birth.substring(8, 10).toInt()).show()
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onMessageEvent(changeData: UserChangeData){
-        user?.run{
-            if(changeData.nickname!="") nickname = changeData.nickname
-            if(changeData.headImg !="") headpic = changeData.headImg
+    fun onMessageEvent(changeData: UserChangeData) {
+        user?.run {
+            if (changeData.nickname != "") nickname = changeData.nickname
+            if (changeData.headImg != "") headpic = changeData.headImg
         }
         nickName = changeData.nickname
         notifyChange()
     }
 
-    fun onDestory(){
+    fun onDestory() {
         EventBus.getDefault().unregister(this)
     }
 
-    fun initUser(){
+    fun initUser() {
         user?.run {
             nickName = nickname
             realName = realname
-            this@UserVm.gender =gender
+            this@UserVm.gender = gender
             birthDay = birth
-            headerImg= headpic
+            headerImg = headpic
         }
+        if (gender == 0) genderName.set("女士") else if (gender == 1) genderName.set("先生") else genderName.set("保密")
     }
 
 
@@ -83,6 +109,11 @@ open class UserVm<T : BaseView> : BaseObservable ,AnkoLogger{
         getCodeString.addOnPropertyChangedCallback(object : android.databinding.Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: android.databinding.Observable?, propertyId: Int) {
                 notifyPropertyChanged(propertyId)
+            }
+        })
+        genderName.addOnPropertyChangedCallback(object : android.databinding.Observable.OnPropertyChangedCallback() {
+            override fun onPropertyChanged(sender: android.databinding.Observable?, propertyId: Int) {
+                notifyChange()
             }
         })
     }
@@ -152,18 +183,18 @@ open class UserVm<T : BaseView> : BaseObservable ,AnkoLogger{
     private var showDownUtil: Disposable? = null
 
     //获取验证码
-    fun getPhoneCheckCode(type:Int) {
+    fun getPhoneCheckCode(type: Int) {
         var phoneNum = this.phoneNum
-        getCodeByString(phoneNum,type)
+        getCodeByString(phoneNum, type)
     }
 
-    open fun getCodeByString(phoneNum: String,type: Int) {
+    open fun getCodeByString(phoneNum: String, type: Int) {
         if (showDownUtil == null) {
             if (!Util.isMobileNO(phoneNum)) {
                 mView!!.showMsg("请检查手机号")
                 return
             }
-            userM.getPhoneCode(phoneNum,type, object : DataListener.NetDataListener<Boolean> {
+            userM.getPhoneCode(phoneNum, type, object : DataListener.NetDataListener<Boolean> {
                 override fun success(data: Boolean) {
 
                 }
@@ -263,9 +294,9 @@ open class UserVm<T : BaseView> : BaseObservable ,AnkoLogger{
         })
     }
 
-    fun saveData(){
+    fun saveData() {
         mView?.showLoading("提交数据中，请稍候")
-        userM.saveUserData(nickName,realName,gender,birthDay,headerImg,object:DataListener.NetDataListener<Boolean>{
+        userM.saveUserData(nickName, realName, gender, user!!.birth, headerImg, object : DataListener.NetDataListener<Boolean> {
             override fun success(data: Boolean) {
                 mView?.run {
                     hiddenLoading()
@@ -284,10 +315,10 @@ open class UserVm<T : BaseView> : BaseObservable ,AnkoLogger{
         })
     }
 
-    fun showSelectImagePop(){
+    fun showSelectImagePop() {
         AndPermission.with(ProjectApplication.instance.applicationContext)
                 .runtime()
-                .permission(Permission.Group.STORAGE,Permission.Group.CAMERA)
+                .permission(Permission.Group.STORAGE, Permission.Group.CAMERA)
                 .onGranted {
                     (mView as ChangeUserInfoView).showPicSelectPop()
                 }.start()
@@ -310,7 +341,7 @@ open class UserVm<T : BaseView> : BaseObservable ,AnkoLogger{
         bitMap = null
     }
 
-    fun changePhoto(imgPath:String) {
+    fun changePhoto(imgPath: String) {
         info { imgPath }
         headerImg = imgPath
         notifyChange()

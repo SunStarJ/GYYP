@@ -86,8 +86,7 @@ object PayModel :AnkoLogger{
         request.nonceStr = nonceStr
         request.timeStamp = timeStamp
         request.sign = sign
-        info { "success:${ProjectApplication.wxApi.sendReq(request)}" }
-
+        ProjectApplication.wxApi.sendReq(request)
     }
 
     fun wxPreparePay(orderNo: String, type: Int, dataListener: DataListener.NetDataListener<String>,listener:PayResult) {

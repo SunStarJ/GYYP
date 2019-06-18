@@ -14,6 +14,8 @@
 
     <uses-permission android:name="android.permission.FLASHLIGHT" />
 
+
+
     <application
         android:name=".ProjectApplication"
         android:allowBackup="true"
@@ -22,6 +24,9 @@
         android:networkSecurityConfig="@xml/net_config"
         android:roundIcon="@mipmap/logo"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.4" />
         <activity android:name=".ui.PaySuccessActivity"></activity>
         <activity android:name=".ui.CheckOrderInfoActivity" />
         <activity android:name=".ui.OrderListDataActivity" />

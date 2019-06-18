@@ -1,11 +1,13 @@
 package com.sunstar.gyyp;
 
 import android.databinding.ObservableList;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
+import java.lang.reflect.Method;
 
 public class JavaUtil {
     public static ObservableList.OnListChangedCallback getListChangedCallback(final RecyclerView.Adapter adapter) {
@@ -41,6 +43,7 @@ public class JavaUtil {
             }
         };
     }
+
     /**
      * 这个是把文件变成二进制流
      *

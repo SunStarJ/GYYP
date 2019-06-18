@@ -21,6 +21,7 @@ import com.lljjcoder.bean.CityBean
 import kotlinx.android.synthetic.main.activity_add_location.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import com.lljjcoder.citywheel.CityConfig
+import com.sunstar.gyyp.base.Util
 import com.sunstar.gyyp.data.AddressListItem
 
 class AddLocationActivity : BaseActivity(), EditLocationView {
@@ -57,6 +58,7 @@ class AddLocationActivity : BaseActivity(), EditLocationView {
             }
         })
         city_click.onClick{
+            Util.hideInput(this@AddLocationActivity)
             cityPicker.showCityPicker()
         }
     }

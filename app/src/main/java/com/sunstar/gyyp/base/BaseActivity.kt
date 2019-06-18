@@ -11,6 +11,11 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import org.jetbrains.anko.*
 import java.util.concurrent.TimeUnit
+import android.opengl.ETC1.getHeight
+import android.opengl.ETC1.getWidth
+import android.view.Display
+
+
 
 
 abstract class BaseActivity : SSActivity(), BaseView, AnkoLogger {
@@ -25,13 +30,24 @@ abstract class BaseActivity : SSActivity(), BaseView, AnkoLogger {
     }
 
     override fun viewInitComplete() {
+        setWindow()
         getTitleText().textColor = mContext.resources.getColor(R.color.color_text_black)
         info { "activityName:$localClassName" }
 
         sofia = Sofia.with(mContext as Activity)
                 .statusBarBackground(mContext.resources.getColor(R.color.colorWhite))
-                .statusBarDarkFont()
+                .statusBarDarkFont().navigationBarBackground(mContext.resources.getColor(R.color.color_text_black))
+                .invasionNavigationBar().navigationBarBackgroundAlpha(100)
         appViewInitComplete()
+    }
+
+    private fun setWindow() {
+//        val display = windowManager.defaultDisplay
+//        var heigth = display.height
+//        var width = display.width
+//        var params = getWindowView()!!.layoutParams!!
+//        params.height = heigth
+//        getWindowView()!!.layoutParams = params
     }
 
     override fun onDestroy() {

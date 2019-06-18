@@ -161,9 +161,10 @@
                     android:paddingRight="15dp"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
+                    android:onClick="@{(view)->data.changeSex(view)}"
                     android:drawablePadding="5dp"
                     android:textColor="@color/color_text_black"
-                    android:text="@{data.user.gender == 0?@string/man:@string/woman}" />
+                    android:text="@{data.genderName}" />
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
@@ -194,6 +195,7 @@
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
                     android:drawablePadding="5dp"
+                    android:onClick="@{(view)->data.changeBirthday(view)}"
                     android:textColor="@color/color_text_black"
                     android:text="@{data.user.birth}" />
             </LinearLayout>

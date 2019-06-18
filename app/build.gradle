@@ -5,9 +5,9 @@ apply plugin: 'kotlin-kapt'
 android {
     signingConfigs {
         debug {
-            storeFile file('/home/sun/StudioProjects/GYYP/gyyp.jks')
+            storeFile file('../gyyp.jks')
             storePassword 'gyyp1234'
-            keyAlias = 'key0'
+            keyAlias = 'gyyp'
             keyPassword 'gyyp1234'
         }
     }
@@ -45,7 +45,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation 'com.github.SunStarJ:ActivityPluginModel:V1.0.8'
+    implementation 'com.github.SunStarJ:ActivityPluginModel:1.0.13'
     implementation "org.jetbrains.anko:anko:$anko_version"
     implementation "org.jetbrains.anko:anko-commons:$anko_version"
     implementation "org.jetbrains.anko:anko-design:$anko_version"
