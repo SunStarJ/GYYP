@@ -13,6 +13,8 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import org.greenrobot.eventbus.EventBus;
+
 /**
  * WXPayEntryActivity 微信支付 包名与类名不能变
  */
@@ -34,6 +36,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
         if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             switch (baseResp.errCode) {
                 case 0:
+                    EventBus.getDefault().post("paySuccess");
                     Toast.makeText(getApplicationContext(), "支付成功", Toast.LENGTH_SHORT);
                     finish();
                     break;

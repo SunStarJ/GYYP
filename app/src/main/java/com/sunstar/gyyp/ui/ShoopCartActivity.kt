@@ -129,6 +129,8 @@ class ShoopCartActivity : BaseActivity(), ShopCartView {
     fun onMessageEvent(msg:String){
         if(msg == "order_commit_complete"){
             vm?.getData()
+        }else if(msg == "car_refresh"){
+            vm?.getData()
         }
     }
 

@@ -141,6 +141,21 @@ class CheckOrderVm(var mv: OrderView):BaseObservable() {
                                 }
                             })
                             dialog.show()
+                        }else if(payWay == 2){
+                            PayModel.wxPreparePay(orderData!!.orderno,1,object:DataListener.NetDataListener<String>{
+                                override fun success(data: String) {
+                                }
+
+                                override fun error(msg: String) {
+                                    mv.showMsg(msg)
+                                }
+                            },object:PayModel.PayResult{
+                                override fun payResult(msg: String, type: Int) {
+                                    EventBus.getDefault().post("order_state_change")
+                                    view.context.startActivity<PaySuccessActivity>()
+                                    mv.commitComplete()
+                                }
+                            })
                         }
                     }
                 }).show()

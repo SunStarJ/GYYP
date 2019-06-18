@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.activity_invest_points.*
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.info
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import java.util.concurrent.TimeUnit
 
@@ -37,7 +38,9 @@ class InvestPointsActivity : BaseActivity() {
                 override fun payNow(payWay: Int) {
                     info { payWay }
                     if(payWay == 1){
-                        payNow()
+                        payNow(0)
+                    }else if(payWay == 2){
+                        payNow(1)
                     }
                 }
             })
@@ -46,7 +49,7 @@ class InvestPointsActivity : BaseActivity() {
         }
     }
 
-    private fun payNow() {
+    private fun payNow(type:Int) {
         OkGo.post<RootBean>(Url.recharge)
                 .params("money", charge_num.text.toString())
                 .execute(object : BaseCallBack() {
@@ -55,21 +58,45 @@ class InvestPointsActivity : BaseActivity() {
                     }
 
                     override fun success(it: Response<RootBean>) {
-                        PayModel.aliPayPrepare(it.body().rechargeno, 2, object : DataListener.NetDataListener<String> {
-                            override fun success(data: String) {
-                                PayModel.aliPay(mContext as Activity, data, object : PayModel.PayResult {
-                                    override fun payResult(msg: String, type: Int) {
-                                        EventBus.getDefault().post("getmoney_complete")
-                                        toast("支付成功")
-                                        finish()
-                                    }
-                                })
-                            }
+                        if(type == 2){
+                            PayModel.wxPreparePay(it.body().rechargeno, 2, object : DataListener.NetDataListener<String> {
+                                override fun success(data: String) {
+                                    startActivity<PaySuccessActivity>()
+                                    EventBus.getDefault().post("getmoney_complete")
+                                    toast("支付成功")
+                                    finish()
+                                }
 
-                            override fun error(msg: String) {
-                                showMsg(msg)
-                            }
-                        })
+                                override fun error(msg: String) {
+                                    showMsg(msg)
+                                }
+                            },object : PayModel.PayResult {
+                                override fun payResult(msg: String, type: Int) {
+                                    startActivity<PaySuccessActivity>()
+                                    EventBus.getDefault().post("getmoney_complete")
+                                    toast("支付成功")
+                                    finish()
+                                }
+                            })
+                        }else if(type == 1){
+                            PayModel.aliPayPrepare(it.body().rechargeno, 2, object : DataListener.NetDataListener<String> {
+                                override fun success(data: String) {
+                                    PayModel.aliPay(mContext as Activity, data, object : PayModel.PayResult {
+                                        override fun payResult(msg: String, type: Int) {
+                                            startActivity<PaySuccessActivity>()
+                                            EventBus.getDefault().post("getmoney_complete")
+                                            toast("支付成功")
+                                            finish()
+                                        }
+                                    })
+                                }
+
+                                override fun error(msg: String) {
+                                    showMsg(msg)
+                                }
+                            })
+                        }
+
                     }
 
                     override fun dataNull() {

@@ -18,12 +18,14 @@ import com.sunstar.gyyp.data.ControlData
 import com.sunstar.gyyp.data.PublicStaticData
 import com.sunstar.gyyp.data.RootBean
 import com.sunstar.gyyp.databinding.ActivityMainBinding
+import com.sunstar.gyyp.model.PayModel
 import com.sunstar.gyyp.ui.LoginActivity
 import com.sunstar.gyyp.ui.SearchPageActivity
 import com.sunstar.gyyp.ui.UserCenterActivity
 import com.sunstar.gyyp.ui.VipCenterActivity
 import com.sunstar.gyyp.vm.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.pay_way_dialog.*
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.info
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -38,6 +40,7 @@ class MainActivity : BaseActivity() {
         sofia?.let {
             it.statusBarBackground(mContext.resources.getColor(android.R.color.transparent)).invasionStatusBar().statusBarLightFont()
         }
+        PayModel.initE()
         hiddenTitleBar()
         search_layout.setPadding(search_layout.paddingLeft, search_layout.paddingTop + getStatusBarHeight(), search_layout.paddingRight, search_layout.paddingBottom)
         search_layout.backgroundColor = mContext.resources.getColor(R.color.alpha_20_black)
@@ -126,5 +129,10 @@ class MainActivity : BaseActivity() {
     override fun initView(): View {
         bindingData = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.activity_main, null, false)
         return bindingData?.root!!
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        PayModel.destroy()
     }
 }

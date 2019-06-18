@@ -33,9 +33,11 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.toast
 
 class OrderListBaseFragment : LazyFragment() {
     override fun initLayoutId(): Int = R.layout.refresh_layout
@@ -137,7 +139,7 @@ class OrderListBaseFragment : LazyFragment() {
                                     dialog.hide()
                                     EventBus.getDefault().post("order_state_change")
                                     startActivity<PaySuccessActivity>()
-                                    (activity as BaseActivity).finish()
+                                    refresh_view.autoRefresh()
                                 }
                                 toast(msg)
                             }
@@ -152,7 +154,7 @@ class OrderListBaseFragment : LazyFragment() {
                                         if (type == 9000) {
                                             EventBus.getDefault().post("order_state_change")
                                             startActivity<PaySuccessActivity>()
-                                            (activity as BaseActivity).finish()
+                                            refresh_view.autoRefresh()
                                         } else {
                                             toast(msg)
                                         }
@@ -166,6 +168,22 @@ class OrderListBaseFragment : LazyFragment() {
                         })
                     }
                     2 -> {
+                        PayModel.wxPreparePay(dataList[position].orderno,1,object : DataListener.NetDataListener<String> {
+                            override fun success(data: String) {
+
+                            }
+
+                            override fun error(msg: String) {
+                                toast(msg)
+                            }
+                        },object : PayModel.PayResult {
+                            override fun payResult(msg: String, type: Int) {
+                                startActivity<PaySuccessActivity>()
+                                EventBus.getDefault().post("getmoney_complete")
+                                toast("支付成功")
+                                refresh_view.autoRefresh()
+                            }
+                        })
                     }
                 }
             }

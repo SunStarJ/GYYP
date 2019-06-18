@@ -11,6 +11,7 @@ import com.sunstar.gyyp.BigDecimalUtils
 import com.sunstar.gyyp.Url
 import com.sunstar.gyyp.base.BaseActivity
 import com.sunstar.gyyp.base.BaseCallBack
+import com.sunstar.gyyp.base.DataListener
 import com.sunstar.gyyp.data.AddressBean
 import com.sunstar.gyyp.data.AddressListItem
 import com.sunstar.gyyp.data.PreferenceItem
@@ -27,6 +28,7 @@ import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.toast
 
 class OrderVm(var mv: OrderView) : BaseObservable() {
 
@@ -78,6 +80,7 @@ class OrderVm(var mv: OrderView) : BaseObservable() {
                     }
 
                     override fun success(it: Response<RootBean>) {
+                        EventBus.getDefault().post("car_refresh")
                         mv.hiddenLoading()
                         when (payway) {
                             0 -> {
@@ -96,6 +99,22 @@ class OrderVm(var mv: OrderView) : BaseObservable() {
                             }
                             1 -> aliPay(it.body().orderno)
                             2 -> {
+                                PayModel.wxPreparePay(it.body().orderno,1,object : DataListener.NetDataListener<String> {
+                                    override fun success(data: String) {
+
+                                    }
+
+                                    override fun error(msg: String) {
+                                        context.toast(msg)
+                                    }
+                                },object : PayModel.PayResult {
+                                    override fun payResult(msg: String, type: Int) {
+                                        context.startActivity<PaySuccessActivity>()
+                                        EventBus.getDefault().post("getmoney_complete")
+                                        context.toast("支付成功")
+                                        (context as BaseActivity).finish()
+                                    }
+                                })
                             }
                         }
 

@@ -56,4 +56,10 @@ data class RootBean(var msg: String = "",
                     var realname: String = "",
                     var deliveryway: String = "",
                     var orderno: String = "",
-                    var address: AddressBean):Serializable
+                    var appid:String="",
+                    var noncestr:String="",
+                    var partnerid:String="",
+                    var prepayid:String="",
+                    var timestamp:String="",
+                    var address: AddressBean,
+                    var result:ResultBean):Serializable
