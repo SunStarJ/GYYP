@@ -15,6 +15,7 @@ import android.content.Context
 import com.scwang.smartrefresh.header.MaterialHeader
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator
+import com.sunstar.gyyp.model.PayModel
 import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import org.jetbrains.anko.AnkoLogger
@@ -41,6 +42,7 @@ class ProjectApplication:Application(),AnkoLogger {
                 return MaterialHeader(context)//.setTimeFormat(new DynamicTimeFormat("更新于 %s"));//指定为经典Header，默认是 贝塞尔雷达Header
             }
         })
+        PayModel.initE()
         //设置全局的Footer构建器
         SmartRefreshLayout.setDefaultRefreshFooterCreator(object : DefaultRefreshFooterCreator {
             override  fun createRefreshFooter(context: Context, layout: RefreshLayout): RefreshFooter {

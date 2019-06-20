@@ -45,7 +45,7 @@
             android:launchMode="singleTop"/>
         <activity
             android:name=".ui.SearchPageActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTop"/>
         <activity android:name=".ui.ShoopCartActivity" />
         <activity android:name=".ui.GoodsInfoActivity" />
         <activity android:name=".ui.ArticalListActivity" />
@@ -74,7 +74,7 @@
         <activity android:name=".WebActivity" />
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleTask">
+            android:launchMode="standard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

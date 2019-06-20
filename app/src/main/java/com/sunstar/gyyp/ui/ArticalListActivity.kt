@@ -74,7 +74,7 @@ class ArticalListActivity : BaseActivity() {
                     override fun success(it: Response<RootBean>) {
                         refresh_view.finishLoadMore()
                         refresh_view.finishRefresh()
-                        if(page == 0){
+                        if(page == 1){
                             listData.clear()
                         }
                         for(data in it.body().articles!!){

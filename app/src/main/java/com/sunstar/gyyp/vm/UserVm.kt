@@ -159,7 +159,7 @@ open class UserVm<T : BaseView> : BaseObservable, AnkoLogger {
             mView!!.showMsg("手机号错误")
             return true
         }
-        if (regisCode != IdentifyingCode.instance.code) {
+        if (regisCode.toLowerCase() != IdentifyingCode.instance.code!!.toLowerCase()) {
             mView!!.showMsg("验证码错误")
             return true
         }

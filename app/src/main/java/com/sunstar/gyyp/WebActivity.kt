@@ -11,12 +11,14 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.view.KeyEvent.KEYCODE_BACK
 import android.webkit.WebChromeClient
+import org.jetbrains.anko.info
 
 
 class WebActivity : BaseActivity() {
     override fun appViewInitComplete() {
         var url = if(intent.getStringExtra("url").contains(Url.baseUrl)) intent.getStringExtra("url") else Url.baseUrl+intent.getStringExtra("url")
-        web.loadUrl(url)
+        info { url }
+
         web.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 view.loadUrl(url)
@@ -29,8 +31,11 @@ class WebActivity : BaseActivity() {
                 changeText(title!!)
             }
         }
-        web.settings.useWideViewPort = true;//将图片调整到适合webView的大小
-        web.settings.loadWithOverviewMode = true;//缩放至屏幕大小
+        web.settings.useWideViewPort = true//将图片调整到适合webView的大小
+        web.settings.javaScriptEnabled = true//将图片调整到适合webView的大小
+        web.settings.domStorageEnabled = true//将图片调整到适合webView的大小
+        web.settings.loadWithOverviewMode = true//缩放至屏幕大小
+        web.loadUrl(url)
     }
 
     override fun initHeadModel(): HeadVm = HeadVm("", true, R.mipmap.back)
@@ -45,7 +50,6 @@ class WebActivity : BaseActivity() {
             //结束当前页
             return super.onKeyDown(keyCode, event)
         }
-
     }
 
 }

@@ -2,14 +2,22 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+
+
+
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd HH_mm", TimeZone.getTimeZone("Asia/Chongqing"))
+}
+
+
 android {
     signingConfigs {
-        debug {
-            storeFile file('../gyyp.jks')
-            storePassword 'gyyp1234'
-            keyAlias = 'key0'
-            keyPassword 'gyyp1234'
-        }
+//        debug {
+//            storeFile file('../gyyp.jks')
+//            storePassword 'gyyp1234'
+//            keyAlias = 'key0'
+//            keyPassword 'gyyp1234'
+//        }
     }
     compileSdkVersion 28
 
@@ -33,6 +41,11 @@ android {
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
+        }
+    }
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "jxx_${defaultConfig.versionCode}_${defaultConfig.versionName}_${releaseTime()}.apk"
         }
     }
 }
