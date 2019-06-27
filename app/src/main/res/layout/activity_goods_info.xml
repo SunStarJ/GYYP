@@ -60,12 +60,14 @@
                         android:layout_width="wrap_content"
                         android:orientation="vertical"
                         android:paddingRight="10dp"
+                        android:visibility="gone"
                         android:layout_height="match_parent">
                         <ImageView
                             android:id="@+id/country_img"
                             app:imageUrl="@{data.data.countrypic}"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
+                            android:visibility="gone"
                             android:layout_weight="1"/>
                         <TextView
                             android:layout_width="match_parent"
@@ -122,6 +124,7 @@
                 android:layout_width="wrap_content"
                 android:drawableTop="@mipmap/kefu"
                 android:padding="10dp"
+                android:onClick="@{(v)->data.callService(v)}"
                 android:drawablePadding="10dp"
                 android:text="客服"
                 android:textSize="12sp"
@@ -132,7 +135,7 @@
                 android:background="@color/color_divider"/>
             <TextView
                 android:layout_width="wrap_content"
-                android:drawableTop="@mipmap/shoucang"
+                android:id="@+id/select"
                 android:padding="10dp"
                 android:drawablePadding="10dp"
                 android:textSize="12sp"

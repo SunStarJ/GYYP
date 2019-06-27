@@ -159,7 +159,7 @@ open class UserVm<T : BaseView> : BaseObservable, AnkoLogger {
             mView!!.showMsg("手机号错误")
             return true
         }
-        if (regisCode != IdentifyingCode.instance.code) {
+        if (regisCode .toLowerCase()!= IdentifyingCode.instance.code!!.toLowerCase()) {
             mView!!.showMsg("验证码错误")
             return true
         }
@@ -234,8 +234,18 @@ open class UserVm<T : BaseView> : BaseObservable, AnkoLogger {
 
             override fun success(data: Boolean) {
                 mView!!.hiddenLoading()
-                (mView as RegisterView).registerComplete()
+//                login()
+                userM.userLogin(phoneNum, password, object : DataListener.NetDataListener<Boolean> {
+                    override fun success(data: Boolean) {
+                        mView?.hiddenLoading()
+                        (mView as RegisterView).registerComplete()
+                    }
 
+                    override fun error(msg: String) {
+                        mView?.hiddenLoading()
+                        mView?.showMsg(msg)
+                    }
+                })
             }
         })
     }

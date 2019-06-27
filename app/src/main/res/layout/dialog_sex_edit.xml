@@ -11,7 +11,7 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:paddingTop="10dp"
-        android:text="男士"
+        android:text="先生"
         android:background="@color/colorWhite"
         android:paddingBottom="10dp"
         android:layout_height="wrap_content" />

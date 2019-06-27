@@ -20,8 +20,8 @@ class OrderListDataActivity : BaseActivity() {
                 OrderListBaseFragment().initType(99),
                 OrderListBaseFragment().initType(0),
                 OrderListBaseFragment().initType(1),
-                OrderListBaseFragment().initType(3),
-                OrderListBaseFragment().initType(6)
+                OrderListBaseFragment().initType(2),
+                OrderListBaseFragment().initType(3)
         )
         var pagerAdapter = VpBodyAdapter(titelList,fragmentList,supportFragmentManager)
         vp_body.adapter = pagerAdapter

@@ -39,7 +39,6 @@ class PayPasswordDialog (var mContext:Context,var orderNo:String,var payResult: 
                 dialog?.dismiss()
             }
             find<View>(R.id.sure).onClick {
-                (mContext as BaseActivity).showLoading("提交数据中，请稍后")
                 PayModel.pointPay(orderNo,find<EditText>(R.id.password_input).text.toString(),payResult)
             }
         }

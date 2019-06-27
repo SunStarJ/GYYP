@@ -33,7 +33,7 @@ class ChangeBuyPasswordVm(var phonenum:String,mv:ChangeBuyPasswordView):UserVm<C
             if(smscode == ""){
                 message = "请输入短信验证码"
             }
-            if(imgcheckCode!= IdentifyingCode.instance.code){
+            if(imgcheckCode.toLowerCase()!= IdentifyingCode.instance.code!!.toLowerCase()){
                 message = "请检查图片验证码"
             }
             if(newpwd!=againpassword){

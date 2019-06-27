@@ -65,10 +65,10 @@ class OrderListBaseFragment : LazyFragment() {
                         } else {
                             b.secondText.visibility = View.GONE
                         }
-                        if (data.state == 0|| data.state == 3) {
+                        if (data.state == 0|| data.state == 2) {
                             if (data.state == 0) {
                                 b.mainText.text = "付款"
-                            } else if (data.state == 3) {
+                            } else if (data.state == 2) {
                                 b.mainText.text = "确认收货"
                             }
                             b.mainText.visibility = View.VISIBLE
@@ -138,8 +138,8 @@ class OrderListBaseFragment : LazyFragment() {
                                 if(type == 0){
                                     dialog.hide()
                                     EventBus.getDefault().post("order_state_change")
+                                    EventBus.getDefault().post("getmoney_complete")
                                     startActivity<PaySuccessActivity>()
-                                    refresh_view.autoRefresh()
                                 }
                                 toast(msg)
                             }
@@ -153,8 +153,8 @@ class OrderListBaseFragment : LazyFragment() {
                                     override fun payResult(msg: String, type: Int) {
                                         if (type == 9000) {
                                             EventBus.getDefault().post("order_state_change")
+                                            EventBus.getDefault().post("getmoney_complete")
                                             startActivity<PaySuccessActivity>()
-                                            refresh_view.autoRefresh()
                                         } else {
                                             toast(msg)
                                         }
@@ -180,8 +180,9 @@ class OrderListBaseFragment : LazyFragment() {
                             override fun payResult(msg: String, type: Int) {
                                 startActivity<PaySuccessActivity>()
                                 EventBus.getDefault().post("getmoney_complete")
+                                EventBus.getDefault().post("order_state_change")
+                                startActivity<PaySuccessActivity>()
                                 toast("支付成功")
-                                refresh_view.autoRefresh()
                             }
                         })
                     }
@@ -294,7 +295,7 @@ class OrderListBaseFragment : LazyFragment() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(msg: String) {
         if (msg == "order_state_change")
-            getData()
+            refresh_view.autoRefresh()
     }
 
     fun getData() {

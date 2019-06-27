@@ -30,11 +30,9 @@ abstract class BaseActivity : SSActivity(), BaseView, AnkoLogger {
     var sofia: Bar? = null
     @SuppressLint("CheckResult")
     override fun showLoading(msg: String) {
-        Observable.timer(50,TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
-            if (dialog == null) dialog = indeterminateProgressDialog(message = msg, title = "")
-            dialog?.setOnDismissListener {
-                dialog = null
-            }
+        if (dialog == null) dialog = indeterminateProgressDialog(message = msg, title = "")
+        dialog?.setOnDismissListener {
+            dialog = null
         }
 
     }

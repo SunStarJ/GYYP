@@ -22,10 +22,6 @@ import com.sunstar.gyyp.data.PublicStaticData
 import com.sunstar.gyyp.data.RootBean
 import com.sunstar.gyyp.databinding.ActivityMainBinding
 import com.sunstar.gyyp.model.PayModel
-import com.sunstar.gyyp.ui.LoginActivity
-import com.sunstar.gyyp.ui.SearchPageActivity
-import com.sunstar.gyyp.ui.UserCenterActivity
-import com.sunstar.gyyp.ui.VipCenterActivity
 import com.sunstar.gyyp.vm.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.pay_way_dialog.*
@@ -35,6 +31,9 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.sdk27.coroutines.onScrollChange
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
+import android.content.Intent
+import com.sunstar.gyyp.ui.*
+
 
 class MainActivity : BaseActivity() {
 
@@ -43,6 +42,10 @@ class MainActivity : BaseActivity() {
 //        sofia?.let {
 //            it.statusBarBackground(mContext.resources.getColor(android.R.color.transparent)).invasionStatusBar().statusBarLightFont()
 //        }
+        if (intent.flags and Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT != 0) {
+            finish()
+            return
+        }
         var window = (mContext as Activity).getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -121,6 +124,14 @@ class MainActivity : BaseActivity() {
                 search_layout.backgroundColor = mContext.resources.getColor(colorId)
             }
         }
+        main_cart.onClick {
+            if(PublicStaticData.tooken == ""){
+                startActivity<LoginActivity>("type" to 1)
+            }else{
+                startActivity<ShoopCartActivity>()
+            }
+        }
+        search_layout.onClick {  }
         mine_center.onClick {
             if(PublicStaticData.tooken == ""){
                 startActivity<LoginActivity>("type" to 1)

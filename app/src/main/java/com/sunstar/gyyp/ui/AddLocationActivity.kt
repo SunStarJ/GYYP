@@ -42,6 +42,9 @@ class AddLocationActivity : BaseActivity(), EditLocationView {
         vm?.initCityShow()
         //监听选择点击事件及返回结果
         val cityConfig = CityConfig.Builder().title("").build()
+        cityConfig.isProvinceCyclic = false
+        cityConfig.isCityCyclic = false
+        cityConfig.isDistrictCyclic = false
         cityPicker.init(mContext)
         cityPicker.setConfig(cityConfig)
         cityPicker.setOnCityItemClickListener(object : OnCityItemClickListener() {

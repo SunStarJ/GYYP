@@ -7,6 +7,7 @@ interface GoodsInfoView : BaseView {
     fun loadInfo(url: String)
     fun showBuyDialog(type:Int)
     fun showPrice()
+    fun initSelect(isCollect:Boolean)
     fun hideBottom()
     fun buyNow()
 }

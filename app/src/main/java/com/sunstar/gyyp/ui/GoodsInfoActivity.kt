@@ -25,9 +25,19 @@ import com.sunstar.gyyp.vm.ShopCartVm
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.textColor
 import org.jetbrains.anko.toast
 
 class GoodsInfoActivity : BaseActivity(), GoodsInfoView {
+    override fun initSelect(isCollect: Boolean) {
+        var imgR = if(isCollect)  R.mipmap.yishoucang else R.mipmap.shoucang
+        var drawable = mContext.resources.getDrawable(imgR)
+        drawable.setBounds(0,0,drawable.intrinsicWidth,drawable.intrinsicHeight)
+        select.setCompoundDrawables(null,drawable,null,null)
+        select.text = if(isCollect) "已收藏" else "收藏"
+        select.textColor = mContext.resources.getColor(if(isCollect) R.color.color_red else R.color.color_text_black )
+    }
+
     override fun buyNow() {
         startActivity<ShoopCartActivity>()
     }

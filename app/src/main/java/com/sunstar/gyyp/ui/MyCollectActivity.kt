@@ -22,6 +22,9 @@ import com.sunstar.gyyp.data.PreferenceItem
 import com.sunstar.gyyp.data.RootBean
 import com.sunstar.gyyp.databinding.AdapterMyCollectLatoutBinding
 import kotlinx.android.synthetic.main.activity_my_collect.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
@@ -33,6 +36,23 @@ class MyCollectActivity : BaseActivity() {
         initBodyView()
         initListener()
         refresh_view.autoRefresh()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(msg:String){
+        if(msg == "collect_refresh"){
+            refresh_view.autoRefresh()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
     }
 
     private fun initBodyView() {

@@ -63,7 +63,6 @@ class OrderVm(var mv: OrderView) : BaseObservable() {
     }
 
     private fun caluateOrder(payway: Int,context:Context) {
-        mv.showLoading("提交数据中请稍候")
         var commitList = mutableListOf<ShopCartVm.CommitData>()
         for (data in rootBean!!.products!!) {
             var data = ShopCartVm.CommitData(data.shoppingcartid, data.count)

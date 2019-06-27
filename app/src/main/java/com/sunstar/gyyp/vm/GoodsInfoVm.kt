@@ -1,8 +1,11 @@
 package com.sunstar.gyyp.vm
 
+import android.content.Intent
 import android.databinding.BaseObservable
 import android.databinding.ObservableField
+import android.net.Uri
 import android.text.SpannableStringBuilder
+import android.view.View
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
 import com.sunstar.gyyp.ProjectApplication
@@ -11,7 +14,11 @@ import com.sunstar.gyyp.Url
 import com.sunstar.gyyp.base.BaseCallBack
 import com.sunstar.gyyp.base.Util
 import com.sunstar.gyyp.data.RootBean
+import com.sunstar.gyyp.view.ChangeUserInfoView
 import com.sunstar.gyyp.view.GoodsInfoView
+import com.yanzhenjie.permission.AndPermission
+import com.yanzhenjie.permission.runtime.Permission
+import org.greenrobot.eventbus.EventBus
 
 class GoodsInfoVm(var mv: GoodsInfoView) : BaseObservable() {
     var data: RootBean? = null
@@ -34,6 +41,7 @@ class GoodsInfoVm(var mv: GoodsInfoView) : BaseObservable() {
                         showPrice = Util.changeStringColor(ProjectApplication.instance.applicationContext, "￥${data?.price}　　　积分购：${data?.points}", "积分购：", R.color.color_text_black)
                         onlyPoint = Util.changeStringColor(ProjectApplication.instance.applicationContext, "积分购：${data?.points}", "积分购：", R.color.color_text_black)
                         mv.showBanner(data?.pics!!)
+                        mv.initSelect(data?.iscollected == 1)
                         mv.loadInfo(data?.content!!)
                         notifyChange()
                     }
@@ -62,6 +70,8 @@ class GoodsInfoVm(var mv: GoodsInfoView) : BaseObservable() {
                     override fun success(it: Response<RootBean>) {
                         mv.hiddenLoading()
                         data?.iscollected = if (data?.iscollected == 1) 0 else 1
+                        mv.initSelect(data?.iscollected == 1)
+                        EventBus.getDefault().post("collect_refresh")
                         mv.showMsg(it.body().msg)
                     }
 
@@ -88,6 +98,17 @@ class GoodsInfoVm(var mv: GoodsInfoView) : BaseObservable() {
     fun numAdd(){
         showNum = (showNum.toInt()+1).toString()
         mv.showPrice()
+    }
+
+    fun callService(view:View){
+        AndPermission.with(view.context).runtime()
+                .permission(Permission.CALL_PHONE)
+                .onGranted {
+                    var intent = Intent(Intent.ACTION_DIAL);
+                    var data = Uri.parse("tel:031185805055");
+                    intent.setData(data);
+                    view.context.startActivity(intent);
+                }.start()
     }
 
     fun addCart() {
