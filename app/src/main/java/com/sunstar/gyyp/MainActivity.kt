@@ -1,6 +1,7 @@
 package com.sunstar.gyyp
 
 import android.app.Activity
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.databinding.ObservableArrayList
 import android.databinding.ViewDataBinding
@@ -22,6 +23,10 @@ import com.sunstar.gyyp.data.PublicStaticData
 import com.sunstar.gyyp.data.RootBean
 import com.sunstar.gyyp.databinding.ActivityMainBinding
 import com.sunstar.gyyp.model.PayModel
+import com.sunstar.gyyp.ui.LoginActivity
+import com.sunstar.gyyp.ui.SearchPageActivity
+import com.sunstar.gyyp.ui.UserCenterActivity
+import com.sunstar.gyyp.ui.VipCenterActivity
 import com.sunstar.gyyp.vm.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.pay_way_dialog.*
@@ -31,7 +36,6 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.sdk27.coroutines.onScrollChange
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
-import android.content.Intent
 import com.sunstar.gyyp.ui.*
 
 
@@ -42,9 +46,14 @@ class MainActivity : BaseActivity() {
 //        sofia?.let {
 //            it.statusBarBackground(mContext.resources.getColor(android.R.color.transparent)).invasionStatusBar().statusBarLightFont()
 //        }
-        if (intent.flags and Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT != 0) {
-            finish()
-            return
+        if (!isTaskRoot) {
+            /* If this is not the root activity */
+            var intent = intent;
+            var action = intent.action;
+            if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) && Intent.ACTION_MAIN == action) {
+                finish()
+                return
+            }
         }
         var window = (mContext as Activity).getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);

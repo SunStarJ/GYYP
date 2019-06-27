@@ -29,7 +29,7 @@ object PayModel :AnkoLogger{
     }
 
     fun initE(){
-        EventBus.getDefault().register(this)
+       if(!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this)
     }
     var listener:PayResult?=null
     @Subscribe(threadMode =  ThreadMode.MAIN)
