@@ -1,13 +1,16 @@
 package com.sunstar.gyyp.ui
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.databinding.DataBindingUtil
+import android.graphics.Bitmap
+import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
+import android.support.v4.widget.NestedScrollView
 import android.view.*
-import android.webkit.WebChromeClient
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import android.widget.TextView
 import com.sunstar.activityplugin.vm.HeadVm
 import com.sunstar.gyyp.R
@@ -22,11 +25,14 @@ import com.sunstar.gyyp.vm.GoodsInfoVm
 import kotlinx.android.synthetic.main.activity_goods_info.*
 import com.sunstar.gyyp.databinding.GoodsInfoBottomDialogBinding
 import com.sunstar.gyyp.vm.ShopCartVm
-import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.textColor
-import org.jetbrains.anko.toast
+import android.webkit.WebView
+import android.view.MotionEvent
+import android.view.View.OnTouchListener
+import com.zhy.view.flowlayout.TagFlowLayout.dip2px
+import android.widget.LinearLayout
+import org.jetbrains.anko.*
+
 
 class GoodsInfoActivity : BaseActivity(), GoodsInfoView {
     override fun initSelect(isCollect: Boolean) {
@@ -51,7 +57,7 @@ class GoodsInfoActivity : BaseActivity(), GoodsInfoView {
     }
 
     override fun loadInfo(url: String) {
-        web.loadUrl(Url.baseUrl + url)
+        web.loadUrl(Url.baseUrl+url)
     }
 
     override fun showBanner(banners: MutableList<String>) {
@@ -61,21 +67,79 @@ class GoodsInfoActivity : BaseActivity(), GoodsInfoView {
 
 
     var vm: GoodsInfoVm? = null
+    @SuppressLint("JavascriptInterface")
     override fun appViewInitComplete() {
         vm?.initGoodsInfo(intent.getStringExtra("id"))
         banner.setImageLoader(GlideImageStringPathLoader())
         banner.setOnBannerListener {
 
         }
-        web.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                view.loadUrl(url)
+        web.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        //设置此属性，可任意比例缩放
+        web.getSettings().setUseWideViewPort(false);
+        // 设置不出现缩放工具
+        web.getSettings().setBuiltInZoomControls(false);
+        // 设置不可以缩放
+        web.getSettings().setSupportZoom(false);
+        web.getSettings().setDisplayZoomControls(false);
+        web.settings.setDomStorageEnabled(true);//设置适应Html5的一些方法
+        // 设置的WebView是否支持变焦
+        web.getSettings().setSupportZoom(false);
+        web.getSettings().setBuiltInZoomControls(false);
+        web.getSettings().setUseWideViewPort(false);
+        //自适应屏幕
+        web.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
+        // 自适应 屏幕大小界面
+        web.getSettings().setLoadWithOverviewMode(true);
+        web.clearCache(true);
+        web.clearHistory();
+        web.addJavascriptInterface(this,"App")
+
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2){
+            web.addJavascriptInterface(this, "App");
+        }
+
+        web.webViewClient = object:WebViewClient(){
+            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                view!!.loadUrl(url)
                 return true
             }
+
+            override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
+                super.onReceivedError(view, request, error)
+            }
+
+            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                super.onPageStarted(view, url, favicon)
+                view!!.loadUrl("javascript:App.resize(document.body.getBoundingClientRect().height)")
+                view.measure(0, 0)
+//                val measuredHeight = view.getMeasuredHeight()
+//                info { "measuredHeight1:$measuredHeight" }
+            }
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                view!!.loadUrl("javascript:App.resize(document.body.getBoundingClientRect().height)")
+//                view.measure(0, 0)
+//                val measuredHeight = view.getMeasuredHeight()
+//                info { "measuredHeight2:$measuredHeight" }
+
+            }
         }
-        web.settings.useWideViewPort = true//将图片调整到适合webView的大小
-        web.settings.loadWithOverviewMode = true//缩放至屏幕大小
     }
+
+    @JavascriptInterface
+    fun resize(height:Int){
+        info { "height:$height" }
+        (this as Context).runOnUiThread {
+            //Toast.makeText(getActivity(), height + "", Toast.LENGTH_LONG).show();
+            //此处的 layoutParmas 需要根据父控件类型进行区分，这里为了简单就不这么做了
+            var  params = web.getLayoutParams() as LinearLayout.LayoutParams
+//            params.height = (int)(height * getResources().getDisplayMetrics().density);
+//            m_webView.requestLayout();
+        }
+    }
+
 
     var binding: GoodsInfoBottomDialogBinding? = null
     var dialog: BottomSheetDialog? = null

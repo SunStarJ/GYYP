@@ -34,6 +34,7 @@ class CheckOrderVm(var mv: OrderView):BaseObservable() {
     var fp = ""
     var model = OrderControlModel()
     var orderData:RootBeanX?=null
+    var isTrace = false
     var dataList = ObservableArrayList<Product>()
     fun getOrderInfoData(orderId: String,carState:Int) {
 //        mv.showLoading("提交数据中，请稍后")
@@ -59,6 +60,7 @@ class CheckOrderVm(var mv: OrderView):BaseObservable() {
                 createTime = "创建时间：${data.addtime}"
                 shipWay = "货运方式：${data.sendway}"
                 remark = "备注：${data.usercontent}"
+                isTrace = !data.trace.isEmpty()
                 notifyChange()
             }
 
