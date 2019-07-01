@@ -20,6 +20,7 @@ import com.sunstar.gyyp.base.BaseCallBack
 import com.sunstar.gyyp.base.BaseMuiltAdapter
 import com.sunstar.gyyp.data.ControlData
 import com.sunstar.gyyp.data.PublicStaticData
+import com.sunstar.gyyp.data.RecommendsItem
 import com.sunstar.gyyp.data.RootBean
 import com.sunstar.gyyp.databinding.ActivityMainBinding
 import com.sunstar.gyyp.model.PayModel
@@ -85,9 +86,11 @@ class MainActivity : BaseActivity() {
                 list.add(MainHotmarketVM(it.body().hotmarket!!))
                 list.add(MainImageAdapterVM(it.body().pic2))
                 list.add(MainPreferenceVM(it.body().hotproducts!!))
+                var obserList = ObservableArrayList<RecommendsItem>()
                 for(data in it.body().recommends!!){
-                    list.add(MainRecomendVm(data))
+                    obserList.add(data)
                 }
+                list.add(MainRecomendVm(obserList))
                 hiddenLoading()
             }
 

@@ -5,11 +5,13 @@
     <data>
         <variable
             name="data"
-            type="com.sunstar.gyyp.vm.MainRecomendVm"/>
+            type="com.sunstar.gyyp.data.RecommendsItem"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
+        android:layout_margin="5dp"
+        android:background="@color/colorWhite"
         android:layout_height="wrap_content">
 
         <ImageView
@@ -20,7 +22,7 @@
             app:layout_constraintDimensionRatio="H,16:9"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:imageUrl="@{data.data.pic}"
+            app:imageUrl="@{data.pic}"
             app:layout_constraintTop_toTopOf="parent" />
         <LinearLayout
             app:layout_constraintTop_toBottomOf="@+id/image"
@@ -41,7 +43,7 @@
                     android:paddingRight="10dp"
                     android:textSize="16sp"
                     android:textColor="@color/color_text_black"
-                    android:text="@{data.data.title}"
+                    android:text="@{data.title}"
                     android:singleLine="true"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -51,7 +53,7 @@
                     android:paddingRight="10dp"
                     android:paddingBottom="10dp"
                     android:textColor="@color/color_red"
-                    android:text="@{@string/rmb+data.data.price}"
+                    android:text="@{@string/rmb+data.price}"
                     />
             </LinearLayout>
 
