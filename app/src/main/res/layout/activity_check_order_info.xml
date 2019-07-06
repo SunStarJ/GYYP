@@ -26,7 +26,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <TextView
@@ -49,12 +49,10 @@
                     android:background="@drawable/divider_bg"
                     android:visibility="@{data.trace?View.VISIBLE:View.GONE}"
                     android:text="物流信息"/>
-                <TextView
+                <WebView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="@{data.trace?View.VISIBLE:View.GONE}"
-                    android:padding="10dp"
-                    android:text="@{data.orderData.trace}"/>
+                    android:id="@+id/web"
+                    android:layout_height="wrap_content"></WebView>
 
                 <View
                     android:layout_width="match_parent"
@@ -185,7 +183,7 @@
                 android:onClick="@{(view)->data.mainClick(view)}"
                 android:padding="12dp"
                 android:text="@{data.orderData.state == 0 ? @string/pay_order : @string/receive_order}"
-                android:visibility="@{data.orderData.state == 0 || data.orderData.state == 2 ||  data.orderData.canmakesure == 1 ?View.VISIBLE: View.GONE}" />
+                android:visibility="@{ data.orderData.state > 2 ?View.GONE: (data.orderData.state == 0 || data.orderData.state == 2 ||  data.orderData.canmakesure == 1) ?View.VISIBLE: View.GONE}" />
         </LinearLayout>
     </LinearLayout>
 </layout>

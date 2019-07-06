@@ -45,6 +45,9 @@ class MainAdapter<T0 : ViewDataBinding>(var context: Context) : BaseMuiltAdapter
                 var adapater = MainGridAdapter(mContext).initDataList((t1 as MainRecomendVm).data).initBindView(object:SSBaseDataBindingAdapter.BindView<AdapterMainListLayoutBinding>{
                     override fun onBindViewHolder(b: AdapterMainListLayoutBinding, position: Int) {
                         b.data = (t1 as MainRecomendVm).data[position]
+                        b.root.onClick {
+                            context.startActivity<GoodsInfoActivity>("id" to (t1 as MainRecomendVm).data[position].id.toString())
+                        }
                     }
                 })
                 (t1 as MainRecomendVm).data.addOnListChangedCallback( JavaUtil.getListChangedCallback(adapater))

@@ -5,10 +5,26 @@
         <variable
             name="data"
             type="com.sunstar.gyyp.vm.MainRecomendVm" />
+        <import type="android.view.View" />
     </data>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:id="@+id/title"
+            android:text="商品推荐"
+            android:visibility="@{data.isFirst?View.VISIBLE:View.GONE}"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/color_text_black"
+            android:gravity="center"/>
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:id="@+id/data_view"
         android:layout_height="wrap_content"/>
+    </LinearLayout>
 </layout>

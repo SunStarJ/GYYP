@@ -49,7 +49,7 @@ class CheckOrderInfoActivity : BaseActivity(), OrderView {
 
     override fun appViewInitComplete() {
 //        showLoading("获取数据中，请稍候")
-        vm.getOrderInfoData(intent.getStringExtra("orderId"), intent.getIntExtra("carState", 0))
+        vm.getOrderInfoData(intent.getStringExtra("orderId"), intent.getIntExtra("carState", 0),web)
         var adapter = CheckOrderInfoAdapter(mContext).initDataList(vm.dataList).initBindView(object : SSBaseDataBindingAdapter.BindView<AdapterCheckOrderInfoBinding> {
             override fun onBindViewHolder(b: AdapterCheckOrderInfoBinding, position: Int) {
                 b.data = vm?.orderData!!.products!![position]

@@ -13,15 +13,15 @@ import android.view.View
 import android.view.WindowManager
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
+import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
 import com.sunstar.activityplugin.vm.HeadVm
 import com.sunstar.gyyp.adapter.MainAdapter
+import com.sunstar.gyyp.adapter.MainRecommendLineAdapter
 import com.sunstar.gyyp.base.BaseActivity
 import com.sunstar.gyyp.base.BaseCallBack
 import com.sunstar.gyyp.base.BaseMuiltAdapter
-import com.sunstar.gyyp.data.ControlData
-import com.sunstar.gyyp.data.PublicStaticData
-import com.sunstar.gyyp.data.RecommendsItem
-import com.sunstar.gyyp.data.RootBean
+import com.sunstar.gyyp.data.*
 import com.sunstar.gyyp.databinding.ActivityMainBinding
 import com.sunstar.gyyp.model.PayModel
 import com.sunstar.gyyp.ui.LoginActivity
@@ -82,15 +82,14 @@ class MainActivity : BaseActivity() {
                 list[0] = BannerVM<ViewDataBinding>().initBanner(it.body().banner!!)
                 list[1] = MainTextSwitcherVM<ViewDataBinding>().initAdList(it.body().articles!!)
                 list.add(MainImageAdapterVM(it.body().pic1))
-                list.add(MainPreferenceVM(it.body().preference!!))
+//                list.add(MainPreferenceVM(it.body().preference!!))
                 list.add(MainHotmarketVM(it.body().hotmarket!!))
                 list.add(MainImageAdapterVM(it.body().pic2))
                 list.add(MainPreferenceVM(it.body().hotproducts!!))
-                var obserList = ObservableArrayList<RecommendsItem>()
                 for(data in it.body().recommends!!){
-                    obserList.add(data)
+                    list.add(MainRecommendLineAdapter(data))
                 }
-                list.add(MainRecomendVm(obserList))
+                getData(refresh_view)
                 hiddenLoading()
             }
 
@@ -100,6 +99,56 @@ class MainActivity : BaseActivity() {
 
         })
     }
+
+    var page = 1
+    var dataList = ObservableArrayList<PreferenceItem>()
+    var hot = 99
+    var sec = 99
+    var sort = 0
+    var keyWord = ""
+    var pageId = ""
+
+    private fun getData(refreshLayout: RefreshLayout) {
+        OkGo.post<RootBean>(Url.getproducts)
+                .params("pageindex", page)
+                .params("pagesize", 10)
+                .params("categoryid", 0)
+                .params("sort", sort)
+                .params("keyword", keyWord)
+                .params("hot", hot)
+                .params("sec", sec)
+                .execute(object : BaseCallBack() {
+                    override fun dataError(data: RootBean) {
+                        refreshLayout.finishRefresh()
+                        refreshLayout.finishLoadMore()
+                        showMsg(data.msg)
+                    }
+
+                    override fun success(it: Response<RootBean>) {
+
+                        var obserList = ObservableArrayList<PreferenceItem>()
+                        if (page == 1) {
+                            if (refreshLayout.isRefreshing)
+                                list.removeAt(list.size - 1)
+                            list.add(MainRecomendVm(obserList, page == 1))
+                            (list[list.size - 1] as MainRecomendVm).data.clear()
+                        }
+                        for (data in it.body().products!!) {
+                            (list[list.size - 1] as MainRecomendVm).data.add(data)
+                        }
+                        if (it.body().products!!.size < 10) {
+                            refreshLayout.setNoMoreData(true)
+                        }
+                        refreshLayout.finishRefresh()
+                        refreshLayout.finishLoadMore()
+                    }
+
+                    override fun dataNull() {
+
+                    }
+                })
+    }
+
 
     var list = ObservableArrayList<BaseMuiltAdapter.MuiltAdapterBaseData<ViewDataBinding>>()
 
@@ -128,32 +177,44 @@ class MainActivity : BaseActivity() {
     private fun initListener() {
         scroll_view.onScrollChange { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             info { scrollY }
-            if(scrollY>300&&colorId == R.color.alpha_20_black){
+            if (scrollY > 300 && colorId == R.color.alpha_20_black) {
                 colorId = R.color.colorAccent
                 search_layout.backgroundColor = mContext.resources.getColor(colorId)
-            }else if (scrollY<300&&colorId == R.color.colorAccent){
+            } else if (scrollY < 300 && colorId == R.color.colorAccent) {
                 colorId = R.color.alpha_20_black
                 search_layout.backgroundColor = mContext.resources.getColor(colorId)
             }
         }
         main_cart.onClick {
-            if(PublicStaticData.tooken == ""){
+            if (PublicStaticData.tooken == "") {
                 startActivity<LoginActivity>("type" to 1)
-            }else{
+            } else {
                 startActivity<ShoopCartActivity>()
             }
         }
-        search_layout.onClick {  }
+        search_layout.onClick { }
         mine_center.onClick {
-            if(PublicStaticData.tooken == ""){
+            if (PublicStaticData.tooken == "") {
                 startActivity<LoginActivity>("type" to 1)
-            }else{
+            } else {
                 startActivity<VipCenterActivity>()
             }
         }
         search_click_layout.onClick {
             startActivity<SearchPageActivity>()
         }
+        refresh_view.setOnRefreshLoadMoreListener(object : OnRefreshLoadMoreListener {
+            override fun onLoadMore(refreshLayout: RefreshLayout?) {
+                page += 1
+                getData(refreshLayout!!)
+            }
+
+            override fun onRefresh(refreshLayout: RefreshLayout?) {
+                page = 1
+                getData(refreshLayout!!)
+                refreshLayout.setNoMoreData(false)
+            }
+        })
     }
 
     override fun initHeadModel(): HeadVm = HeadVm("", false, -1);

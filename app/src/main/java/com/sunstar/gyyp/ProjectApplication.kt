@@ -31,6 +31,7 @@ class ProjectApplication:Application(),AnkoLogger {
     override fun onCreate() {
         super.onCreate()
         instance = this
+        CrashHandler.getInstance().init(this)
         wxApi =  WXAPIFactory.createWXAPI(applicationContext,null)
         var isRgist = wxApi?.registerApp("wx2cf9a1e4ff09353e")
         info { "isRgist：$isRgist" }

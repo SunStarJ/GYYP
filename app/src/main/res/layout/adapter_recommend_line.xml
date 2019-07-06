@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable
-            name="data"
-            type="com.sunstar.gyyp.data.PreferenceItem"/>
+    <variable
+        name="data"
+        type="com.sunstar.gyyp.data.RecommendsItem" />
     </data>
 
     <android.support.constraint.ConstraintLayout

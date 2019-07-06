@@ -4,6 +4,7 @@ import android.databinding.BaseObservable
 import android.databinding.ObservableArrayList
 import android.text.SpannableStringBuilder
 import android.view.View
+import android.webkit.WebView
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.Response
 import com.sunstar.gyyp.ProjectApplication
@@ -36,7 +37,7 @@ class CheckOrderVm(var mv: OrderView):BaseObservable() {
     var orderData:RootBeanX?=null
     var isTrace = false
     var dataList = ObservableArrayList<Product>()
-    fun getOrderInfoData(orderId: String,carState:Int) {
+    fun getOrderInfoData(orderId: String,carState:Int,view:WebView) {
 //        mv.showLoading("提交数据中，请稍后")
         model.getOrderInfo(orderId, object : DataListener.NetDataListener<RootBeanX> {
             override fun success(data: RootBeanX) {
@@ -55,6 +56,7 @@ class CheckOrderVm(var mv: OrderView):BaseObservable() {
                 for(data in orderData?.products!!){
                     dataList.add(data)
                 }
+                view.loadDataWithBaseURL(null,orderData?.trace,"text/html", "utf-8", null);
                 showSatate = Util.changeStringColor(ProjectApplication.instance.applicationContext, "订单状态：${state}", state, R.color.color_red)
                 showShipNo = "订单编号：${data.orderno}"
                 createTime = "创建时间：${data.addtime}"
@@ -161,7 +163,7 @@ class CheckOrderVm(var mv: OrderView):BaseObservable() {
                         }
                     }
                 }).show()
-            }else if(canmakesure == 1){
+            }else if(state == 2){
                 view.context.alert ("请确定收到货物后再进行确定收货哦，否则就会人财两空啦！"){
                     negativeButton("确定") {
                         mv.showLoading("提交数据中，请稍后")

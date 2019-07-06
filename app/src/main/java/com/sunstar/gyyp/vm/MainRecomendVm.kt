@@ -13,7 +13,7 @@ import com.sunstar.gyyp.ui.GoodsInfoActivity
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
 
-class MainRecomendVm (var data : ObservableArrayList<RecommendsItem> ) : BaseMuiltAdapter.MuiltAdapterBaseData<ViewDataBinding>() {
+class MainRecomendVm (var data : ObservableArrayList<PreferenceItem> ,var isFirst :Boolean) : BaseMuiltAdapter.MuiltAdapterBaseData<ViewDataBinding>() {
     override fun initBindingView(): BaseMuiltAdapter.BindView<ViewDataBinding> = object : BaseMuiltAdapter.BindView<ViewDataBinding>{
         override fun onBindViewHolder(b: ViewDataBinding, position: Int) {
             (b as AdapterMainListFatherBinding).data = this@MainRecomendVm

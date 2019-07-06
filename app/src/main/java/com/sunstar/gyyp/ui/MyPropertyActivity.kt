@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import com.sunstar.activityplugin.vm.HeadVm
 import com.sunstar.gyyp.R
+import com.sunstar.gyyp.WebActivity
 import com.sunstar.gyyp.adapter.MainControlAdapter
 import com.sunstar.gyyp.base.BaseActivity
 import com.sunstar.gyyp.base.SSBaseDataBindingAdapter
@@ -39,7 +40,9 @@ class MyPropertyActivity : BaseActivity() {
                         2->{
                             startActivity<InvestPointsActivity>()
                         }
-                        3->{}
+                        3->{
+                            startActivity<WebActivity>("url" to "/Article/ContentPage/5621A96F-6044-4568-A72B-EF22CBCF0483?onlycontent=1")
+                        }
                     }
                 }
             }
