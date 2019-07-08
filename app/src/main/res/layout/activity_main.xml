@@ -16,20 +16,30 @@
         tools:context=".MainActivity">
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
-            android:layout_width="match_parent"
             android:id="@+id/refresh_view"
+            android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <android.support.v4.widget.NestedScrollView
                 android:id="@+id/scroll_view"
                 android:layout_width="match_parent"
+                android:descendantFocusability="blocksDescendants"
                 android:layout_height="match_parent">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/data_view"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/data_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:nestedScrollingEnabled="false"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </LinearLayout>
             </android.support.v4.widget.NestedScrollView>
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 

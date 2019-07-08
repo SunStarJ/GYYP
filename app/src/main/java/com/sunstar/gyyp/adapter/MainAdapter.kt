@@ -34,6 +34,8 @@ import io.reactivex.disposables.Disposable
 import java.lang.Exception
 import java.util.concurrent.TimeUnit
 import com.sunstar.gyyp.databinding.AdapterMainListFatherBinding
+import com.sunstar.gyyp.util.MDGridRvDividerDecoration
+import kotlinx.android.synthetic.main.fragment_goods_list.*
 
 class MainAdapter<T0 : ViewDataBinding>(var context: Context) : BaseMuiltAdapter<T0, BaseMuiltAdapter.MuiltAdapterBaseData<T0>>(context), AnkoLogger {
     @SuppressLint("CheckResult")
@@ -42,8 +44,8 @@ class MainAdapter<T0 : ViewDataBinding>(var context: Context) : BaseMuiltAdapter
         t2.run {
             if (this is AdapterMainListFatherBinding) {
                 var dataView = root.find<RecyclerView>(R.id.data_view)
-                var adapater = MainGridAdapter(mContext).initDataList((t1 as MainRecomendVm).data).initBindView(object:SSBaseDataBindingAdapter.BindView<AdapterMainListLayoutBinding>{
-                    override fun onBindViewHolder(b: AdapterMainListLayoutBinding, position: Int) {
+                var adapater = MainGridAdapter(mContext).initDataList((t1 as MainRecomendVm).data).initBindView(object:SSBaseDataBindingAdapter.BindView<AdapterGoodsGridListBinding>{
+                    override fun onBindViewHolder(b: AdapterGoodsGridListBinding, position: Int) {
                         b.data = (t1 as MainRecomendVm).data[position]
                         b.root.onClick {
                             context.startActivity<GoodsInfoActivity>("id" to (t1 as MainRecomendVm).data[position].id.toString())
@@ -51,7 +53,7 @@ class MainAdapter<T0 : ViewDataBinding>(var context: Context) : BaseMuiltAdapter
                     }
                 })
                 (t1 as MainRecomendVm).data.addOnListChangedCallback( JavaUtil.getListChangedCallback(adapater))
-
+                dataView.addItemDecoration(MDGridRvDividerDecoration(mContext))
                 dataView.adapter = adapater
                 dataView.layoutManager = GridLayoutManager(mContext,2)
             }

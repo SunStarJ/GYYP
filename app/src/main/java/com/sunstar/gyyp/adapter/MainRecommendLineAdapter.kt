@@ -16,7 +16,7 @@ class MainRecommendLineAdapter(var data : RecommendsItem):  BaseMuiltAdapter.Mui
         override fun onBindViewHolder(b: ViewDataBinding, position: Int) {
             (b as AdapterRecommendLineBinding).data = data
             b.root.onClick {
-                b.root.context.startActivity<GoodsInfoActivity>("id" to data.id)
+                b.root.context.startActivity<GoodsInfoActivity>("id" to data.id.toString())
             }
         }
     }

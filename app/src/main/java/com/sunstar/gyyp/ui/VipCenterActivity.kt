@@ -74,7 +74,7 @@ class VipCenterActivity : BaseActivity() {
                             startActivity<MyCollectActivity>()
                         }
                         3 -> {
-                            startActivity<GetCashWayActivity>("leftpoint" to vm?.user?.leftpoint)
+                            startActivity<PointChargeActivity>()
                         }
                         4 -> {
                             startActivity<InvestPointsActivity>("leftpoint" to vm?.user?.leftpoint)

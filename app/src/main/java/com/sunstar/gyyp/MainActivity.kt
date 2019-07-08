@@ -38,6 +38,7 @@ import org.jetbrains.anko.sdk27.coroutines.onScrollChange
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import com.sunstar.gyyp.ui.*
+import com.sunstar.mylibrary.view.FullyLinearLayoutManager
 
 
 class MainActivity : BaseActivity() {
@@ -80,7 +81,7 @@ class MainActivity : BaseActivity() {
 
             override fun success(it: Response<RootBean>) {
                 list[0] = BannerVM<ViewDataBinding>().initBanner(it.body().banner!!)
-                list[1] = MainTextSwitcherVM<ViewDataBinding>().initAdList(it.body().articles!!)
+//                list[1] = MainTextSwitcherVM<ViewDataBinding>().initAdList(it.body().articles!!)
                 list.add(MainImageAdapterVM(it.body().pic1))
 //                list.add(MainPreferenceVM(it.body().preference!!))
                 list.add(MainHotmarketVM(it.body().hotmarket!!))
@@ -156,7 +157,7 @@ class MainActivity : BaseActivity() {
 
     private fun initCurView() {
         list.add(BannerVM())
-        list.add(MainTextSwitcherVM())
+//        list.add(MainTextSwitcherVM())
         var controlList = mutableListOf<ControlData>()
         controlList.add(ControlData("精选商品", R.mipmap.jingxuansahngpin))
         controlList.add(ControlData("限时秒杀", R.mipmap.tejiamiaosha))
