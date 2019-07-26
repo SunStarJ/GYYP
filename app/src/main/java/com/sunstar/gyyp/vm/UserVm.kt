@@ -72,8 +72,8 @@ open class UserVm<T : BaseView> : BaseObservable, AnkoLogger {
         DatePickerDialog(view.context, DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
             var date = ""
             date += "$year-"
-            date += if (month + 1 > 10) "${month + 1}-" else "0${month + 1}-"
-            date += if (dayOfMonth > 10) dayOfMonth else "0$dayOfMonth"
+            date += if (month + 1 >= 10) "${month + 1}-" else "0${month + 1}-"
+            date += if (dayOfMonth >= 10) dayOfMonth else "0$dayOfMonth"
             user!!.birth = date
             notifyChange()
         }, user!!.birth.substring(0, 4).toInt(), user!!.birth.substring(5, 7).toInt() - 1, user!!.birth.substring(8, 10).toInt()).show()

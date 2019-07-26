@@ -15,6 +15,7 @@ abstract class BaseCallBack : JsonCallBack<RootBean>(RootBean::class.java) {
         super.onStart(request)
         var params = request?.params
         if (PublicStaticData.tooken != "") request!!.params("token", PublicStaticData.tooken)
+
     }
 
     override fun onSuccess(response: Response<RootBean>?) {

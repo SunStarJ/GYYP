@@ -87,4 +87,5 @@ dependencies {
     implementation(name: 'alipaySdk-15.6.2-20190416165100-noUtdid', ext: 'aar')
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
+    implementation files('libs/tbs.jar')
 }
